@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #F2F2F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    background-color: #0069FF;
+    color: #FFF;
+}
+
+.chat-body {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    width: 25%;
+    padding: 10px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    background-color: #D9E6FF;
+    border-radius: 5px;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #C7DAFE;
+}
+
+.chat-input {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 0.2%;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    height: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+}
+
+.chat-input button{
+    margin-left: 0.1%;
+}
+
+.chat-input button,
+.chat-input input[type="button"] {
+    height: 100%;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0069FF;
+    color: #FFF;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.chat-input button:hover,
+.chat-input input[type="button"]:hover {
+    background-color: #004080;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.user-message {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.bot-message {
+    background-color: #ecf0f1;
+    color: #333;
+}
+
+@media only screen and (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+    }
+
+    .message {
+        width: 100%;
+    }
+
+    .chat-input {
+        margin-bottom: 1%;
+    }
+
+    .chat-input input[type="text"] {
+        padding: 8px;
+    }
+}
