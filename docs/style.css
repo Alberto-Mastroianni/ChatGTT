@@ -29,8 +29,9 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 18px;
-    background-color: #0069FF;
-    color: #FFF;
+    background-color: #00529f;
+    color: #ffe625;
+    border-bottom: 1px solid black;
 }
 
 .chat-body {
@@ -52,7 +53,7 @@ body {
 
 .user-message {
     align-self: flex-end;
-    background-color: #C7DAFE;
+    background-color: #ffe625;
 }
 
 .chat-input {
@@ -84,15 +85,15 @@ body {
     font-size: 14px;
     border: none;
     border-radius: 5px;
-    background-color: #0069FF;
-    color: #FFF;
+    background-color: #00529f;
+    color: #ffe625;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .chat-input button:hover,
 .chat-input input[type="button"]:hover {
-    background-color: #004080;
+    background-color: #00529f;
 }
 
 .message {
@@ -102,12 +103,12 @@ body {
 }
 
 .user-message {
-    background-color: #3498db;
+    background-color: #00529f;
     color: #fff;
 }
 
 .bot-message {
-    background-color: #ecf0f1;
+    background-color: #ffe625;
     color: #333;
 }
 
@@ -127,4 +128,6 @@ body {
     .chat-input input[type="text"] {
         padding: 8px;
     }
+    
+  
 }
