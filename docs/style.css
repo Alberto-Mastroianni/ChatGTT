@@ -30,7 +30,7 @@ body {
     align-items: center;
     font-size: 18px;
     background-color: #00529f;
-    color: #ffe625;
+    color: white;
     border-bottom: 1px solid black;
 }
 
@@ -112,6 +112,15 @@ body {
     color: #333;
 }
 
+img{
+    width: 5em;
+}
+
+p{
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
 @media only screen and (max-width: 768px) {
     .chat-container {
         width: 100%;
@@ -128,6 +137,8 @@ body {
     .chat-input input[type="text"] {
         padding: 8px;
     }
-    
-  
+
+    .chat-input button{
+        margin-left: 1%;
+    }
 }
