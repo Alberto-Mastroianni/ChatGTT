@@ -145,3 +145,38 @@ p{
         margin-left: 1%;
     }
 }
+
+
+.confirmation-box {
+    display: none;
+    border-radius: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #00529f;
+    border: 10px solid #ffe625;
+    padding: 20px;
+    z-index: 999;
+}
+
+.confirmation-content {
+    text-align: center;
+    color: white;
+}
+
+.confirmation-box button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ffe625;
+    color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+.confirmation-box button:hover {
+    background-color: #ddc723;
+}
+

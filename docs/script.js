@@ -92,3 +92,31 @@ inputField.addEventListener('keydown', (event) => {
 });
 
 sendButton.addEventListener('click', () => {sendMessage();});
+
+function clearMessages() {
+    // Visualizza il box di conferma personalizzato
+    var confirmationBox = document.getElementById('confirmationBox');
+    confirmationBox.style.display = 'block';
+}
+
+function confirmDelete() {
+    // Cancellare i messaggi
+    var chatBody = document.querySelector('.chat-body');
+
+    // Rimuovi tutti i messaggi
+    while (chatBody.firstChild) {
+        chatBody.removeChild(chatBody.firstChild);
+    }
+
+    addMessage("Ciao! Io sono ChatGTT come posso aiutarti?", false);
+
+    // Nascondi il box di conferma
+    var confirmationBox = document.getElementById('confirmationBox');
+    confirmationBox.style.display = 'none';
+}
+
+function cancelDelete() {
+    // Nascondi il box di conferma
+    var confirmationBox = document.getElementById('confirmationBox');
+    confirmationBox.style.display = 'none';
+}
