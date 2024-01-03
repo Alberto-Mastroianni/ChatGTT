@@ -40,10 +40,51 @@ function simulateBotResponse() {
         const botResponse = "Ciao! Io sono ChatGTT come posso aiutarti?";
         addMessage(botResponse, false);
     }
+
+    // Analizza l'input dell'utente per identificare la richiesta sulla fermata
+    const stopRegex = /(\d+)/i;
+    const match = inputField.value.trim().match(stopRegex);
+
+    if (match) {
+        const stopNumber = match[1];
+        const busInfoUrl = getBusInfoUrl(stopNumber);
+
+        // Effettua una richiesta AJAX per ottenere i dati dalla tua API
+        fetch(busInfoUrl)
+        .then(response => response.json())
+        .then(data => {
+            const busInfoMessage = formattaOrari(JSON.stringify(data), inputField);
+            addMessage(`Ecco a te i bus che passano nella fermata ${stopNumber}:`, false);
+            addMessage(busInfoMessage, false);
+        })
+        .catch(error => {
+            console.error('Errore durante la richiesta API:', error);
+        });
+    }
+}
+
+// Funzione per formattare gli orari in modo più pulito
+function formattaOrari(orariTestuali) {
+    try {
+        const orariArray = JSON.parse(orariTestuali);
+
+        const orariFormattati = orariArray.map(orario => {
+            // Crea una stringa per ciascun orario
+            return `Linea: ${orario.line} - Ora: ${orario.hour} - In tempo reale: ${orario.realtime}`;
+        }).join('\n'); // Unisci gli elementi in una singola stringa
+
+        return orariFormattati;
+    } catch (errore) {
+        console.error("Errore durante il parsing degli orari JSON:", errore);
+        return "Errore durante il parsing degli orari JSON.";
+    }
 }
 
 // Chiamata alla funzione simulateBotResponse quando la pagina viene caricata
 window.onload = function() { simulateBotResponse(); };
+
+// Funzione per ottenere l'URL con le informazioni sui bus per una fermata specifica
+function getBusInfoUrl(stopNumber) {return `https://gpa.madbob.org/query.php?stop=${stopNumber}`;}
 
 // Aggiungi gli event listeners all'input della chat e al pulsante di invio
 inputField.addEventListener('keydown', (event) => {
