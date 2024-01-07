@@ -123,30 +123,6 @@ p{
     font-size: xx-large;
 }
 
-@media only screen and (max-width: 768px) {
-    .chat-container {
-        width: 100%;
-    }
-
-    .message {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .chat-input {
-        margin-bottom: 1%;
-    }
-
-    .chat-input input[type="text"] {
-        padding: 8px;
-    }
-
-    .chat-input button{
-        margin-left: 1%;
-    }
-}
-
-
 .confirmation-box {
     display: none;
     border-radius: 20px;
@@ -180,3 +156,49 @@ p{
     background-color: #ddc723;
 }
 
+#conferma{
+    color: green;
+}
+
+#annulla{
+    color: red;
+}
+
+#elimina{
+    color: red;
+}
+
+@media only screen and (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+    }
+
+    .message {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .chat-input {
+        margin-bottom: 1%;
+    }
+
+    .chat-input input[type="text"] {
+        padding: 8px;
+    }
+
+    .chat-input button{
+        margin-left: 1%;
+    }
+
+    .confirmation-box {
+        width: 65%;
+    }
+
+    .confirmation-box #decline {
+        margin-top: 1em;
+    }
+
+    .confirmation-box #decline {
+        margin-bottom: 1em;
+    }
+}

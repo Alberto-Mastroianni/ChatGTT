@@ -1,5 +1,8 @@
 const inputField = document.querySelector('.chat-input input');
 const sendButton = document.querySelector('.chat-input button');
+const clearButton = document.getElementById("clear");
+const agreeButton = document.getElementById("agree");
+const declineButton = document.getElementById("decline");
 
 // Funzione per aggiungere un nuovo messaggio alla chat
 function addMessage(text, isUser) {
@@ -93,13 +96,14 @@ inputField.addEventListener('keydown', (event) => {
 
 sendButton.addEventListener('click', () => {sendMessage();});
 
-function clearMessages() {
+// Pulire la chat tra il bot e l'utente 
+clearButton.addEventListener("click", () => {
     // Visualizza il box di conferma personalizzato
     var confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'block';
-}
+})
 
-function confirmDelete() {
+agreeButton.addEventListener("click", () => {
     // Cancellare i messaggi
     var chatBody = document.querySelector('.chat-body');
 
@@ -108,15 +112,15 @@ function confirmDelete() {
         chatBody.removeChild(chatBody.firstChild);
     }
 
-    addMessage("Ciao! Io sono ChatGTT come posso aiutarti?", false);
+    simulateBotResponse()
 
     // Nascondi il box di conferma
     var confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
-}
+})
 
-function cancelDelete() {
+declineButton.addEventListener("click", () => {
     // Nascondi il box di conferma
     var confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
-}
+})

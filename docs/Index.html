@@ -19,25 +19,27 @@
             <div class="chat-header">
                 <p>Chat</p> <img src="./img/gtt.png" alt="immagine della ChatGTT">
             </div>
+            
             <div class="chat-body" id="chatBody">
                 <!-- I messaggi di chat verranno inseriti qui -->
             </div>
+
             <div class="chat-input">
                 <input type="text" placeholder="Messaggio ChatGTT">
                 <button><span class="material-symbols-outlined">send</span></button>
             </div>
 
             <!-- Aggiunto il pulsante Clear Text -->
-            <button onclick="clearMessages()">Clear Text</button>
+            <button id="clear"><span class="material-symbols-outlined" id="elimina">delete</span></button>
         </div>
 
-<div class="confirmation-box" id="confirmationBox">
-    <div class="confirmation-content">
-        <p>Sei sicuro di voler cancellare i messaggi?</p>
-        <button onclick="confirmDelete()">Conferma</button>
-        <button onclick="cancelDelete()">Annulla</button>
-    </div>
-</div>
+        <div class="confirmation-box" id="confirmationBox">
+            <div class="confirmation-content">
+                <p>Sei sicuro di voler cancellare i messaggi?</p>
+                <button id="agree"><span class="material-symbols-outlined" id="conferma">done</span></button>
+                <button id="decline"><span class="material-symbols-outlined" id="annulla">close</span></button>
+            </div>
+        </div>
 
         <script src="script.js"></script>
     </body>
