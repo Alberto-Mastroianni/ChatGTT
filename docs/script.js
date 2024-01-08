@@ -84,7 +84,7 @@ function formattaOrari(orariTestuali) {
 }
 
 // Chiamata alla funzione simulateBotResponse quando la pagina viene caricata
-window.onload = function() { simulateBotResponse(); };
+window.onload = function() { simulateBotResponse(""); };
 
 // Funzione per ottenere l'URL con le informazioni sui bus per una fermata specifica
 function getBusInfoUrl(stopNumber) {return `https://gpa.madbob.org/query.php?stop=${stopNumber}`;}
