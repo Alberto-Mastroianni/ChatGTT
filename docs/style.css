@@ -178,7 +178,7 @@ p{
 #clear{
     position: absolute;
     bottom: 0.5em;
-    left: 135em;
+    left: 107em;
     width: 1%;
     background-color: transparent;
     border: none;
@@ -222,6 +222,6 @@ p{
 
     #clear{
         position: absolute;
-        left: 20em;    
+        left: 18.5em;    
     }
 }
