@@ -40,13 +40,20 @@ function simulateBotResponse() {
 
     // Controlla se ci sono già messaggi nel chatBody
     if (chatBody.children.length === 0) {
-        const botResponse = "Ciao! Io sono ChatGTT come posso aiutarti?";
+        const botResponse = "Ciao! Io sono ChatGTT";
         addMessage(botResponse, false);
     }
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
     const stopRegex = /(\d+)/i;
+    const stopRegex2 = /(ciao|Ciao|buongiorno|Buongiorno)/;
     const match = inputField.value.trim().match(stopRegex);
+    const match2 = inputField.value.trim().match(stopRegex2);
+
+    if(match2){
+        addMessage("Salve utente!", false);
+        addMessage("Come posso aiutarti?", false);
+    }
 
     if (match) {
         const stopNumber = match[1];
