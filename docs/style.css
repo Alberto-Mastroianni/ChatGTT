@@ -225,3 +225,10 @@ p{
         left: 18.5em;    
     }
 }
+
+@media only screen and (min-width: 1200px) {
+    #clear{
+        position: absolute;
+        left: 135em;    
+    }
+}
