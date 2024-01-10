@@ -46,7 +46,7 @@ function simulateBotResponse() {
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
     const stopRegex = /(\d+)/i;
-    const stopRegex2 = /(ciao|Ciao|buongiorno|Buongiorno)/;
+    const stopRegex2 = /(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Oi|oi|Salve|salve)/;
     const match = inputField.value.trim().match(stopRegex);
     const match2 = inputField.value.trim().match(stopRegex2);
 
