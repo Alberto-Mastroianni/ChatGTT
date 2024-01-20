@@ -4,6 +4,24 @@ const clearButton = document.getElementById("clear");
 const agreeButton = document.getElementById("agree");
 const declineButton = document.getElementById("decline");
 
+const risposteRingraziamenti = [
+    "Prego! Se hai altre domande, sono qui per aiutarti.",
+    "Di nulla! Se c'è qualcos'altro di cui hai bisogno, chiedi pure.",
+    "Figurati! Se serve altro, non esitare a farmelo sapere.",
+    "È stato un piacere aiutarti! Se hai ulteriori dubbi, sono a tua disposizione.",
+    "Non c'è di che! Se ci sono altre informazioni di cui hai bisogno, sono qui.",
+    "Felice di poterti assistere! Fammi sapere se posso aiutarti in altro modo.",
+    "È stato un piacere! Se hai altre richieste, sono pronto a rispondere.",
+    "Nessun problema! Per qualsiasi altra cosa, sono a tua disposizione.",
+    "Sono qui per questo! Se hai domande aggiuntive, sono pronto a rispondere.",
+    "Di niente! Se hai ulteriori chiarimenti da richiedere, sono qui per aiutarti."
+];
+
+function getRispostaCasuale() {
+    const indiceCasuale = Math.floor(Math.random() * risposteRingraziamenti.length);
+    return risposteRingraziamenti[indiceCasuale];
+}
+
 // Funzione per aggiungere un nuovo messaggio alla chat
 function addMessage(text, isUser) {
     const message = document.createElement('div');
@@ -47,8 +65,16 @@ function simulateBotResponse() {
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
     const stopRegex = /(\d+)/i;
     const stopRegex2 = /(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Oi|oi|Salve|salve)/;
+    const stopRegex3 = /grazie|grazie mille|ti ringrazio|grato|grata/i;
     const match = inputField.value.trim().match(stopRegex);
     const match2 = inputField.value.trim().match(stopRegex2);
+    const match3 = inputField.value.trim().match(stopRegex3);
+
+    const rispostaCasuale = getRispostaCasuale();
+
+    if(match3){
+        addMessage(rispostaCasuale, false);
+    }
 
     if(match2){
         addMessage("Salve utente!", false);
