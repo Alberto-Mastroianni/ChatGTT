@@ -31,11 +31,6 @@ function addMessage(text, isUser) {
 
     message.textContent = text;
 
-    // Aggiungi l'animazione solo se il messaggio non è dall'utente
-    if (!isUser) {
-        message.classList.add('typing');
-    }
-
     const chatBody = document.querySelector('.chat-body');
     chatBody.appendChild(message);
 
@@ -63,18 +58,38 @@ function simulateBotResponse() {
 
     // Controlla se ci sono già messaggi nel chatBody
     if (chatBody.children.length === 0) {
-        // Aggiungi i puntini di caricamento come un messaggio separato
-        const typingIndicator = document.createElement('div');
-        typingIndicator.classList.add('message', 'bot-message', 'typing');
-        chatBody.appendChild(typingIndicator);
-        const botResponse = "Ciao! Io sono ChatGTT";
+        // Aggiungi un messaggio di caricamento con puntini
+        const loadingMessage = document.createElement('div');
+        loadingMessage.classList.add('message', 'bot-message');
+        loadingMessage.textContent = ".";
+        chatBody.appendChild(loadingMessage);
+
+        // Aggiungi l'animazione dei puntini di caricamento
+        const loadingDots = document.createElement('span');
+        loadingDots.classList.add('loading-dots');
+        loadingMessage.appendChild(loadingDots);
+
+        // Inizia l'animazione dei puntini di caricamento
+        const dotsInterval = setInterval(() => {
+            loadingDots.textContent += ".";
+            if (loadingDots.textContent.length > 3) {
+                loadingDots.textContent = "";
+            }
+        }, 500); // Cambia la velocità degli aggiornamenti dei puntini a tua discrezione
+
         // Aggiungi un ritardo prima di visualizzare il messaggio del bot
         setTimeout(() => {
-            chatBody.removeChild(typingIndicator);
-            addMessage(botResponse, false);
-        }, 1300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
-    }
+            // Interrompi l'animazione dei puntini di caricamento
+            clearInterval(dotsInterval);
 
+            // Rimuovi il messaggio di caricamento
+            chatBody.removeChild(loadingMessage);
+
+            // Aggiungi il messaggio del bot reale
+            const botResponse = "Ciao! Io sono ChatGTT";
+            addMessage(botResponse, false);
+        }, 1300); 
+    }
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
     const stopRegex = /(\d+)/i;
@@ -87,25 +102,91 @@ function simulateBotResponse() {
     const rispostaCasuale = getRispostaCasuale();
 
     if(match3){
+        // Aggiungi un messaggio di caricamento con puntini
+        const loadingMessage = document.createElement('div');
+        loadingMessage.classList.add('message', 'bot-message');
+        loadingMessage.textContent = ".";
+        chatBody.appendChild(loadingMessage);
+
+        // Aggiungi l'animazione dei puntini di caricamento
+        const loadingDots = document.createElement('span');
+        loadingDots.classList.add('loading-dots');
+        loadingMessage.appendChild(loadingDots);
+
+        // Inizia l'animazione dei puntini di caricamento
+        const dotsInterval = setInterval(() => {
+            loadingDots.textContent += ".";
+            if (loadingDots.textContent.length > 3) {
+                loadingDots.textContent = "";
+            }
+        }, 500); // Cambia la velocità degli aggiornamenti dei puntini a tua discrezione
+
         setTimeout(() => {
+            // Interrompi l'animazione dei puntini di caricamento
+            clearInterval(dotsInterval);
+
+            // Rimuovi il messaggio di caricamento
+            chatBody.removeChild(loadingMessage);
+
             addMessage(rispostaCasuale, false);
         }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
     }
 
     if(match2){
+        // Aggiungi un messaggio di caricamento con puntini
+        const loadingMessage = document.createElement('div');
+        loadingMessage.classList.add('message', 'bot-message');
+        loadingMessage.textContent = ".";
+        chatBody.appendChild(loadingMessage);
+
+        // Aggiungi l'animazione dei puntini di caricamento
+        const loadingDots = document.createElement('span');
+        loadingDots.classList.add('loading-dots');
+        loadingMessage.appendChild(loadingDots);
+
+        // Inizia l'animazione dei puntini di caricamento
+        const dotsInterval = setInterval(() => {
+            loadingDots.textContent += ".";
+            if (loadingDots.textContent.length > 3) {
+                loadingDots.textContent = "";
+            }
+        }, 500);
 
         setTimeout(() => {
+            // Interrompi l'animazione dei puntini di caricamento
+            clearInterval(dotsInterval);
+
+            // Rimuovi il messaggio di caricamento
+            chatBody.removeChild(loadingMessage);
+
             addMessage("Salve utente!", false);
         }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
         setTimeout(() => {
             addMessage("Come posso aiutarti?", false);
-        }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
-        
-        
+        }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
     }
 
     if (match) {
+        // Aggiungi un messaggio di caricamento con puntini
+        const loadingMessage = document.createElement('div');
+        loadingMessage.classList.add('message', 'bot-message');
+        loadingMessage.textContent = ".";
+        chatBody.appendChild(loadingMessage);
+
+        // Aggiungi l'animazione dei puntini di caricamento
+        const loadingDots = document.createElement('span');
+        loadingDots.classList.add('loading-dots');
+        loadingMessage.appendChild(loadingDots);
+
+        // Inizia l'animazione dei puntini di caricamento
+        const dotsInterval = setInterval(() => {
+            loadingDots.textContent += ".";
+            if (loadingDots.textContent.length > 3) {
+                loadingDots.textContent = "";
+            }
+        }, 500);
+
         const stopNumber = match[1];
         const busInfoUrl = getBusInfoUrl(stopNumber);
 
@@ -115,6 +196,12 @@ function simulateBotResponse() {
         .then(data => {
             const busInfoMessage = formattaOrari(JSON.stringify(data), inputField);
             setTimeout(() => {
+                // Interrompi l'animazione dei puntini di caricamento
+                clearInterval(dotsInterval);
+
+                // Rimuovi il messaggio di caricamento
+                chatBody.removeChild(loadingMessage);
+
                 addMessage(`Ecco a te i bus che passano nella fermata ${stopNumber}:`, false);
             }, 500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
