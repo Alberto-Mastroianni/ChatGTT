@@ -27,9 +27,14 @@ function addMessage(text, isUser) {
     const message = document.createElement('div');
     message.classList.add('message');
 
-    (isUser) ? message.classList.add('user-message') : message.classList.add('bot-message'); // Aggiungi questa classe per i messaggi della chatbot
+    (isUser) ? message.classList.add('user-message') : message.classList.add('bot-message');
 
     message.textContent = text;
+
+    // Aggiungi l'animazione solo se il messaggio non è dall'utente
+    if (!isUser) {
+        message.classList.add('typing');
+    }
 
     const chatBody = document.querySelector('.chat-body');
     chatBody.appendChild(message);
@@ -58,9 +63,18 @@ function simulateBotResponse() {
 
     // Controlla se ci sono già messaggi nel chatBody
     if (chatBody.children.length === 0) {
+        // Aggiungi i puntini di caricamento come un messaggio separato
+        const typingIndicator = document.createElement('div');
+        typingIndicator.classList.add('message', 'bot-message', 'typing');
+        chatBody.appendChild(typingIndicator);
         const botResponse = "Ciao! Io sono ChatGTT";
-        addMessage(botResponse, false);
+        // Aggiungi un ritardo prima di visualizzare il messaggio del bot
+        setTimeout(() => {
+            chatBody.removeChild(typingIndicator);
+            addMessage(botResponse, false);
+        }, 1300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
     }
+
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
     const stopRegex = /(\d+)/i;
@@ -73,12 +87,22 @@ function simulateBotResponse() {
     const rispostaCasuale = getRispostaCasuale();
 
     if(match3){
-        addMessage(rispostaCasuale, false);
+        setTimeout(() => {
+            addMessage(rispostaCasuale, false);
+        }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
     }
 
     if(match2){
-        addMessage("Salve utente!", false);
-        addMessage("Come posso aiutarti?", false);
+
+        setTimeout(() => {
+            addMessage("Salve utente!", false);
+        }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
+
+        setTimeout(() => {
+            addMessage("Come posso aiutarti?", false);
+        }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
+        
+        
     }
 
     if (match) {
@@ -90,8 +114,13 @@ function simulateBotResponse() {
         .then(response => response.json())
         .then(data => {
             const busInfoMessage = formattaOrari(JSON.stringify(data), inputField);
-            addMessage(`Ecco a te i bus che passano nella fermata ${stopNumber}:`, false);
-            addMessage(busInfoMessage, false);
+            setTimeout(() => {
+                addMessage(`Ecco a te i bus che passano nella fermata ${stopNumber}:`, false);
+            }, 500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
+
+            setTimeout(() => {
+                addMessage(busInfoMessage, false);
+            }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
         })
         .catch(error => {
             console.error('Errore durante la richiesta API:', error);
