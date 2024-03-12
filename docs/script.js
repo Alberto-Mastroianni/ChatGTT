@@ -206,7 +206,17 @@ function simulateBotResponse() {
             }, 500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
             setTimeout(() => {
-                addMessage(busInfoMessage, false);
+                if(busInfoMessage == ""){
+                    setTimeout(() => {
+                        addMessage("Hai sbagliato inserire il numero della fermata!", false);
+                    }, 250);
+
+                    setTimeout(() => {
+                        addMessage("Riprova a inserire correttamente il numero della fermata!", false);
+                    }, 900);
+                } else {
+                    addMessage(busInfoMessage, false);
+                }
             }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
         })
         .catch(error => {
