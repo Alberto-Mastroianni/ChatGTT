@@ -232,3 +232,64 @@ p{
         left: 135em;    
     }
 }
+
+@media all and (max-width: 320px) {
+    #clear{
+        position: absolute;
+        left: 13em;    
+    }
+
+    .confirmation-box{
+        width: 80%;
+        height: 63%;
+    }
+}
+
+@media all and (width: 1280px){
+    #clear{
+        position: absolute;
+        left: 88em;    
+    }
+}
+
+@media all and (width: 1024px){
+    #clear{
+        position: absolute;
+        left: 68.5em;    
+    }
+}
+
+@media all and (width: 412px){
+    #clear{
+        position: absolute;
+        left: 22.5em;    
+    }
+}
+
+@media all and (width: 540px){
+    #clear{
+        position: absolute;
+        left: 32em;    
+    }
+}
+
+@media all and (width: 912px){
+    #clear{
+        position: absolute;
+        left: 60em;    
+    }
+}
+
+@media all and (width: 820px){
+    #clear{
+        position: absolute;
+        left: 53em;    
+    }
+}
+
+@media all and (width: 768px){
+    #clear{
+        position: absolute;
+        left: 49em;   
+    }
+}
