@@ -193,7 +193,7 @@ p{
     transform: translate(0, -50%);
     background-color: white;
     border: 2px solid black;
-    width: 18em;
+    width: 19em;
     padding: 0px;
     transition: left 0.3s ease-in-out;
     z-index: 9999;
@@ -282,6 +282,10 @@ p{
     .open-popup{
         display: none;
     }
+
+    .popup{
+        border: none;
+    }
 }
 
 @media all and (min-width: 1690px) {
@@ -309,6 +313,7 @@ p{
 
     .popup {
         display: none;
+        border: none;
     }
 }
 
@@ -319,7 +324,12 @@ p{
     }
 
     .open-popup{
-        display: none;
+        width: 18em;
+        top: -49.7em;
+    }
+
+    .popup{
+        width: 16em;
     }
 }
 
@@ -327,6 +337,14 @@ p{
     #clear{
         position: absolute;
         left: 68.5em;    
+    }
+
+    .popup{
+        border: none;
+    }
+
+    .open-popup{
+        display: none;
     }
 }
 
@@ -353,6 +371,10 @@ p{
     .open-popup{
         display: none;
     }
+
+    .popup{
+        border: none;
+    }
 }
 
 @media all and (width: 820px){
@@ -363,6 +385,10 @@ p{
 
     .open-popup{
         display: none;
+    }
+
+    .popup{
+        border: none;
     }
 }
 
