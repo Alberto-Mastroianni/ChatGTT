@@ -185,6 +185,60 @@ p{
     cursor: pointer;
 }
 
+/* Stili per il popup */
+.popup {
+    position: fixed;
+    left: -250px; /* Fuori dalla vista */
+    top: 50%;
+    transform: translate(0, -50%);
+    background-color: white;
+    border: 2px solid black;
+    width: 18em;
+    padding: 0px;
+    transition: left 0.3s ease-in-out;
+    z-index: 9999;
+}
+
+/* Stili per il popup visibile */
+.popup.active {
+    left: 0;
+}
+
+/* Stili per il contenitore del popup */
+.popup-container {
+    position: relative;
+}
+
+/* Stili per il pulsante di apertura del popup */
+.open-popup {
+    position: absolute;
+    left: 10px;
+    top: -44.5em;
+    width: 22em;
+    transform: translateY(-50%);
+    padding: 10px;
+    background-color: #00529f;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #00529f;
+    cursor: pointer;
+    z-index: 9998; /* Assicura che il pulsante sia dietro il popup quando aperto */
+}
+
+/* Stili per gli elementi della lista */
+.popup ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.popup ul li {
+    margin-bottom: 10px;
+}
+
+.popup ul li a{
+    color: black;
+}
+
 @media all and (max-width: 768px) {
     .chat-container {
         width: 100%;
@@ -224,6 +278,10 @@ p{
         position: absolute;
         left: 18.5em;    
     }
+
+    .open-popup{
+        display: none;
+    }
 }
 
 @media all and (min-width: 1690px) {
@@ -242,6 +300,15 @@ p{
     .confirmation-box{
         width: 80%;
         height: 63%;
+        z-index: 9999;
+    }
+
+    .user-message, .bot-message {
+        z-index: 10000;
+    }
+
+    .popup {
+        display: none;
     }
 }
 
@@ -249,6 +316,10 @@ p{
     #clear{
         position: absolute;
         left: 88em;    
+    }
+
+    .open-popup{
+        display: none;
     }
 }
 
@@ -278,12 +349,20 @@ p{
         position: absolute;
         left: 60em;    
     }
+
+    .open-popup{
+        display: none;
+    }
 }
 
 @media all and (width: 820px){
     #clear{
         position: absolute;
         left: 53em;    
+    }
+
+    .open-popup{
+        display: none;
     }
 }
 

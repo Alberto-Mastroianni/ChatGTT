@@ -283,3 +283,16 @@ declineButton.addEventListener("click", () => {
     var confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
 })
+
+// Funzione per aprire e chiudere il popup
+let btn = document.getElementById("toggleButton");
+
+btn.addEventListener('click', () => {
+    let popup = document.getElementById('popup');
+    popup.classList.toggle('active');
+    if (popup.classList.contains('active')) {
+        btn.textContent = "Chiudi Popup";
+    } else {
+        btn.textContent = "Apri Popup";
+    }
+});
