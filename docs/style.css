@@ -292,7 +292,12 @@ p{
 @media all and (min-width: 1690px) {
     #clear{
         position: absolute;
-        left: 135em;    
+        left: 118em;    
+    }
+
+    .open-popup{
+        top: -83.5em;
+        width: 25em;
     }
 }
 
@@ -340,13 +345,12 @@ p{
         left: 68.5em;    
     }
 
-    .popup{
-        width: 13em;
+    .open-popup{
+        display: none;
     }
 
-    .open-popup{
-        top: -92.2em;
-        width: 14em;
+    .popup{
+        border: none;
     }
 }
 
@@ -376,7 +380,7 @@ p{
     }
 
     .popup{
-        width: 12em;
+        width: 11em;
     }
 }
 
@@ -400,5 +404,9 @@ p{
     #clear{
         position: absolute;
         left: 49em;   
+    }
+
+    .material-symbols-outlined{
+        vertical-align: 15%;
     }
 }
