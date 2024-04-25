@@ -285,6 +285,7 @@ p{
 
     .popup{
         border: none;
+        display: none;
     }
 }
 
@@ -340,11 +341,12 @@ p{
     }
 
     .popup{
-        border: none;
+        width: 13em;
     }
 
     .open-popup{
-        display: none;
+        top: -92.2em;
+        width: 14em;
     }
 }
 
@@ -369,11 +371,12 @@ p{
     }
 
     .open-popup{
-        display: none;
+        top: -92.5em;
+        width: 13em;
     }
 
     .popup{
-        border: none;
+        width: 12em;
     }
 }
 
@@ -384,11 +387,12 @@ p{
     }
 
     .open-popup{
-        display: none;
+        top: -78.3em;
+        width: 12em;
     }
 
     .popup{
-        border: none;
+        width: 8em;
     }
 }
 
