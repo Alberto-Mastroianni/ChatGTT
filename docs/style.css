@@ -292,12 +292,12 @@ p{
 @media all and (min-width: 1690px) {
     #clear{
         position: absolute;
-        left: 118em;    
+        left: 135em;    
     }
 
     .open-popup{
-        top: -83.5em;
-        width: 25em;
+        top: -51.8em;
+        width: 28em;
     }
 }
 
