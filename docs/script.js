@@ -258,13 +258,13 @@ sendButton.addEventListener('click', () => {sendMessage();});
 // Pulire la chat tra il bot e l'utente 
 clearButton.addEventListener("click", () => {
     // Visualizza il box di conferma personalizzato
-    var confirmationBox = document.getElementById('confirmationBox');
+    let confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'block';
 })
 
 agreeButton.addEventListener("click", () => {
     // Cancellare i messaggi
-    var chatBody = document.querySelector('.chat-body');
+    let chatBody = document.querySelector('.chat-body');
 
     // Rimuovi tutti i messaggi
     while (chatBody.firstChild) {
@@ -274,13 +274,13 @@ agreeButton.addEventListener("click", () => {
     simulateBotResponse()
 
     // Nascondi il box di conferma
-    var confirmationBox = document.getElementById('confirmationBox');
+    let confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
 })
 
 declineButton.addEventListener("click", () => {
     // Nascondi il box di conferma
-    var confirmationBox = document.getElementById('confirmationBox');
+    let confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
 })
 
@@ -296,3 +296,30 @@ btn.addEventListener('click', () => {
         btn.textContent = "Apri Popup";
     }
 });
+
+// Funzione per controllare l'orientamento dello schermo e mostrare/nascondere il messaggio di rotazione di conseguenza
+function checkOrientation() {
+    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+    const rotateMessage = document.querySelector('.rotate-message');
+
+    if (isLandscape) {
+        rotateMessage.style.display = 'none'; // Nasconde il messaggio quando è in modalità landscape
+    } else {
+        rotateMessage.style.display = 'block'; // Mostra il messaggio quando è in modalità portrait
+    }
+}
+
+// Richiama la funzione al caricamento della pagina e ad ogni cambio di orientamento
+window.addEventListener('load', function() {
+    // Aggiorna l'orientamento al caricamento della pagina
+    checkOrientation();
+
+    // Verifica l'orientamento iniziale e nasconde il messaggio se è in orizzontale
+    if (window.matchMedia("(orientation: landscape)").matches) {
+        document.querySelector('.rotate-message').style.display = 'none';
+    } else {
+        document.querySelector('.rotate-message').style.display = 'block';
+    }
+});
+
+window.addEventListener('orientationchange', checkOrientation);

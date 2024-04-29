@@ -400,6 +400,17 @@ p{
     }
 }
 
+@media screen and (width: 720px){
+    #clear{
+        position: absolute;
+        left: 45em;   
+    }
+
+    .material-symbols-outlined{
+        vertical-align: 15%;
+    }
+}
+
 @media all and (width: 768px){
     #clear{
         position: absolute;
@@ -409,4 +420,42 @@ p{
     .material-symbols-outlined{
         vertical-align: 15%;
     }
+}
+
+@media screen and (min-width: 769px) {
+    .rotate-message {
+        display: none; /* Nasconde il messaggio su schermi più grandi (computer) */
+    }
+}
+
+@media screen and (orientation: landscape) and (width: 1180px){
+    #clear{
+        position: absolute;
+        left: 80em;   
+    }
+
+    .open-popup{
+        top: -51.2em;
+        width: 16.5em;
+    }
+
+    .popup{
+        width: 14em;
+    }
+}
+
+.rotate-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    width: 200vw;
+    height: 200vh;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10001;
+    display: none; /* Nasconde il messaggio di default */
 }
