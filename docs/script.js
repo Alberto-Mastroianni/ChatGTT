@@ -297,29 +297,24 @@ btn.addEventListener('click', () => {
     }
 });
 
-// Funzione per controllare l'orientamento dello schermo e mostrare/nascondere il messaggio di rotazione di conseguenza
-function checkOrientation() {
-    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-    const rotateMessage = document.querySelector('.rotate-message');
-
-    if (isLandscape) {
-        rotateMessage.style.display = 'none'; // Nasconde il messaggio quando è in modalità landscape
+// Funzione per controllare se il dispositivo è in modalità ritratto
+function controllaOrientamento() {
+    // Verifica se il dispositivo non è un desktop
+    if (window.matchMedia("(pointer: coarse)").matches) {
+        // Verifica se il dispositivo è in modalità ritratto
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            // Mostra il messaggio se il dispositivo è in modalità ritratto
+            document.querySelector('.rotate-message').style.display = 'block';
+        } else {
+            // Nasconde il messaggio se il dispositivo non è in modalità ritratto
+            document.querySelector('.rotate-message').style.display = 'none';
+        }
     } else {
-        rotateMessage.style.display = 'block'; // Mostra il messaggio quando è in modalità portrait
+        // Nasconde il messaggio se il dispositivo è un desktop
+        document.querySelector('.rotate-message').style.display = 'none';
     }
 }
 
-// Richiama la funzione al caricamento della pagina e ad ogni cambio di orientamento
-window.addEventListener('load', function() {
-    // Aggiorna l'orientamento al caricamento della pagina
-    checkOrientation();
-
-    // Verifica l'orientamento iniziale e nasconde il messaggio se è in orizzontale
-    if (window.matchMedia("(orientation: landscape)").matches) {
-        document.querySelector('.rotate-message').style.display = 'none';
-    } else {
-        document.querySelector('.rotate-message').style.display = 'block';
-    }
-});
-
-window.addEventListener('orientationchange', checkOrientation);
+// Esegui la funzione al cambio di orientamento del dispositivo
+window.addEventListener('resize', controllaOrientamento);
+window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
