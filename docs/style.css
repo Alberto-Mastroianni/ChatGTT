@@ -400,6 +400,17 @@ p{
     }
 }
 
+@media screen and (width: 720px){
+    #clear{
+        position: absolute;
+        left: 45em;   
+    }
+
+    .material-symbols-outlined{
+        vertical-align: 15%;
+    }
+}
+
 @media all and (width: 768px){
     #clear{
         position: absolute;
@@ -408,5 +419,11 @@ p{
 
     .material-symbols-outlined{
         vertical-align: 15%;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .rotate-message {
+        display: none; /* Nasconde il messaggio su schermi più grandi (computer) */
     }
 }

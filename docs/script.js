@@ -47,7 +47,17 @@ function sendMessage() {
         addMessage(text, true);
 
         // Simula la risposta della chatbot
-        simulateBotResponse(text);
+         simulateBotResponse(text);
+
+        // Chiamata alla funzione per ottenere una risposta AI basata sul prompt fornito dall'utente
+        getAIResponse(text)
+            .then(response => {
+                addMessage(response, false);
+            })
+            .catch(error => {
+                console.error('Errore durante la richiesta AI:', error);
+                addMessage('Si è verificato un errore durante la richiesta AI.', false);
+            });
 
         input.value = '';
     }
@@ -86,7 +96,7 @@ function simulateBotResponse() {
             chatBody.removeChild(loadingMessage);
 
             // Aggiungi il messaggio del bot reale
-            const botResponse = "Ciao! Io sono ChatGTT";
+            const botResponse = "Ciao! Io sono ChatGTT, come posso aiutarti? (AI in prova)";
             addMessage(botResponse, false);
         }, 1300); 
     }
@@ -258,13 +268,13 @@ sendButton.addEventListener('click', () => {sendMessage();});
 // Pulire la chat tra il bot e l'utente 
 clearButton.addEventListener("click", () => {
     // Visualizza il box di conferma personalizzato
-    var confirmationBox = document.getElementById('confirmationBox');
+    let confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'block';
 })
 
 agreeButton.addEventListener("click", () => {
     // Cancellare i messaggi
-    var chatBody = document.querySelector('.chat-body');
+    let chatBody = document.querySelector('.chat-body');
 
     // Rimuovi tutti i messaggi
     while (chatBody.firstChild) {
@@ -274,13 +284,13 @@ agreeButton.addEventListener("click", () => {
     simulateBotResponse()
 
     // Nascondi il box di conferma
-    var confirmationBox = document.getElementById('confirmationBox');
+    let confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
 })
 
 declineButton.addEventListener("click", () => {
     // Nascondi il box di conferma
-    var confirmationBox = document.getElementById('confirmationBox');
+    let confirmationBox = document.getElementById('confirmationBox');
     confirmationBox.style.display = 'none';
 })
 
