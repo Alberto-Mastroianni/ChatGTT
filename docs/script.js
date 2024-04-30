@@ -294,7 +294,7 @@ declineButton.addEventListener("click", () => {
     confirmationBox.style.display = 'none';
 })
 
-// Funzione per aprire e chiudere il popup
+/*// Funzione per aprire e chiudere il popup
 let btn = document.getElementById("toggleButton");
 
 btn.addEventListener('click', () => {
@@ -305,7 +305,7 @@ btn.addEventListener('click', () => {
     } else {
         btn.textContent = "Apri Popup";
     }
-});
+});*/
 
 // Funzione per controllare se il dispositivo è in modalità ritratto
 function controllaOrientamento() {
