@@ -186,9 +186,9 @@ p{
 }
 
 /* Stili per il popup */
-.popup {
+/*.popup {
     position: fixed;
-    left: -250px; /* Fuori dalla vista */
+    left: -250px; /* Fuori dalla vista 
     top: 50%;
     transform: translate(0, -50%);
     background-color: white;
@@ -197,20 +197,20 @@ p{
     padding: 0px;
     transition: left 0.3s ease-in-out;
     z-index: 9999;
-}
+}*/
 
 /* Stili per il popup visibile */
-.popup.active {
+/*.popup.active {
     left: 0;
-}
+}*/
 
 /* Stili per il contenitore del popup */
-.popup-container {
+/*.popup-container {
     position: relative;
-}
+}*/
 
 /* Stili per il pulsante di apertura del popup */
-.open-popup {
+/*.open-popup {
     position: absolute;
     left: 10px;
     top: -44.5em;
@@ -222,11 +222,11 @@ p{
     border-radius: 5px;
     border: 2px solid #00529f;
     cursor: pointer;
-    z-index: 9998; /* Assicura che il pulsante sia dietro il popup quando aperto */
-}
+    z-index: 9998; /* Assicura che il pulsante sia dietro il popup quando aperto
+}*/
 
 /* Stili per gli elementi della lista */
-.popup ul {
+/*.popup ul {
     list-style-type: none;
     padding-left: 10px;
 }
@@ -234,10 +234,9 @@ p{
 .popup ul li {
     margin-bottom: 10px;
 }
-
 .popup ul li a{
     color: black;
-}
+}*/
 
 @media all and (max-width: 768px) {
     .chat-container {
@@ -279,14 +278,14 @@ p{
         left: 18.5em;    
     }
 
-    .open-popup{
+    /*.open-popup{
         display: none;
     }
 
     .popup{
         border: none;
         display: none;
-    }
+    }*/
 }
 
 @media all and (min-width: 1690px) {
@@ -295,10 +294,10 @@ p{
         left: 135em;    
     }
 
-    .open-popup{
+    /*.open-popup{
         top: -51.8em;
         width: 28em;
-    }
+    }*/
 }
 
 @media all and (max-width: 320px) {
@@ -317,10 +316,10 @@ p{
         z-index: 10000;
     }
 
-    .popup {
+    /*.popup {
         display: none;
         border: none;
-    }
+    }*/
 }
 
 @media all and (width: 1280px){
@@ -329,14 +328,14 @@ p{
         left: 88em;    
     }
 
-    .open-popup{
+    /*.open-popup{
         width: 18em;
         top: -49.7em;
     }
 
     .popup{
         width: 16em;
-    }
+    }*/
 }
 
 @media all and (width: 1024px){
@@ -345,13 +344,13 @@ p{
         left: 68.5em;    
     }
 
-    .open-popup{
+    /*.open-popup{
         display: none;
     }
 
     .popup{
         border: none;
-    }
+    }*/
 }
 
 @media all and (width: 412px){
@@ -374,14 +373,14 @@ p{
         left: 60em;    
     }
 
-    .open-popup{
+    /*.open-popup{
         top: -92.5em;
         width: 13em;
     }
 
     .popup{
         width: 11em;
-    }
+    }*/
 }
 
 @media all and (width: 820px){
@@ -390,14 +389,14 @@ p{
         left: 53em;    
     }
 
-    .open-popup{
+    /*.open-popup{
         top: -78.3em;
         width: 12em;
     }
 
     .popup{
         width: 8em;
-    }
+    }*/
 }
 
 @media screen and (width: 720px){
