@@ -325,6 +325,50 @@ function controllaOrientamento() {
     }
 }
 
+
+// const ai = new ApiAi.ApiAiClient({ accessToken: 'sk-proj-GkqoCy0IHLTHnkA2iOqKT3BlbkFJektO7FQh34pMZsse1623' });
+
+// const $chatInput = $('#chat-input');
+// const $chatOutput = $('#chat-output');
+
+// function appendToChat(message, sender) {
+//     const $messageDiv = $('<div class="message">').text(message);
+//     if (sender === 'user') {
+//         $messageDiv.addClass('user-message');
+//     } else {
+//         $messageDiv.addClass('ai-message');
+//     }
+//     $chatOutput.append($messageDiv);
+//     $chatOutput.scrollTop($chatOutput[0].scrollHeight);
+// }
+
+// $chatInput.keydown(function(event) {
+//     if (event.keyCode === 13) {
+//         const userMessage = $chatInput.val();
+//         appendToChat(userMessage, 'user');
+//         $chatInput.val('');
+
+//         // Check if the user message contains any keyword
+//         const keywords = ['biglietto', 'biglietti', 'abbonamento mensile', 'abbonamento annuale', 'il mensile', 'annuale', 'abbonamento', 'abbonamenti', 'ticket', 'tickets'];
+//         const containsKeyword = keywords.some(keyword => userMessage.toLowerCase().includes(keyword));
+
+//         if (containsKeyword) {
+//             // If the user message contains a keyword, send a request to get the list of tickets
+//             ai.textRequest('Get ticket list').then(function(response) {
+//                 const aiMessage = response.result.fulfillment.speech;
+//                 appendToChat(aiMessage, 'ai');
+//             }).catch(function(error) {
+//                 console.error('Error sending request to API.AI', error);
+//             });
+//         }
+//     }
+// });
+
+
+
+
+
+
 // Esegui la funzione al cambio di orientamento del dispositivo
 window.addEventListener('resize', controllaOrientamento);
 window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
