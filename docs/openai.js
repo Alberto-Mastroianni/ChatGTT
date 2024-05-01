@@ -1,10 +1,7 @@
 const OpenAI = require("openai");
 require("dotenv").config();
 
-
 const axios = require('axios');
-
-
 
 const openai = new OpenAI({
   apiKey: process.env.sk-proj-GkqoCy0IHLTHnkA2iOqKT3BlbkFJektO7FQh34pMZsse1623,
@@ -22,9 +19,9 @@ async function getAIResponse(prompt) {
         // Simulo un caricamento con un ritardo di 2 secondi
         await simulateLoading(2000);
         // Restituisci una risposta di informazioni
-        return "L'idea è nata da un progetto di 5^ superiore, realizzato da Alberto Mastroianni e Matteo Licciardino, appartenti all'Istituto tecnico E. Agnelli Indirizzo informatico. In particolare Alberto ha sempre avuto la passione per i mezzi locali, focalizzandosi sull'azienda di trasporti pubblici locali GTT (Gruppo Torinese Trasporti) dove ha mostrato un grande interesse; così ha coinvolto il suo compagno Matteo e insieme hanno tirato fuori un'idea innovativa, che consente di aiutare i torinesi e i turisti a poter usare i servizi pubblici in modo comodo e veloce. Benvenuti su ChatGTT, il vostro aiutante virtuale. ";
+        return "L'idea è nata da un progetto di 5° superiore, realizzato da Alberto Mastroianni e Matteo Licciardino, appartenti all'Istituto tecnico E. Agnelli Indirizzo informatico. In particolare Alberto ha sempre avuto la passione per i mezzi locali, focalizzandosi sull'azienda di trasporti pubblici locali GTT (Gruppo Torinese Trasporti) dove ha mostrato un grande interesse; così ha coinvolto il suo compagno Matteo e insieme hanno tirato fuori un'idea innovativa, che consente di aiutare i torinesi e i turisti a poter usare i servizi pubblici in modo comodo e veloce. Benvenuti su ChatGTT, il vostro aiutante virtuale. ";
       }
-      if (prompt.toLowerCase().includes("biglietti")) {
+      if (prompt.toLowerCase().includes("bigliett")) { // se l'utente scrive biglietto o biglietti
         await simulateLoading(2000);
         const messages = [
             "Ecco a te la lista dei biglietti urbani:",
@@ -32,12 +29,14 @@ async function getAIResponse(prompt) {
             "MultiCity (11,80€)",
             "Daily (4,50€)",
             "MultiDaily 7 (21,00€)",
-            "Biglietto Speciale 'Tour' valido per 48 o 72 ore (9,50€ / 12,50€)",
-            "Biglietto Integrato A e B (A= 3,70€ / B= 4,20€)",
-            "Descrizioni:",
-            "Biglietto City: Vale per 100 minuti dal momento della convalida compresa una corsa in Metropolitana. E' utilizzabile solo da una persona e deve essere validato ogni volta che si cambia mezzo. Il biglietto City caricato su smart card BIP ha validità 730 giorni dal momento dell'acquisto e di 365 giorni se acquistato con app To Move."
+            "Biglietto Speciale 'Tour' valido per 48 o 72 ore (9,50€ o 12,50€)",
+            "Biglietto Integrato A e B (A = 3,70€ o B = 4,20€)",
+            "Biglietto City: Vale per 100 minuti dal momento della convalida compresa una corsa in Metropolitana.",
+            "E' utilizzabile solo da una persona e deve essere validato ogni volta che si cambia mezzo.",
+            "Il biglietto City caricato su smart card BIP ha validità 730 giorni dal momento dell'acquisto e di 365 giorni se acquistato con app To Move."
         ];
-        return messages;
+
+      return messages.join(', ').replaceAll(", ", "\n")
     }
       
       // Altrimenti, utilizzo OpenAI per ottenere una risposta
@@ -73,6 +72,3 @@ async function getAIResponse(prompt) {
       setTimeout(resolve, delay);
     });
   }
-    
-
-  

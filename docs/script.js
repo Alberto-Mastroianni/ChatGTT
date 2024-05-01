@@ -54,10 +54,10 @@ function sendMessage() {
             .then(response => {
                 addMessage(response, false);
             })
-            .catch(error => {
+            /*.catch(error => {
                 console.error('Errore durante la richiesta AI:', error);
                 addMessage('Si è verificato un errore durante la richiesta AI.', false);
-            });
+            });*/
 
         input.value = '';
     }

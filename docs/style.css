@@ -185,6 +185,24 @@ p{
     cursor: pointer;
 }
 
+.rotate-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    width: 190vw;
+    height: 190vh;
+    color: white;
+    text-align: center;
+    line-height: 35em;
+    font-weight: 100;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10001;
+    display: none; /* Nasconde il messaggio di default */
+}
+
 /* Stili per il popup */
 /*.popup {
     position: fixed;
@@ -275,7 +293,7 @@ p{
 
     #clear{
         position: absolute;
-        left: 18.5em;    
+        left: calc(100% - 8.5em);
     }
 
     /*.open-popup{
@@ -389,6 +407,10 @@ p{
         left: 53em;    
     }
 
+    .material-symbols-outlined{
+        vertical-align: -5%;
+    }
+
     /*.open-popup{
         top: -78.3em;
         width: 12em;
@@ -425,22 +447,4 @@ p{
     .rotate-message {
         display: none; /* Nasconde il messaggio su schermi più grandi (computer) */
     }
-}
-
-.rotate-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: black;
-    width: 190vw;
-    height: 190vh;
-    color: white;
-    text-align: center;
-    line-height: 35em;
-    font-weight: 100;
-    padding: 10px;
-    border-radius: 5px;
-    z-index: 10001;
-    display: none; /* Nasconde il messaggio di default */
 }
