@@ -99,6 +99,15 @@ function simulateBotResponse() {
             const botResponse = "Ciao! Io sono ChatGTT, come posso aiutarti? (AI in prova)";
             addMessage(botResponse, false);
         }, 1300); 
+        
+        setTimeout(() => {
+            addMessage("Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus/tram", false);
+        }, 2300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
+       
+        setTimeout(() => {
+            addMessage("Oppure prova a scrivere 'biglietti' o 'info' o 'assistenza' per avere maggiori dettagli", false);
+        }, 3000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
+
     }
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
@@ -169,12 +178,16 @@ function simulateBotResponse() {
             // Rimuovi il messaggio di caricamento
             chatBody.removeChild(loadingMessage);
 
-            addMessage("Salve utente!", false);
+            addMessage("Salve, sono un bot e sono qui per darti una mano su tutta la rete di Torino", false);
         }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
         setTimeout(() => {
-            addMessage("Come posso aiutarti?", false);
-        }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
+            addMessage("Sono stato 'creato' da due ragazzi di 5^superiore, Alberto Mastroianni e Matteo Licciardino", false);
+        }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)    
+
+        setTimeout(() => {
+            addMessage("Scrivi il numero della fermata, vediamo quando passa il tuo bus/tram", false);
+        }, 4000);
     }
 
     if (match) {
