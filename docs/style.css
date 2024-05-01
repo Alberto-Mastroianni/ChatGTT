@@ -306,6 +306,30 @@ p{
     }*/
 }
 
+@media all and (min-width: 1470px) {
+    #clear{
+        position: absolute;
+        left: 102em;    
+    }
+
+    /*.open-popup{
+        top: -51.8em;
+        width: 28em;
+    }*/
+}
+
+@media all and (min-width: 1536px) {
+    #clear{
+        position: absolute;
+        left: 107em;    
+    }
+
+    /*.open-popup{
+        top: -51.8em;
+        width: 28em;
+    }*/
+}
+
 @media all and (min-width: 1690px) {
     #clear{
         position: absolute;
@@ -439,7 +463,7 @@ p{
     }
 
     .material-symbols-outlined{
-        vertical-align: 15%;
+        vertical-align: 17%;
     }
 }
 
