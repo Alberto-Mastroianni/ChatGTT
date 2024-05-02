@@ -101,11 +101,11 @@ function simulateBotResponse() {
         }, 1300); 
         
         setTimeout(() => {
-            addMessage("Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus/tram", false);
+            addMessage("Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus o tram", false);
         }, 2300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
        
         setTimeout(() => {
-            addMessage("Oppure prova a scrivere 'biglietti' o 'info' o 'assistenza' per avere maggiori dettagli", false);
+            addMessage("Oppure prova a scrivere 'biglietto/i' o 'informazione' o 'assistenza' per avere maggiori dettagli", false);
         }, 3000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
 
     }
@@ -182,11 +182,11 @@ function simulateBotResponse() {
         }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
         setTimeout(() => {
-            addMessage("Sono stato 'creato' da due ragazzi di 5^superiore, Alberto Mastroianni e Matteo Licciardino", false);
+            addMessage("Sono stato creato da due ragazzi di 5° superiore, Alberto Mastroianni e Matteo Licciardino", false);
         }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)    
 
         setTimeout(() => {
-            addMessage("Scrivi il numero della fermata, vediamo quando passa il tuo bus/tram", false);
+            addMessage("Scrivi il numero della fermata, vediamo quando passa il tuo bus o tram", false);
         }, 4000);
     }
 
@@ -338,6 +338,10 @@ function controllaOrientamento() {
     }
 }
 
+// Esegui la funzione al cambio di orientamento del dispositivo
+window.addEventListener('resize', controllaOrientamento);
+window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
+
 
 // const ai = new ApiAi.ApiAiClient({ accessToken: 'sk-proj-GkqoCy0IHLTHnkA2iOqKT3BlbkFJektO7FQh34pMZsse1623' });
 
@@ -376,12 +380,3 @@ function controllaOrientamento() {
 //         }
 //     }
 // });
-
-
-
-
-
-
-// Esegui la funzione al cambio di orientamento del dispositivo
-window.addEventListener('resize', controllaOrientamento);
-window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
