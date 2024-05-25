@@ -96,7 +96,7 @@ function simulateBotResponse() {
             chatBody.removeChild(loadingMessage);
 
             // Aggiungi il messaggio del bot reale
-            const botResponse = "Ciao! Io sono ChatGTT, come posso aiutarti? (AI in prova)";
+            const botResponse = "Ciao! Io sono ChatGTT, come posso aiutarti?";
             addMessage(botResponse, false);
         }, 1300); 
         
