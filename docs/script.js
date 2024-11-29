@@ -105,7 +105,7 @@ function simulateBotResponse() {
         }, 2300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
        
         setTimeout(() => {
-            addMessage("Oppure prova a scrivere 'biglietto/i' o 'assistenza' per avere maggiori dettagli", false);
+            addMessage("Oppure prova a scrivere 'biglietto/i' per avere maggiori dettagli", false);
         }, 3000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
 
     }
