@@ -253,9 +253,11 @@ function formattaOrari(orariTestuali) {
     try {
         const orariArray = JSON.parse(orariTestuali);
 
-        const orariFormattati = orariArray.map(orario => {
+       const orariFormattati = orariArray.map(orario => {
+            // Determina il simbolo in base al valore di "realtime"
+            const spunta = orario.realtime ? '✔️' : '❌';
             // Crea una stringa per ciascun orario
-            return `Linea: ${orario.line} - Ora: ${orario.hour} - In tempo reale: ${orario.realtime}`;
+            return `Linea: ${orario.line} - Ora: ${orario.hour} - In tempo reale: ${spunta}`;
         }).join('\n'); // Unisci gli elementi in una singola stringa
 
         return orariFormattati;
