@@ -47,17 +47,19 @@ function sendMessage() {
         addMessage(text, true);
 
         // Simula la risposta della chatbot
-         simulateBotResponse(text);
+        simulateBotResponse(text);
 
         // Chiamata alla funzione per ottenere una risposta AI basata sul prompt fornito dall'utente
         getAIResponse(text)
-            .then(response => {
+        .then(response => {
+            // Aggiungi il messaggio della chatbot solo se la risposta non è null o vuota
+            if (response && response.trim() !== "") {
                 addMessage(response, false);
-            })
-            /*.catch(error => {
-                console.error('Errore durante la richiesta AI:', error);
-                addMessage('Si è verificato un errore durante la richiesta AI.', false);
-            });*/
+            }
+        })
+         .catch(error => {
+            console.error("Errore durante la richiesta alla AI:", error);
+        });
 
         input.value = '';
     }
@@ -103,11 +105,6 @@ function simulateBotResponse() {
         setTimeout(() => {
             addMessage("Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus o tram", false);
         }, 2300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
-       
-        setTimeout(() => {
-            addMessage("Oppure prova a scrivere 'biglietto/i' per avere maggiori dettagli", false);
-        }, 3000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
-
     }
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
@@ -178,7 +175,7 @@ function simulateBotResponse() {
             // Rimuovi il messaggio di caricamento
             chatBody.removeChild(loadingMessage);
 
-            addMessage("Salve, sono un bot e sono qui per darti una mano su tutta la rete di Torino", false);
+            addMessage("Salve, sono un bot con IA e sono qui per darti una mano su tutta la rete di Torino", false);
         }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
         setTimeout(() => {
@@ -309,18 +306,6 @@ declineButton.addEventListener("click", () => {
     confirmationBox.style.display = 'none';
 })
 
-/*// Funzione per aprire e chiudere il popup
-let btn = document.getElementById("toggleButton");
-
-btn.addEventListener('click', () => {
-    let popup = document.getElementById('popup');
-    popup.classList.toggle('active');
-    if (popup.classList.contains('active')) {
-        btn.textContent = "Chiudi Popup";
-    } else {
-        btn.textContent = "Apri Popup";
-    }
-});*/
 
 // Funzione per controllare se il dispositivo è in modalità ritratto
 function controllaOrientamento() {
@@ -343,43 +328,3 @@ function controllaOrientamento() {
 // Esegui la funzione al cambio di orientamento del dispositivo
 window.addEventListener('resize', controllaOrientamento);
 window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
-
-
-// const ai = new ApiAi.ApiAiClient({ accessToken: 'sk-proj-GkqoCy0IHLTHnkA2iOqKT3BlbkFJektO7FQh34pMZsse1623' });
-
-// const $chatInput = $('#chat-input');
-// const $chatOutput = $('#chat-output');
-
-// function appendToChat(message, sender) {
-//     const $messageDiv = $('<div class="message">').text(message);
-//     if (sender === 'user') {
-//         $messageDiv.addClass('user-message');
-//     } else {
-//         $messageDiv.addClass('ai-message');
-//     }
-//     $chatOutput.append($messageDiv);
-//     $chatOutput.scrollTop($chatOutput[0].scrollHeight);
-// }
-
-// $chatInput.keydown(function(event) {
-//     if (event.keyCode === 13) {
-//         const userMessage = $chatInput.val();
-//         appendToChat(userMessage, 'user');
-//         $chatInput.val('');
-
-//         // Check if the user message contains any keyword
-//         const keywords = ['biglietto', 'biglietti', 'abbonamento mensile', 'abbonamento annuale', 'il mensile', 'annuale', 'abbonamento', 'abbonamenti', 'ticket', 'tickets'];
-//         const containsKeyword = keywords.some(keyword => userMessage.toLowerCase().includes(keyword));
-
-//         if (containsKeyword) {
-//             // If the user message contains a keyword, send a request to get the list of tickets
-//             ai.textRequest('Get ticket list').then(function(response) {
-//                 const aiMessage = response.result.fulfillment.speech;
-//                 appendToChat(aiMessage, 'ai');
-//             }).catch(function(error) {
-//                 console.error('Error sending request to API.AI', error);
-//             });
-//         }
-//     }
-// });
-
