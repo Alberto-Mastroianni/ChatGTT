@@ -23,7 +23,7 @@ async function getAIResponse(prompt) {
         ].join(', ');
 
         const data = {
-            model: "gpt-4",
+            model: "gpt-4o",
             messages: [
                 {
                     "role": "system",
@@ -49,7 +49,7 @@ async function getAIResponse(prompt) {
         await axios.post("https://api.zukijourney.com/v1/chat/completions",data, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer zu-afd44ad712d2dab4f22fce2f427b9ad2', // Replace with your OpenAI API key
+                'Authorization': 'Bearer zu-17f4c6a7c1d04d4e27b0e0a7b163da8f', // Replace with your OpenAI API key
             }
         }).then(response => {
             // Restituisco solo il testo della risposta
