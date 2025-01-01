@@ -328,3 +328,17 @@ function controllaOrientamento() {
 // Esegui la funzione al cambio di orientamento del dispositivo
 window.addEventListener('resize', controllaOrientamento);
 window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
+function adjustMaxLength() {
+    const inputElement = document.querySelector('.chat-input input');
+    if (window.innerWidth > 768) {
+      inputElement.removeAttribute('maxlength');
+    } else {
+      inputElement.setAttribute('maxlength', '35');
+    }
+}
+
+// Esegui una volta quando la pagina è caricata
+adjustMaxLength();
+
+// Aggiungi un listener per ridimensionare la finestra
+window.addEventListener('resize', adjustMaxLength);
