@@ -53,7 +53,7 @@ async function getAIResponse(prompt) {
             }
         }).then(response => {
             // Restituisco solo il testo della risposta
-            lesponjse = response.data.choices[0].message.content.replace(/<SYSTEM>.*?<\/SYSTEM>|System:|Assistant:/gi, '');
+            lesponjse = response.data.choices[0].message.content.replace(/<SYSTEM>.*?<\/SYSTEM>|System:|Assistant:/gi, '').replace(/\*\*(.*?)\*\*/g, '$1');
         });
         //console.log(lesponjse);
         return lesponjse;
