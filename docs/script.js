@@ -328,3 +328,33 @@ function controllaOrientamento() {
 // Esegui la funzione al cambio di orientamento del dispositivo
 window.addEventListener('resize', controllaOrientamento);
 window.addEventListener('DOMContentLoaded', controllaOrientamento); // Esegui la funzione al caricamento della pagina
+
+// Funzione per verificare se il dispositivo è uno smartphone
+function isSmartphone() {
+    // Controlla se la larghezza dello schermo è inferiore a 768px (tipico per smartphone)
+    // e se il dispositivo ha un puntatore "coarse" (touch screen)
+    return window.matchMedia("(max-width: 767px) and (pointer: coarse)").matches;
+}
+
+// Funzione per nascondere il cestino
+function hideClearButton() {
+    if (isSmartphone()) {
+        clearButton.style.display = 'none';
+    }
+}
+
+// Funzione per mostrare il cestino
+function showClearButton() {
+    if (isSmartphone()) {
+        clearButton.style.display = 'block';
+    }
+}
+
+// Nascondi il cestino quando l'input è in focus (utente sta scrivendo)
+inputField.addEventListener('focus', hideClearButton);
+
+// Mostra il cestino quando l'input perde il focus (utente smette di scrivere)
+inputField.addEventListener('blur', showClearButton);
+
+// Mostra il cestino dopo aver inviato il messaggio
+sendButton.addEventListener('click', showClearButton);
