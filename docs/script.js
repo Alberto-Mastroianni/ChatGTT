@@ -108,9 +108,9 @@ function simulateBotResponse() {
     }
 
     // Analizza l'input dell'utente per identificare la richiesta sulla fermata
-    const stopRegex = /(\d+)/i;
-    const stopRegex2 = /(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Oi|oi|Salve|salve)/;
-    const stopRegex3 = /grazie|grazie mille|ti ringrazio|grato|grata/i;
+    const stopRegex = /^(\d+)$/i;  // Modificata per intercettare solo numeri isolati
+    const stopRegex2 = /^(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Salve|salve)$/;  // Match esatti
+    const stopRegex3 = /^(grazie|grazie mille|ti ringrazio|grato|grata)$/i;  // Match esatti
     const match = inputField.value.trim().match(stopRegex);
     const match2 = inputField.value.trim().match(stopRegex2);
     const match3 = inputField.value.trim().match(stopRegex3);
