@@ -1,9 +1,9 @@
 async function getAIResponse(prompt) {
     try {
 
-        const stopRegex = /(\d+)/i;
-        const stopRegex2 = /(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Oi|oi|Salve|salve)/;
-        const stopRegex3 = /grazie|grazie mille|ti ringrazio|grato|grata/i;
+        const stopRegex = /^(\d+)$/i;  // Modificata per intercettare solo numeri isolati (fermata)
+        const stopRegex2 = /^(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Salve|salve)$/;  // Aggiunti ^ e $ per match esatti
+        const stopRegex3 = /^(grazie|grazie mille|ti ringrazio|grato|grata)$/i;  // Aggiunti ^ e $ per match esatti
 
         if (stopRegex.test(prompt) || stopRegex2.test(prompt) || stopRegex3.test(prompt)) {
             return null;
