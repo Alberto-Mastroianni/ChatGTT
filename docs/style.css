@@ -69,7 +69,8 @@
   
   .chat-body {
     flex: 1; /* Prende tutto lo spazio disponibile */
-    padding: 10px;
+    padding: 3px;
+    overflow: auto;
     position: relative;
   }
   
