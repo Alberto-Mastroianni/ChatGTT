@@ -49,7 +49,7 @@ async function getAIResponse(prompt) {
         await axios.post("https://api.zukijourney.com/v1/chat/completions",data, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer zu-17f4c6a7c1d04d4e27b0e0a7b163da8f', // Replace with your OpenAI API key
+                'Authorization': '2f65474cf2b153f78e026c051d5c6b53c664e0aa07c9f7ee7a2f539fd322783c057108bfe9e7cdb2c44bebb75f136faa71200ec3ceb074f7b23e6be3f6866a08', // Replace with your OpenAI API key
             }
         }).then(response => {
             // Restituisco solo il testo della risposta
