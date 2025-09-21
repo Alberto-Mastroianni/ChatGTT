@@ -1,72 +1,83 @@
 async function getAIResponse(prompt) {
     try {
-
-        const stopRegex = /^(\d+)$/i;  // Modificata per intercettare solo numeri isolati (fermata)
-        const stopRegex2 = /^(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Salve|salve)$/;  // Aggiunti ^ e $ per match esatti
-        const stopRegex3 = /^(grazie|grazie mille|ti ringrazio|grato|grata)$/i;  // Aggiunti ^ e $ per match esatti
+        const stopRegex = /^(\d+)$/i;
+        const stopRegex2 = /^(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Salve|salve)$/;
+        const stopRegex3 = /^(grazie|grazie mille|ti ringrazio|grato|grata)$/i;
 
         if (stopRegex.test(prompt) || stopRegex2.test(prompt) || stopRegex3.test(prompt)) {
             return null;
         }
 
-        const tickets = [
-            "Ecco a te la lista dei biglietti urbani:",
-            "Biglietto City (2,00€)",
-            "MultiCity (11,80€)",
-            "Daily (4,50€)",
-            "MultiDaily 7 (21,00€)",
-            "Biglietto Speciale 'Tour' valido per 48 o 72 ore (9,50€ o 12,50€)",
-            "Biglietto Integrato A e B (A = 3,70€ o B = 4,20€)",
-            "Biglietto City: Vale per 100 minuti dal momento della convalida compresa una corsa in Metropolitana.",
-            "E' utilizzabile solo da una persona e deve essere validato ogni volta che si cambia mezzo.",
-            "Il biglietto City caricato su smart card BIP ha validità 730 giorni dal momento dell'acquisto e di 365 giorni se acquistato con app To Move."
-        ].join(', ');
+        // Modificato l'array 'tickets' per essere più descrittivo e per fornire una chiara struttura all'AI
+        const ticketsInfo = [
+            "Ecco la lista dei biglietti urbani e le loro caratteristiche:",
+            "Biglietto City: Costo 2,00€.",
+            "Valido per 100 minuti dalla convalida, include una corsa in Metropolitana. Utilizzabile da una sola persona e deve essere validato ad ogni cambio mezzo. Validità su smart card BIP: 730 giorni dall'acquisto. Validità con app To Move: 365 giorni dall'acquisto.",
+            "MultiCity: Costo 11,80€.",
+            "Daily: Costo 4,50€.",
+            "MultiDaily 7: Costo 21,00€.",
+            "Biglietto Speciale 'Tour': Valido per 48 ore a 9,50€ o per 72 ore a 12,50€.",
+            "Biglietto Integrato A e B: Biglietto Integrato A costa 3,70€. Biglietto Integrato B costa 4,20€."
+        ];
+        
+        // Unisci le informazioni sui biglietti per darle come contesto all'AI
+        const ticketsContext = ticketsInfo.join('\n'); // Unisci con un newline per mantenere la separazione delle righe
+
+        const systemMessages = [
+            "Puoi contattarci all'indirizzo e-mail: assistenza@chatgtt.it Proveremo a soddisfare ogni tua richiesta!",
+            "L'idea è nata da un progetto di 5° superiore, realizzato da Alberto Mastroianni e Matteo Licciardino, appartenti all'Istituto tecnico E. Agnelli Indirizzo informatico. In particolare Alberto ha sempre avuto la passione per i mezzi locali, focalizzandosi sull'azienda di trasporti pubblici locali GTT (Gruppo Torinese Trasporti) dove ha mostrato un grande interesse; così ha coinvolto il suo compagno Matteo e insieme hanno tirato fuori un'idea innovativa, che consente di aiutare i torinesi e i turisti a poter usare i servizi pubblici in modo comodo e veloce. Benvenuti su ChatGTT, il vostro aiutante virtuale.",
+            ticketsContext // Ora passi il contesto dei biglietti qui
+        ];
+
+        // Istruzione più specifica per la formattazione desiderata
+        const instruction = "Le risposte devono essere in testo semplice, formattate come un elenco chiaro e leggibile riga per riga, senza alcun carattere markdown (come asterischi, trattini, hash, ecc.) per grassetti, elenchi o titoli. Ogni voce dell'elenco deve essere su una nuova riga.";
+        const fullPrompt = systemMessages.join('\n\n') + '\n\n' + instruction + '\n\nUser: ' + prompt;
 
         const data = {
-            model: "gpt-4o",
-            messages: [
+            "contents": [
                 {
-                    "role": "system",
-                    "content": "Puoi contattarci all'indirizzo e-mail: assistenza@chatgtt.it Proveremo a soddisfare ogni tua richiesta!"
-                },
-                {
-                    "role": "system",
-                    "content": "L'idea è nata da un progetto di 5° superiore, realizzato da Alberto Mastroianni e Matteo Licciardino, appartenti all'Istituto tecnico E. Agnelli Indirizzo informatico. In particolare Alberto ha sempre avuto la passione per i mezzi locali, focalizzandosi sull'azienda di trasporti pubblici locali GTT (Gruppo Torinese Trasporti) dove ha mostrato un grande interesse; così ha coinvolto il suo compagno Matteo e insieme hanno tirato fuori un'idea innovativa, che consente di aiutare i torinesi e i turisti a poter usare i servizi pubblici in modo comodo e veloce. Benvenuti su ChatGTT, il vostro aiutante virtuale."
-                },
-                {
-                   "role": "system",
-                   "content": tickets
-                },
-                {
-                    "role": "user",
-                    "content": prompt
+                    "parts": [
+                        {
+                            "text": fullPrompt
+                        }
+                    ]
                 }
-            ],
-        }
+            ]
+        };
 
-        let lesponjse;
+        let responseText;
 
-        await axios.post("https://api.zukijourney.com/v1/chat/completions",data, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': '2f65474cf2b153f78e026c051d5c6b53c664e0aa07c9f7ee7a2f539fd322783c057108bfe9e7cdb2c44bebb75f136faa71200ec3ceb074f7b23e6be3f6866a08', // Replace with your OpenAI API key
+        await axios.post(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+            data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-goog-api-key': 'AIzaSyASjUG_-MfRv3Uri6syV3Y3Q2mvJ1f_1Co',
+                }
             }
-        }).then(response => {
-            // Restituisco solo il testo della risposta
-            lesponjse = response.data.choices[0].message.content.replace(/<SYSTEM>.*?<\/SYSTEM>|System:|Assistant:/gi, '').replace(/\*\*(.*?)\*\*/g, '$1');
+        ).then(response => {
+            if (response.data && response.data.candidates && response.data.candidates[0] && response.data.candidates[0].content && response.data.candidates[0].content.parts && response.data.candidates[0].content.parts[0]) {
+                responseText = response.data.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error("Risposta non valida dall'API Gemini.");
+            }
         });
-        //console.log(lesponjse);
-        return lesponjse;
 
-        } catch (error) {
-            console.error("Errore durante la richiesta AI:", error);
-            throw new Error("Si è verificato un errore durante la richiesta AI.");
-        }
+        // La post-elaborazione rimane utile come "ultima difesa"
+        let cleanedResponse = responseText.replace(/\*\*|__|\*|_/g, '');
+        cleanedResponse = cleanedResponse.replace(/^[*-]\s*|^\+\s*|^#+\s*/gm, '');
+
+        return cleanedResponse;
+
+    } catch (error) {
+        console.error("Errore durante la richiesta AI:", error.response ? error.response.data : error.message);
+        throw new Error("Si è verificato un errore durante la richiesta AI.");
     }
-  
-  // Funzione per simulare un caricamento con un ritardo
-    function simulateLoading(delay) {
-        return new Promise(resolve => {
+}
+
+function simulateLoading(delay) {
+    return new Promise(resolve => {
         setTimeout(resolve, delay);
-        });
-    }
+    });
+}
