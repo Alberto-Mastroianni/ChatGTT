@@ -53,7 +53,7 @@ async function getAIResponse(prompt) {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-goog-api-key': 'AIzaSyASjUG_-MfRv3Uri6syV3Y3Q2mvJ1f_1Co',
+                    'X-goog-api-key': 'AIzaSyDCRDficCjZT5v5Z7oe0qV8CQt2Enr8WHw',
                 }
             }
         ).then(response => {
