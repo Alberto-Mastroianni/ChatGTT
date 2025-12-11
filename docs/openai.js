@@ -1,14 +1,15 @@
 async function getAIResponse(prompt) {
     try {
+        // Ho corretto la sintassi delle Regex che avevano qualche errore di battitura
         const stopRegex = /^(\d+)$/i;
-        const stopRegex2 = /^(ciao|Ciao|buongiorno|Buongiorno|Hey|hey|Salve|salve)$/;
+        const stopRegex2 = /^(ciao|buongiorno|hey|salve)$/i;
         const stopRegex3 = /^(grazie|grazie mille|ti ringrazio|grato|grata)$/i;
 
+        // Controllo se il prompt corrisponde alle parole di stop
         if (stopRegex.test(prompt) || stopRegex2.test(prompt) || stopRegex3.test(prompt)) {
             return null;
         }
 
-        // Modificato l'array 'tickets' per essere più descrittivo e per fornire una chiara struttura all'AI
         const ticketsInfo = [
             "Ecco la lista dei biglietti urbani e le loro caratteristiche:",
             "Biglietto City: Costo 2,00€.",
@@ -20,17 +21,27 @@ async function getAIResponse(prompt) {
             "Biglietto Integrato A e B: Biglietto Integrato A costa 3,70€. Biglietto Integrato B costa 4,20€."
         ];
         
-        // Unisci le informazioni sui biglietti per darle come contesto all'AI
-        const ticketsContext = ticketsInfo.join('\n'); // Unisci con un newline per mantenere la separazione delle righe
+        const ticketsContext = ticketsInfo.join('\n');
 
         const systemMessages = [
             "Puoi contattarci all'indirizzo e-mail: assistenza@chatgtt.it Proveremo a soddisfare ogni tua richiesta!",
-            "L'idea è nata da un progetto di 5° superiore, realizzato da Alberto Mastroianni e Matteo Licciardino, appartenti all'Istituto tecnico E. Agnelli Indirizzo informatico. In particolare Alberto ha sempre avuto la passione per i mezzi locali, focalizzandosi sull'azienda di trasporti pubblici locali GTT (Gruppo Torinese Trasporti) dove ha mostrato un grande interesse; così ha coinvolto il suo compagno Matteo e insieme hanno tirato fuori un'idea innovativa, che consente di aiutare i torinesi e i turisti a poter usare i servizi pubblici in modo comodo e veloce. Benvenuti su ChatGTT, il vostro aiutante virtuale.",
-            ticketsContext // Ora passi il contesto dei biglietti qui
+            "L'idea è nata da un progetto di 5° superiore, realizzato da Alberto Mastroianni e Matteo Licciardino. Benvenuti su ChatGTT, il vostro aiutante virtuale.",
+            ticketsContext 
         ];
 
-        // Istruzione più specifica per la formattazione desiderata
-        const instruction = "Le risposte devono essere in testo semplice, formattate come un elenco chiaro e leggibile riga per riga, senza alcun carattere markdown (come asterischi, trattini, hash, ecc.) per grassetti, elenchi o titoli. Ogni voce dell'elenco deve essere su una nuova riga.";
+        // --- QUI ABBIAMO AGGIUNTO L'ISTRUZIONE PER LA LINGUA ---
+        const instruction = `
+            Sei ChatGTT, un assistente virtuale per i trasporti di Torino.
+            Usa le informazioni fornite sopra (CONTESTO) per rispondere alla domanda dell'utente.
+            
+            REGOLE FONDAMENTALI:
+            1. Rileva la lingua dell'utente. Rispondi ESCLUSIVAMENTE nella stessa lingua dell'utente (Italiano, Inglese, Francese, Spagnolo, ecc.).
+            2. Se l'utente chiede il prezzo di un biglietto specifico, rispondi SOLO con quel prezzo e le sue caratteristiche. NON elencare tutti gli altri biglietti o i creatori del progetto se non richiesto.
+            3. Se l'utente chiede chi ha creato il progetto o l'email, usa le informazioni dei creatori.
+            4. Tono gentile e sintetico.
+            5. Formato: testo semplice, senza markdown (* o #).
+        `;
+        
         const fullPrompt = systemMessages.join('\n\n') + '\n\n' + instruction + '\n\nUser: ' + prompt;
 
         const data = {
@@ -47,24 +58,24 @@ async function getAIResponse(prompt) {
 
         let responseText;
 
+        // Ricorda di inserire la TUA chiave API qui sotto al posto di 'LA_TUA_NUOVA_API_KEY'
         await axios.post(
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
             data,
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-goog-api-key': 'AIzaSyATGrgnh1BpF0wrxpm9ghwenFYN7OA1MWY',
+                    'X-goog-api-key': 'AIzaSyB-GdDlNw_VoA3q3qngutAdnqpV8vesjus', 
                 }
             }
         ).then(response => {
-            if (response.data && response.data.candidates && response.data.candidates[0] && response.data.candidates[0].content && response.data.candidates[0].content.parts && response.data.candidates[0].content.parts[0]) {
+            if (response.data && response.data.candidates && response.data.candidates[0] && response.data.candidates[0].content) {
                 responseText = response.data.candidates[0].content.parts[0].text;
             } else {
                 throw new Error("Risposta non valida dall'API Gemini.");
             }
         });
 
-        // La post-elaborazione rimane utile come "ultima difesa"
         let cleanedResponse = responseText.replace(/\*\*|__|\*|_/g, '');
         cleanedResponse = cleanedResponse.replace(/^[*-]\s*|^\+\s*|^#+\s*/gm, '');
 
