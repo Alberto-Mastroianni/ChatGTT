@@ -1,0 +1,459 @@
+/* Variabili CSS per consistenza */
+:root {
+    --primary-color: #00529f;
+    --accent-color: #ffe625;
+    --text-light: #fff;
+    --text-dark: #333;
+    --background-light: #F2F2F2;
+    --border-radius: 5px;
+    --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Reset completo */
+  * {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Assicuriamo che html e body occupino l'intero viewport */
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Previene lo scrolling della pagina */
+    position: fixed; /* Forza a coprire l'intero viewport */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-light);
+  }
+  
+  /* Container principale a schermo intero */
+  .chat-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF;
+    overflow: hidden;
+  }
+  
+  .chat-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .chat-header {
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(16px, 4vw, 18px);
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-bottom: 1px solid black;
+    flex-shrink: 0; /* Impedisce al header di ridursi */
+  }
+  
+  .chat-body {
+    flex: 1; /* Prende tutto lo spazio disponibile */
+    padding: 3px;
+    overflow: auto;
+    position: relative;
+  }
+  
+  .message {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 20%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    background-color: #D9E6FF;
+    border-radius: var(--border-radius);
+  }
+  
+  .user-message {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-align: right;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  .bot-message {
+    background-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+  
+  .chat-input {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin: 10px;
+    flex-shrink: 0; /* Impedisce all'input di ridursi */
+    gap: 8px;
+  }
+  
+  .chat-input input[type="text"] {
+    flex-grow: 1;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: var(--border-radius);
+    outline: none;
+  }
+  
+  .chat-input button,
+  .chat-input input[type="button"] {
+    height: 100%;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    white-space: nowrap;
+  }
+  
+  .chat-input button:hover,
+  .chat-input input[type="button"]:hover {
+    opacity: 0.9;
+  }
+  
+  img {
+    max-width: 5em;
+    height: auto;
+  }
+  
+  p {
+    font-weight: bolder;
+    font-size: clamp(18px, 5vw, 32px);
+  }
+  
+  /* Stile per l'alert laterale disclaimer */
+  .disclaimer-alert {
+    position: fixed;
+    top: 20px;
+    right: -350px;
+    width: 320px;
+    background: linear-gradient(135deg, var(--primary-color), #003d7a);
+    border: 3px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 15px;
+    z-index: 10000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: right 0.5s ease-in-out;
+    color: var(--text-light);
+    font-size: 14px;
+  }
+  
+  .disclaimer-alert.show {
+    right: 20px;
+  }
+  
+  .disclaimer-content {
+    position: relative;
+  }
+  
+  .disclaimer-content p {
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: normal;
+  }
+  
+  .disclaimer-content p:first-child {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+  }
+  
+  .disclaimer-close {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--accent-color);
+    cursor: pointer;
+    line-height: 1;
+  }
+  
+  .disclaimer-close:hover {
+    opacity: 0.7;
+  }
+  .confirmation-box {
+    display: none;
+    border-radius: 15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #00529f; /* Blu come nell'immagine */
+    border: 10px solid #ffe625; /* Bordo giallo come nell'immagine */
+    padding: 20px;
+    z-index: 999;
+    width: clamp(280px, 90%, 500px);
+    text-align: center;
+  }
+  
+  .confirmation-content {
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Contenitore per i pulsanti */
+  .confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .confirmation-box button {
+    margin: 0;
+    padding: 15px 25px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: #ffe625; /* Giallo come nell'immagine */
+    color: black;
+    border: none;
+    border-radius: 5px;
+    width: 70px;
+    height: 50px;
+    margin-top: 1em;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Simboli nei pulsanti */
+  #conferma {
+    color: green;
+    font-size: 24px;
+  }
+  
+  #annulla {
+    color: red;
+    font-size: 24px;
+  }
+  
+  #elimina {
+    color: red;
+  }
+  
+  /* Posizionamento dell'elemento clear */
+  #clear {
+    position: absolute;
+    bottom: 9px; /* Posizionato sopra l'area di input */
+    right: 92px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10;
+  }
+  
+  .rotate-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 100;
+    padding: 10px;
+    z-index: 10001;
+    display: none;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  /* Media query per schermi piccoli (smartphone) */
+  @media (max-width: 768px) {
+    .message {
+      width: 100%;
+      margin-left: 0;
+    }
+    
+    .chat-input {
+      padding: 0 10px;
+    }
+    
+    /* Mantiene lo stile dell'immagine solo su mobile */
+    .confirmation-box {
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      border-width: 10px;
+    }
+    
+    .confirmation-content {
+      font-size: 1.3rem;
+      margin-bottom: 25px;
+    }
+  
+    .confirmation-buttons {
+      justify-content: space-around;
+    }
+    
+    .material-symbols-outlined {
+        vertical-align: auto;
+    }
+    
+    /* Alert disclaimer responsive */
+    .disclaimer-alert {
+      width: 90%;
+      right: -95%;
+      top: 10px;
+      font-size: 12px;
+    }
+    
+    .disclaimer-alert.show {
+      right: 5%;
+    }
+    
+    .disclaimer-content p {
+      font-size: 12px;
+    }
+    
+    .disclaimer-content p:first-child {
+      font-size: 14px;
+    }
+  }
+  
+  /* Per dispositivi con schermo molto piccolo */
+  @media (max-width: 320px) {
+    .chat-input {
+      flex-direction: column;
+      height: auto;
+      padding: 5px;
+    }
+    
+    .chat-input input[type="text"] {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+    
+    .chat-input button {
+      width: 100%;
+    }
+    
+    #clear {
+      right: 5px;
+      bottom: 90px; /* Posizionato più in alto per layout verticale dell'input */
+    }
+    
+    .confirmation-box {
+      padding: 15px;
+      width: 85%;
+    }
+    
+    .confirmation-content {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+    
+    .confirmation-box button {
+      padding: 10px;
+      font-size: 1.2rem;
+    }
+  }
+  
+  /* Per orientamento orizzontale sui dispositivi mobili */
+  @media screen and (max-height: 450px) and (orientation: landscape) {
+    .chat-header {
+      height: 2em;
+    }
+    
+    .chat-input {
+      height: 30px;
+      margin: 5px;
+    }
+    
+    #clear {
+      bottom: 40px;
+    }
+    
+    .confirmation-box {
+      max-height: 90%;
+      overflow-y: auto;
+    }
+  }
+  
+  /* Fix per Safari e iOS */
+  @supports (-webkit-touch-callout: none) {
+    html, body {
+      height: 100vh;
+      /* Soluzione per il "100vh bug" di iOS */
+      height: -webkit-fill-available;
+    }
+  }
+  
+  /* Fix per Firefox */
+  @-moz-document url-prefix() {
+    .chat-body {
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) transparent;
+    }
+  }
+  
+  /* Fix per Microsoft Edge e Chrome */
+  .chat-body::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .chat-body::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+  }
+  
+  .chat-body::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  /* Assicura la compatibilità per la modalità a schermo intero su API specifiche */
+  .chat-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+  }
+  
+  /* Per gestire browser che non supportano correttamente vh */
+  @supports not (height: 100vh) {
+    html, body, .chat-container {
+      height: 100%;
+    }
+  }
