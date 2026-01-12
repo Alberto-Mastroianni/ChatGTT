@@ -46,6 +46,7 @@
         <meta name="msapplication-tap-highlight" content="no">
 
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="language-selector.css">
         <link rel="website icon" type="png" href="./img/favicon.png">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
@@ -57,7 +58,40 @@
 
         <div class="chat-container">
             <div class="chat-header">
-                <p>Chat</p> <img src="./img/gtt2.png" alt="immagine della ChatGTT">
+                <div class="header-content">
+                    <p>Chat</p> 
+                    <img src="./img/gtt2.png" alt="immagine della ChatGTT">
+                </div>
+            </div>
+            
+            <!-- Selettore lingua posizionato fuori dall'header -->
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageDropdown()">
+                    <span class="flag" id="currentFlag">🇮🇹</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="language-options" id="languageOptions">
+                    <div class="language-option" onclick="selectLanguage('it')">
+                        <span class="flag">🇮🇹</span>
+                        <span>Italiano</span>
+                    </div>
+                    <div class="language-option" onclick="selectLanguage('en')">
+                        <span class="flag">🇬🇧</span>
+                        <span>English</span>
+                    </div>
+                    <div class="language-option" onclick="selectLanguage('es')">
+                        <span class="flag">🇪🇸</span>
+                        <span>Español</span>
+                    </div>
+                    <div class="language-option" onclick="selectLanguage('fr')">
+                        <span class="flag">🇫🇷</span>
+                        <span>Français</span>
+                    </div>
+                    <div class="language-option" onclick="selectLanguage('de')">
+                        <span class="flag">🇩🇪</span>
+                        <span>Deutsch</span>
+                    </div>
+                </div>
             </div>
             
             <div class="chat-body" id="chatBody">
@@ -114,10 +148,9 @@
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="translations.js"></script>
         <script src="script.js"></script>
         <script src="config.js"></script>
         <script src="openai.js"></script>
     </body>
 </html>
-
-
