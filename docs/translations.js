@@ -466,16 +466,16 @@ class TranslationManager {
     // Aggiorna il selettore lingua per mostrare la lingua corrente
     updateLanguageSelector() {
         const flags = {
-            it: '🇮🇹',
-            en: '🇬🇧', 
-            es: '🇪🇸',
-            fr: '🇫🇷',
-            de: '🇩🇪'
+            it: 'https://flagcdn.com/w40/it.png',
+            en: 'https://flagcdn.com/w40/gb.png', 
+            es: 'https://flagcdn.com/w40/es.png',
+            fr: 'https://flagcdn.com/w40/fr.png',
+            de: 'https://flagcdn.com/w40/de.png'
         };
         
         const currentFlag = document.getElementById('currentFlag');
         if (currentFlag) {
-            currentFlag.textContent = flags[this.currentLanguage] || flags['it'];
+            currentFlag.src = flags[this.currentLanguage] || flags['it'];
         }
     }
     
