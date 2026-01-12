@@ -4,22 +4,9 @@ const clearButton = document.getElementById("clear");
 const agreeButton = document.getElementById("agree");
 const declineButton = document.getElementById("decline");
 
-const risposteRingraziamenti = [
-    "Prego! Se hai altre domande, sono qui per aiutarti.",
-    "Di nulla! Se c'è qualcos'altro di cui hai bisogno, chiedi pure.",
-    "Figurati! Se serve altro, non esitare a farmelo sapere.",
-    "È stato un piacere aiutarti! Se hai ulteriori dubbi, sono a tua disposizione.",
-    "Non c'è di che! Se ci sono altre informazioni di cui hai bisogno, sono qui.",
-    "Felice di poterti assistere! Fammi sapere se posso aiutarti in altro modo.",
-    "È stato un piacere! Se hai altre richieste, sono pronto a rispondere.",
-    "Nessun problema! Per qualsiasi altra cosa, sono a tua disposizione.",
-    "Sono qui per questo! Se hai domande aggiuntive, sono pronto a rispondere.",
-    "Di niente! Se hai ulteriori chiarimenti da richiedere, sono qui per aiutarti."
-];
-
+// Funzione per ottenere una risposta casuale di ringraziamento
 function getRispostaCasuale() {
-    const indiceCasuale = Math.floor(Math.random() * risposteRingraziamenti.length);
-    return risposteRingraziamenti[indiceCasuale];
+    return window.translator ? window.translator.getRandomThankYou() : "Prego! Se hai altre domande, sono qui per aiutarti.";
 }
 
 // Funzione per aggiungere un nuovo messaggio alla chat
@@ -98,12 +85,13 @@ function simulateBotResponse() {
             chatBody.removeChild(loadingMessage);
 
             // Aggiungi il messaggio del bot reale
-            const botResponse = "Ciao! Io sono ChatGTT, come posso aiutarti?";
+            const botResponse = window.translator ? window.translator.get('welcomeMessage') : "Ciao! Io sono ChatGTT, come posso aiutarti?";
             addMessage(botResponse, false);
         }, 1300); 
         
         setTimeout(() => {
-            addMessage("Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus o tram", false);
+            const tryStopMsg = window.translator ? window.translator.get('tryStopNumber') : "Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus o tram";
+            addMessage(tryStopMsg, false);
         }, 2300); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)  
     }
 
@@ -175,15 +163,18 @@ function simulateBotResponse() {
             // Rimuovi il messaggio di caricamento
             chatBody.removeChild(loadingMessage);
 
-            addMessage("Salve, sono un bot con IA e sono qui per darti una mano su tutta la rete di Torino", false);
+            const botIntro = window.translator ? window.translator.get('botIntro') : "Salve, sono un bot con IA e sono qui per darti una mano su tutta la rete di Torino";
+            addMessage(botIntro, false);
         }, 1500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
         setTimeout(() => {
-            addMessage("Sono stato creato da due ragazzi di 5° superiore, Alberto Mastroianni e Matteo Licciardino", false);
+            const creators = window.translator ? window.translator.get('creators') : "Sono stato creato da due ragazzi di 5° superiore, Alberto Mastroianni e Matteo Licciardino";
+            addMessage(creators, false);
         }, 2000); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)    
 
         setTimeout(() => {
-            addMessage("Scrivi il numero della fermata, vediamo quando passa il tuo bus o tram", false);
+            const enterStop = window.translator ? window.translator.get('enterStopNumber') : "Scrivi il numero della fermata, vediamo quando passa il tuo bus o tram";
+            addMessage(enterStop, false);
         }, 4000);
     }
 
@@ -214,7 +205,7 @@ function simulateBotResponse() {
         fetch(busInfoUrl)
         .then(response => response.json())
         .then(data => {
-            const busInfoMessage = formattaOrari(JSON.stringify(data), inputField);
+            const busInfoMessage = window.translator ? window.translator.formatSchedule(JSON.stringify(data)) : formattaOrari(JSON.stringify(data), inputField);
             setTimeout(() => {
                 // Interrompi l'animazione dei puntini di caricamento
                 clearInterval(dotsInterval);
@@ -222,17 +213,20 @@ function simulateBotResponse() {
                 // Rimuovi il messaggio di caricamento
                 chatBody.removeChild(loadingMessage);
 
-                addMessage(`Ecco i bus che passano nella fermata ${stopNumber}:`, false);
+                const busesAtStop = window.translator ? window.translator.get('busesAtStop') : "Ecco i bus che passano nella fermata";
+                addMessage(`${busesAtStop} ${stopNumber}:`, false);
             }, 500); // Ritardo di 1 secondo (puoi regolare il valore in base alle tue esigenze)
 
             setTimeout(() => {
                 if(busInfoMessage == ""){
                     setTimeout(() => {
-                        addMessage("Hai sbagliato inserire il numero della fermata!", false);
+                        const wrongStop = window.translator ? window.translator.get('wrongStopNumber') : "Hai sbagliato inserire il numero della fermata!";
+                        addMessage(wrongStop, false);
                     }, 250);
 
                     setTimeout(() => {
-                        addMessage("Riprova a inserire correttamente il numero della fermata!", false);
+                        const retryStop = window.translator ? window.translator.get('retryStopNumber') : "Riprova a inserire correttamente il numero della fermata!";
+                        addMessage(retryStop, false);
                     }, 900);
                 } else {
                     addMessage(busInfoMessage, false);
@@ -265,7 +259,13 @@ function formattaOrari(orariTestuali) {
 }
 
 // Chiamata alla funzione simulateBotResponse quando la pagina viene caricata
-window.onload = function() { simulateBotResponse(""); };
+window.onload = function() { 
+    // Inizializza l'interfaccia con le traduzioni
+    if (window.translator) {
+        window.translator.updateInterface();
+    }
+    simulateBotResponse(""); 
+};
 
 // Funzione per ottenere l'URL con le informazioni sui bus per una fermata specifica
 function getBusInfoUrl(stopNumber) {return `https://gpa.madbob.org/query.php?stop=${stopNumber}`;}
