@@ -1,0 +1,13 @@
+{
+  "name": "ChatGTT",
+  "short_name": "ChatGTT",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "img/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
