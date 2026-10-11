@@ -156,8 +156,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #00529f; /* Blu come nell'immagine */
-    border: 10px solid #ffe625; /* Bordo giallo come nell'immagine */
+    background-color: var(--primary-color); /* Utilizza la variabile */
+    border: 10px solid var(--accent-color); /* Utilizza la variabile */
     padding: 20px;
     z-index: 999;
     width: clamp(280px, 90%, 500px);
@@ -166,7 +166,7 @@
   
   .confirmation-content {
     text-align: center;
-    color: white;
+    color: var(--text-light);
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 20px;
@@ -184,8 +184,8 @@
     padding: 15px 25px;
     font-size: 1.5rem;
     cursor: pointer;
-    background-color: #ffe625; /* Giallo come nell'immagine */
-    color: black;
+    background-color: var(--accent-color); /* Utilizza la variabile */
+    color: var(--text-dark); /* Utilizza la variabile */
     border: none;
     border-radius: 5px;
     width: 70px;
@@ -196,12 +196,12 @@
   }
   
   /* Simboli nei pulsanti */
-  #conferma {
+  .confirmation-box button #conferma {
     color: green;
     font-size: 24px;
   }
   
-  #annulla {
+  .confirmation-box button #annulla {
     color: red;
     font-size: 24px;
   }
