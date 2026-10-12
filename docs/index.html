@@ -18,7 +18,7 @@
         <meta name="application-name" content="ChatGTT">
 
         <!-- Per dispositivi iOS (Apple) -->
-        <link rel="apple-touch-icon" href="img/icona-mobile.png">
+        <link rel="apple-touch-icon" href="img/favicon.png">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <meta name="apple-mobile-web-app-title" content="ChatGTT">
@@ -28,7 +28,7 @@
         <meta name="theme-color" content="#ffffff">
 
         <!-- Per Windows -->
-        <meta name="msapplication-TileImage" content="img/icona-mobile.png">
+        <meta name="msapplication-TileImage" href="img/favicon.png">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-tap-highlight" content="no">
 
@@ -43,7 +43,9 @@
         </div>
 
         <div class="chat-container">
+
             <div class="chat-header">
+                <button class="btn-cerchio">?</button>
                 <div class="header-content"> 
                     <img src="./img/gtt_new.png" alt="immagine della ChatGTT">
                 </div>
@@ -99,6 +101,7 @@
                 <button id="decline" aria-label="Annulla cancellazione"><span class="material-symbols-outlined" id="annulla">close</span></button>
             </div>
         </div>
+
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="config.js"></script>
         <script src="translations.js"></script>
