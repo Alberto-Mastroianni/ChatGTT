@@ -65,6 +65,7 @@
     color: var(--text-light);
     border-bottom: 1px solid black;
     flex-shrink: 0; /* Impedisce al header di ridursi */
+    position: relative;
   }
   
   .chat-body {
@@ -110,7 +111,7 @@
     gap: 8px;
   }
   
- .chat-input input[type="text"] {
+  .chat-input input[type="text"] {
     flex-grow: 1;
     height: 100%;
     padding: 10px;
@@ -387,3 +388,43 @@
       height: 100%;
     }
   }
+
+.btn-cerchio {
+  /* Mantieni dimensioni e posizionamento a sinistra */
+  width: 42.5px;
+  height: 42.5px;
+  position: absolute;
+  left: 20px;
+  border-radius: 50%; 
+  
+  /* Centratura */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Nuovi colori: Sfondo giallo e testo blu scuro */
+  background-color: var(--accent-color); 
+  color: white;
+  -webkit-text-stroke: 1px black;
+  
+  /* Bordo: puoi toglierlo (border: none;) o metterne uno blu scuro */
+  border: 2px solid black; 
+  
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Effetto al passaggio del mouse: si ingrandisce leggermente */
+.btn-cerchio:hover {
+  transform: scale(1.05);
+}
+
+/* Effetto al clic: colore diverso o torna blu */
+.btn-cerchio:active {
+  transform: scale(0.95);
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+}
