@@ -16,7 +16,7 @@
 /* Selettore lingua posizionato in modo assoluto */
 .language-selector {
     position: fixed;
-    top: 5px;
+    top: 7px;
     right: 20px;
     z-index: 1000;
 }
