@@ -308,3 +308,57 @@ function showClearButton() {
 inputField.addEventListener('focus', hideClearButton);
 inputField.addEventListener('blur', showClearButton);
 sendButton.addEventListener('click', showClearButton);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleziona gli elementi dal DOM
+    const btnCerchio = document.querySelector('.btn-cerchio');
+    const sidebar = document.getElementById('mySidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const closeBtn = document.getElementById('closeSidebar');
+
+    // Funzione per aprire la sidebar
+    function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+    }
+
+    // Funzione per chiudere la sidebar
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    }
+
+    // Event listener per aprire
+    btnCerchio.addEventListener('click', openSidebar);
+
+    // Event listener per chiudere (cliccando sulla X o fuori dalla sidebar)
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+});
+
+// --- GESTIONE TEMA CHIARO/SCURO ---
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('checkbox-theme');
+    
+    // Controlla se c'è un tema salvato precedentemente nella memoria del browser
+    const currentTheme = localStorage.getItem('theme');
+
+    // Se esiste, applicalo subito al caricamento
+    if (currentTheme) {
+        document.body.classList.add(currentTheme);
+        if (currentTheme === 'dark-theme') {
+            themeToggle.checked = true;
+        }
+    }
+
+    // Ascolta i cambiamenti dell'interruttore
+    themeToggle.addEventListener('change', function(e) {
+        if (e.target.checked) {
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark-theme'); // Salva preferenza scura
+        } else {
+            document.body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light-theme'); // Salva preferenza chiara
+        }
+    });
+});
