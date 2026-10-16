@@ -428,3 +428,291 @@
   background-color: var(--primary-color);
   color: var(--accent-color);
 }
+
+/* --- STILI PER LA SIDEBAR OFF-CANVAS --- */
+
+/* Overlay scuro dietro la sidebar */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10002; /* Sopra la chat, sotto la rotate-message */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Contenitore della sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Nascosta fuori dallo schermo a sinistra */
+    width: 280px;
+    height: 100%;
+    background-color: var(--background-light); /* Usa la variabile del tuo CSS */
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 10003; /* Sopra l'overlay */
+    transition: left 0.3s ease; /* Effetto scorrimento */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.open {
+    left: 0; /* Appare sullo schermo */
+}
+
+/* Intestazione della sidebar */
+.sidebar-header-menu {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.sidebar-header-menu h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+/* Pulsante di chiusura (la "X") */
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: var(--accent-color);
+}
+
+/* Contenuto della sidebar */
+.sidebar-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Stile del pulsante/link per aprire il nuovo file */
+.sidebar-btn {
+    display: inline-block;
+    padding: 12px 15px;
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-btn:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* =========================================
+   TOGGLE SWITCH TEMA SCURO
+   ========================================= */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    color: var(--text-dark);
+    font-weight: bold;
+    border-bottom: 2.5px solid #ccc;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.theme-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+.theme-switch input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+.theme-switch input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.theme-switch .slider.round {
+    border-radius: 34px;
+}
+
+.theme-switch .slider.round:before {
+    border-radius: 50%;
+}
+
+/* =========================================
+   REGOLE TEMA SCURO (DARK MODE)
+   ========================================= */
+body.dark-theme {
+    /* Scuriamo i colori base */
+    --primary-color: #002b54; 
+    --accent-color: #d1b800; 
+    --background-light: #121212;
+    --text-dark: #f2f2f2;
+}
+
+/* Sfondo della chat */
+body.dark-theme .chat-container {
+    background-color: #1e1e1e;
+}
+
+/* Stile dei messaggi generici/sistema */
+body.dark-theme .message {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+/* Stile testo bot per mantenere contrasto sullo sfondo giallo */
+body.dark-theme .bot-message {
+    background-color: var(--accent-color);
+    color: #1a1a1a; 
+}
+
+/* Input di testo in basso */
+body.dark-theme .chat-input input[type="text"] {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+/* Sidebar in modalità scura */
+body.dark-theme .sidebar {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+body.dark-theme .theme-switch-wrapper {
+    color: #fff;
+    border-bottom: 2.5px solid #444;
+}
+
+body.dark-theme .sidebar-header-menu {
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* Selettore Lingue in modalità scura */
+body.dark-theme .language-options {
+    background-color: #2d2d2d;
+    border-color: #555;
+}
+
+body.dark-theme .language-option {
+    color: #fff;
+}
+
+body.dark-theme .language-option:hover {
+    background-color: #444;
+}
+
+/* Box di conferma eliminazione */
+body.dark-theme .confirmation-box {
+    background-color: #1e1e1e;
+    border-color: var(--accent-color);
+}
+
+/* =========================================
+   MINI-GUIDA (COME FUNZIONA)
+   ========================================= */
+.quick-guide {
+    margin-top: 5px;
+    padding-top: 5px;
+    color: var(--text-dark);
+}
+
+.quick-guide h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.quick-guide ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-guide li {
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start; /* Allinea in alto */
+    gap: 10px;
+}
+
+/* Stile specifico per le icone di Google nella guida */
+.quick-guide li .icon.material-symbols-outlined {
+    font-size: 20px;
+    color: var(--primary-color);
+    flex-shrink: 0; /* Impedisce all'icona di deformarsi */
+    margin-top: 0px; 
+}
+
+.quick-guide li strong {
+    color: var(--primary-color);
+}
+
+/* =========================================
+   REGOLE TEMA SCURO (DARK MODE) PER LA GUIDA
+   ========================================= */
+body.dark-theme .quick-guide {
+    color: #e0e0e0;
+}
+
+body.dark-theme .quick-guide h3 {
+    color: var(--accent-color);
+}
+
+body.dark-theme .quick-guide li strong {
+    color: var(--accent-color);
+}
+
+body.dark-theme .quick-guide li .icon.material-symbols-outlined {
+    color: var(--accent-color);
+}
