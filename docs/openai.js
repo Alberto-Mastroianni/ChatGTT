@@ -29,19 +29,23 @@ async function getAIResponse(prompt) {
 
         const ticketsInfo = [
             "Ecco la lista dei biglietti urbani e le loro caratteristiche:",
+            "Biglietto City (in digitale): Costo 1,90€.",
             "Biglietto City: Costo 2,00€.",
             "Valido per 100 minuti dalla convalida, include una corsa in Metropolitana. Utilizzabile da una sola persona e deve essere validato ad ogni cambio mezzo. Validità su smart card BIP: 730 giorni dall'acquisto. Validità con app To Move: 365 giorni dall'acquisto.",
-            "MultiCity: Costo 11,80€.",
-            "Daily: Costo 4,50€.",
-            "MultiDaily 7: Costo 21,00€.",
-            "Biglietto Speciale 'Tour': Valido per 48 ore a 9,50€ o per 72 ore a 12,50€.",
-            "Biglietto Integrato A e B: Biglietto Integrato A costa 3,70€. Biglietto Integrato B costa 4,20€."
+            "MultiCity: Costo 11,80€.", 
+            "Daily (in digitale): Costo 3,70€.",
+            "Daily: Costo 4,50€.", 
+            "MultiDaily 7: Costo 21,00€.", 
+            "Daily x4 (in digitale): 12,00€.",
+            "Daily x4: 14,80€.",
+            "Biglietto Speciale 'Tour' (in digitale): Valido per 48 ore a 7,80€ o per 72 ore a 10,30€.", 
+            "Biglietto Speciale 'Tour': Valido per 48 ore a 9,50€ o per 72 ore a 12,50€.", 
+            "Biglietto Integrato A e B: Biglietto Integrato A costa 3,90€. Biglietto Integrato B costa 4,60€." 
         ];
         
         const ticketsContext = ticketsInfo.join('\n');
 
         const systemMessages = [
-            "Puoi contattarci all'indirizzo e-mail: assistenza@chatgtt.it Proveremo a soddisfare ogni tua richiesta!",
             "L'idea è nata da un progetto di 5° superiore, realizzato da Alberto Mastroianni e Matteo Licciardino. Benvenuti su ChatGTT, il vostro aiutante virtuale.",
             ticketsContext 
         ];
