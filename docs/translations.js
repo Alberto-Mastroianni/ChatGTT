@@ -62,7 +62,20 @@ class TranslationManager {
                 // Informazioni biglietti
                 line: "Linea",
                 time: "Ora",
-                realTime: "In tempo reale"
+                realTime: "In tempo reale",
+
+                // Menu Opzioni
+                menuTitle: "Menu Opzioni",
+                darkTheme: "Tema Scuro",
+                guideTitle: "Come funziona",
+                guideSchedulesTitle: "Orari:",
+                guideSchedulesDesc: "Scrivi il numero di una fermata (es. 253) per vedere i passaggi in tempo reale.",
+                guideTicketsTitle: "Biglietti:",
+                guideTicketsDesc: "Chiedi informazioni sui prezzi o scrivi \"biglietti\".",
+                guideClearTitle: "Pulizia:",
+                guideClearDesc: "Usa il tasto a forma di cestino per cancellare la cronologia della chat.",
+                guideLanguageTitle: "Lingua:",
+                guideLanguageDesc: "Usa il menu a tendina in alto a destra per cambiare lingua."
             },
             
             en: {
@@ -99,7 +112,20 @@ class TranslationManager {
                 // Ticket information
                 line: "Line",
                 time: "Time",
-                realTime: "Real time"
+                realTime: "Real time",
+
+                // Menu Opzioni
+                menuTitle: "Options Menu",
+                darkTheme: "Dark Theme",
+                guideTitle: "How it works",
+                guideSchedulesTitle: "Schedules:",
+                guideSchedulesDesc: "Enter a stop number (e.g., 253) to see real-time arrivals.",
+                guideTicketsTitle: "Tickets:",
+                guideTicketsDesc: "Ask for pricing information or type \"tickets\".",
+                guideClearTitle: "Clear:",
+                guideClearDesc: "Use the trash can button to clear the chat history.",
+                guideLanguageTitle: "Language:",
+                guideLanguageDesc: "Use the top right dropdown menu to change the language."
             },
             
             es: {
@@ -136,7 +162,20 @@ class TranslationManager {
                 // Información de billetes
                 line: "Línea",
                 time: "Hora",
-                realTime: "Tiempo real"
+                realTime: "Tiempo real",
+
+                // Menu Opzioni
+                menuTitle: "Menú de Opciones",
+                darkTheme: "Tema Oscuro",
+                guideTitle: "Cómo funciona",
+                guideSchedulesTitle: "Horarios:",
+                guideSchedulesDesc: "Escribe el número de una parada (ej. 253) para ver las llegadas en tiempo real.",
+                guideTicketsTitle: "Billetes:",
+                guideTicketsDesc: "Pide información de precios o escribe \"billetes\".",
+                guideClearTitle: "Limpiar:",
+                guideClearDesc: "Usa el botón de la papelera para borrar el historial del chat.",
+                guideLanguageTitle: "Idioma:",
+                guideLanguageDesc: "Usa el menú desplegable arriba a la derecha para cambiar de idioma."
             },
             
             fr: {
@@ -173,7 +212,20 @@ class TranslationManager {
                 // Informations sur les billets
                 line: "Ligne",
                 time: "Heure",
-                realTime: "Temps réel"
+                realTime: "Temps réel",
+
+                // Menu Opzioni
+                menuTitle: "Menu Options",
+                darkTheme: "Thème Sombre",
+                guideTitle: "Comment ça marche",
+                guideSchedulesTitle: "Horaires:",
+                guideSchedulesDesc: "Écrivez le numéro d'un arrêt (ex. 253) pour voir les passages en temps réel.",
+                guideTicketsTitle: "Billets:",
+                guideTicketsDesc: "Demandez des informations sur les prix ou écrivez \"billets\".",
+                guideClearTitle: "Nettoyer:",
+                guideClearDesc: "Utilisez le bouton poubelle pour effacer l'historique du chat.",
+                guideLanguageTitle: "Langue:",
+                guideLanguageDesc: "Utilisez le menu déroulant en haut à droite pour changer de langue."
             },
             
             de: {
@@ -210,7 +262,20 @@ class TranslationManager {
                 // Ticket-Informationen
                 line: "Linie",
                 time: "Zeit",
-                realTime: "Echtzeit"
+                realTime: "Echtzeit",
+
+                // Menu Opzioni
+                menuTitle: "Optionsmenü",
+                darkTheme: "Dunkles Design",
+                guideTitle: "Wie es funktioniert",
+                guideSchedulesTitle: "Fahrpläne:",
+                guideSchedulesDesc: "Geben Sie eine Haltestellennummer (z.B. 253) ein, um Abfahrten in Echtzeit zu sehen.",
+                guideTicketsTitle: "Tickets:",
+                guideTicketsDesc: "Fragen Sie nach Preisinformationen oder schreiben Sie \"Tickets\".",
+                guideClearTitle: "Löschen:",
+                guideClearDesc: "Verwenden Sie die Papierkorb-Schaltfläche, um den Chatverlauf zu löschen.",
+                guideLanguageTitle: "Sprache:",
+                guideLanguageDesc: "Verwenden Sie das Dropdown-Menü oben rechts, um die Sprache zu ändern."
             }
         };
     }
@@ -314,6 +379,37 @@ class TranslationManager {
         const chatTitle = document.querySelector('.chat-header p');
         if (chatTitle) chatTitle.textContent = this.get('chatTitle');
         
+        // --- NUOVI ELEMENTI DEL MENU OPZIONI ---
+        const menuTitle = document.getElementById('menuTitle');
+        if (menuTitle) menuTitle.textContent = this.get('menuTitle');
+
+        const themeLabel = document.getElementById('theme-label');
+        if (themeLabel) themeLabel.textContent = this.get('darkTheme');
+
+        const guideTitle = document.getElementById('guideTitle');
+        if (guideTitle) guideTitle.textContent = this.get('guideTitle');
+
+        const guideSchedulesTitle = document.getElementById('guideSchedulesTitle');
+        if (guideSchedulesTitle) guideSchedulesTitle.textContent = this.get('guideSchedulesTitle');
+        const guideSchedulesDesc = document.getElementById('guideSchedulesDesc');
+        if (guideSchedulesDesc) guideSchedulesDesc.textContent = this.get('guideSchedulesDesc');
+
+        const guideTicketsTitle = document.getElementById('guideTicketsTitle');
+        if (guideTicketsTitle) guideTicketsTitle.textContent = this.get('guideTicketsTitle');
+        const guideTicketsDesc = document.getElementById('guideTicketsDesc');
+        if (guideTicketsDesc) guideTicketsDesc.textContent = this.get('guideTicketsDesc');
+
+        const guideClearTitle = document.getElementById('guideClearTitle');
+        if (guideClearTitle) guideClearTitle.textContent = this.get('guideClearTitle');
+        const guideClearDesc = document.getElementById('guideClearDesc');
+        if (guideClearDesc) guideClearDesc.textContent = this.get('guideClearDesc');
+
+        const guideLanguageTitle = document.getElementById('guideLanguageTitle');
+        if (guideLanguageTitle) guideLanguageTitle.textContent = this.get('guideLanguageTitle');
+        const guideLanguageDesc = document.getElementById('guideLanguageDesc');
+        if (guideLanguageDesc) guideLanguageDesc.textContent = this.get('guideLanguageDesc');
+        // ---------------------------------------
+
         this.updateLanguageSelector();
     }
     
