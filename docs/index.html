@@ -108,9 +108,10 @@
         <!-- Struttura della Sidebar (Off-canvas menu) -->
         <div class="sidebar" id="mySidebar">
             <div class="sidebar-header-menu">
-                <h2>Menu Opzioni</h2>
+                <h2 id="menuTitle">Menu Opzioni</h2>
                 <button class="close-btn" id="closeSidebar">&times;</button>
             </div>
+
             <div class="sidebar-content">
                 <div class="theme-switch-wrapper">
                     <span id="theme-label">Tema Scuro</span>
@@ -121,27 +122,27 @@
                 </div>
 
                 <div class="quick-guide">
-                    <h3>Come funziona</h3>
+                    <h3 id="guideTitle">Come funziona</h3>
                     <ul>
                         <li>
                             <span class="icon material-symbols-outlined">directions_bus</span> 
-                            <div><strong>Orari:</strong> Scrivi il numero di una fermata (es. 253) per vedere i passaggi in tempo reale.</div>
+                            <div><strong id="guideSchedulesTitle">Orari:</strong> <span id="guideSchedulesDesc">Scrivi il numero di una fermata (es. 253) per vedere i passaggi in tempo reale.</span></div>
                         </li>
                         <li>
                             <span class="icon material-symbols-outlined">confirmation_number</span> 
-                            <div><strong>Biglietti:</strong> Chiedi informazioni sui prezzi o scrivi "biglietti".</div>
+                            <div><strong id="guideTicketsTitle">Biglietti:</strong> <span id="guideTicketsDesc">Chiedi informazioni sui prezzi o scrivi "biglietti".</span></div>
                         </li>
                         <li>
                             <span class="icon material-symbols-outlined">delete</span> 
-                            <div><strong>Pulizia:</strong> Usa il tasto a forma di cestino per cancellare la cronologia della chat.</div>
+                            <div><strong id="guideClearTitle">Pulizia:</strong> <span id="guideClearDesc">Usa il tasto a forma di cestino per cancellare la cronologia della chat.</span></div>
                         </li>
                         <li>
                             <span class="icon material-symbols-outlined">language</span> 
-                            <div><strong>Lingua:</strong> Usa il menu a tendina in alto a destra per cambiare lingua.</div>
+                            <div><strong id="guideLanguageTitle">Lingua:</strong> <span id="guideLanguageDesc">Usa il menu a tendina in alto a destra per cambiare lingua.</span></div>
                         </li>
                     </ul>
                 </div>
-                
+
             </div>
         </div>
 
