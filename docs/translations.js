@@ -37,13 +37,29 @@ class TranslationManager {
                 
                 // Messaggi bot
                 welcomeMessage: "Ciao! Io sono ChatGTT, come posso aiutarti?",
-                tryStopNumber: "Prova a digitare il numero della tua fermata per vedere quando passa il tuo bus o tram",
+                tryStopNumber: "Scegli come vuoi cercare:",
                 botIntro: "Salve, sono un bot con IA e sono qui per darti una mano su tutta la rete di Torino",
                 creators: "Sono stato creato da due ragazzi di 5° superiore, Alberto Mastroianni e Matteo Licciardino",
                 enterStopNumber: "Scrivi il numero della fermata, vediamo quando passa il tuo bus o tram",
                 busesAtStop: "Ecco i bus che passano nella fermata",
                 wrongStopNumber: "Hai sbagliato inserire il numero della fermata!",
                 retryStopNumber: "Riprova a inserire correttamente il numero della fermata!",
+
+                // Flusso ricerca per linea
+                searchByStop: "Cerca per fermata",
+                searchByLine: "Cerca per linea",
+                enterStopNumberPrompt: "Inserisci il numero della fermata:",
+                enterLineNumber: "Inserisci il numero della linea (es. 4, 36, M1):",
+                lineFound: "trovata. Scrivi il nome (o parte) della fermata:",
+                showStops: "Mostra fermate",
+                noStopFound: "Nessuna fermata trovata. Riprova con un altro nome:",
+                chooseDirection: "Scegli la direzione:",
+                searchingLine: "Cerco la linea",
+                searchingAtStop: "alla fermata",
+                noPassages: "Nessun passaggio trovato per la linea",
+                atStop: "alla fermata",
+                atThisTime: "in questo momento.",
+                requestError: "Errore nella richiesta. Riprova.",
                 
                 // Risposte ringraziamenti
                 thankYouResponses: [
@@ -87,13 +103,29 @@ class TranslationManager {
                 
                 // Bot messages
                 welcomeMessage: "Hello! I'm ChatGTT, how can I help you?",
-                tryStopNumber: "Try typing your stop number to see when your bus or tram arrives",
+                tryStopNumber: "Choose how you want to search:",
                 botIntro: "Hello, I'm an AI bot and I'm here to help you with the entire Turin transport network",
                 creators: "I was created by two high school students, Alberto Mastroianni and Matteo Licciardino",
                 enterStopNumber: "Enter the stop number, let's see when your bus or tram arrives",
                 busesAtStop: "Here are the buses that stop at stop",
                 wrongStopNumber: "You entered the wrong stop number!",
                 retryStopNumber: "Please try entering the stop number correctly!",
+
+                // Line search flow
+                searchByStop: "Search by stop",
+                searchByLine: "Search by line",
+                enterStopNumberPrompt: "Enter the stop number:",
+                enterLineNumber: "Enter the line number (e.g. 4, 36, M1):",
+                lineFound: "found. Write the stop name (or part of it):",
+                showStops: "Show stops",
+                noStopFound: "No stop found. Try another name:",
+                chooseDirection: "Choose direction:",
+                searchingLine: "Searching line",
+                searchingAtStop: "at stop",
+                noPassages: "No passages found for line",
+                atStop: "at stop",
+                atThisTime: "at this time.",
+                requestError: "Request error. Please try again.",
                 
                 // Thank you responses
                 thankYouResponses: [
@@ -137,13 +169,29 @@ class TranslationManager {
                 
                 // Mensajes del bot
                 welcomeMessage: "¡Hola! Soy ChatGTT, ¿cómo puedo ayudarte?",
-                tryStopNumber: "Prueba escribiendo el número de tu parada para ver cuándo pasa tu autobús o tranvía",
+                tryStopNumber: "Elige cómo quieres buscar:",
                 botIntro: "Hola, soy un bot con IA y estoy aquí para ayudarte con toda la red de transporte de Turín",
                 creators: "Fui creado por dos estudiantes de secundaria, Alberto Mastroianni y Matteo Licciardino",
                 enterStopNumber: "Escribe el número de la parada, veamos cuándo pasa tu autobús o tranvía",
                 busesAtStop: "Aquí están los autobuses que pasan por la parada",
                 wrongStopNumber: "¡Has introducido mal el número de la parada!",
                 retryStopNumber: "¡Intenta introducir correctamente el número de la parada!",
+
+                // Flujo búsqueda por línea
+                searchByStop: "Buscar por parada",
+                searchByLine: "Buscar por línea",
+                enterStopNumberPrompt: "Introduce el número de la parada:",
+                enterLineNumber: "Introduce el número de línea (ej. 4, 36, M1):",
+                lineFound: "encontrada. Escribe el nombre de la parada (o parte):",
+                showStops: "Mostrar paradas",
+                noStopFound: "No se encontró ninguna parada. Inténtalo con otro nombre:",
+                chooseDirection: "Elige la dirección:",
+                searchingLine: "Buscando la línea",
+                searchingAtStop: "en la parada",
+                noPassages: "No se encontraron pasos para la línea",
+                atStop: "en la parada",
+                atThisTime: "en este momento.",
+                requestError: "Error en la solicitud. Inténtalo de nuevo.",
                 
                 // Respuestas de agradecimiento
                 thankYouResponses: [
@@ -187,13 +235,29 @@ class TranslationManager {
                 
                 // Messages du bot
                 welcomeMessage: "Salut! Je suis ChatGTT, comment puis-je vous aider?",
-                tryStopNumber: "Essayez de taper le numéro de votre arrêt pour voir quand votre bus ou tram arrive",
+                tryStopNumber: "Choisissez comment vous voulez chercher:",
                 botIntro: "Salut, je suis un bot IA et je suis là pour vous aider avec tout le réseau de transport de Turin",
                 creators: "J'ai été créé par deux lycéens, Alberto Mastroianni et Matteo Licciardino",
                 enterStopNumber: "Écrivez le numéro de l'arrêt, voyons quand votre bus ou tram arrive",
                 busesAtStop: "Voici les bus qui passent à l'arrêt",
                 wrongStopNumber: "Vous avez mal saisi le numéro de l'arrêt!",
                 retryStopNumber: "Veuillez réessayer de saisir correctement le numéro de l'arrêt!",
+
+                // Flux recherche par ligne
+                searchByStop: "Rechercher par arrêt",
+                searchByLine: "Rechercher par ligne",
+                enterStopNumberPrompt: "Entrez le numéro de l'arrêt:",
+                enterLineNumber: "Entrez le numéro de ligne (ex. 4, 36, M1):",
+                lineFound: "trouvée. Écrivez le nom de l'arrêt (ou une partie):",
+                showStops: "Afficher les arrêts",
+                noStopFound: "Aucun arrêt trouvé. Réessayez avec un autre nom:",
+                chooseDirection: "Choisissez la direction:",
+                searchingLine: "Recherche de la ligne",
+                searchingAtStop: "à l'arrêt",
+                noPassages: "Aucun passage trouvé pour la ligne",
+                atStop: "à l'arrêt",
+                atThisTime: "en ce moment.",
+                requestError: "Erreur de requête. Veuillez réessayer.",
                 
                 // Réponses de remerciement
                 thankYouResponses: [
@@ -237,13 +301,29 @@ class TranslationManager {
                 
                 // Bot-Nachrichten
                 welcomeMessage: "Hallo! Ich bin ChatGTT, wie kann ich Ihnen helfen?",
-                tryStopNumber: "Versuchen Sie, Ihre Haltestellen-Nummer einzugeben, um zu sehen, wann Ihr Bus oder Ihre Straßenbahn kommt",
+                tryStopNumber: "Wählen Sie, wie Sie suchen möchten:",
                 botIntro: "Hallo, ich bin ein KI-Bot und bin hier, um Ihnen mit dem gesamten Turiner Verkehrsnetz zu helfen",
                 creators: "Ich wurde von zwei Oberschülern erstellt, Alberto Mastroianni und Matteo Licciardino",
                 enterStopNumber: "Geben Sie die Haltestellen-Nummer ein, schauen wir, wann Ihr Bus oder Ihre Straßenbahn kommt",
                 busesAtStop: "Hier sind die Busse, die an der Haltestelle",
                 wrongStopNumber: "Sie haben die falsche Haltestellen-Nummer eingegeben!",
                 retryStopNumber: "Bitte versuchen Sie, die Haltestellen-Nummer korrekt einzugeben!",
+
+                // Liniensuche
+                searchByStop: "Nach Haltestelle suchen",
+                searchByLine: "Nach Linie suchen",
+                enterStopNumberPrompt: "Geben Sie die Haltestellennummer ein:",
+                enterLineNumber: "Geben Sie die Liniennummer ein (z.B. 4, 36, M1):",
+                lineFound: "gefunden. Schreiben Sie den Haltestellennamen (oder einen Teil):",
+                showStops: "Haltestellen anzeigen",
+                noStopFound: "Keine Haltestelle gefunden. Versuchen Sie einen anderen Namen:",
+                chooseDirection: "Wählen Sie die Richtung:",
+                searchingLine: "Suche Linie",
+                searchingAtStop: "an der Haltestelle",
+                noPassages: "Keine Abfahrten gefunden für Linie",
+                atStop: "an der Haltestelle",
+                atThisTime: "zu diesem Zeitpunkt.",
+                requestError: "Anfragefehler. Bitte versuchen Sie es erneut.",
                 
                 // Dankesantworten
                 thankYouResponses: [

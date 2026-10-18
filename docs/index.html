@@ -4,21 +4,33 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
         <meta name="author" content="Matteo Licciardino e Alberto Mastroianni">
-        <meta name="description" content="Chatbot della GTT in HTML, CSS e JS">
-        <meta name="keywords" content="ChatGTT">
+        <meta name="description" content="ChatGTT è il chatbot intelligente per i trasporti pubblici di Torino. Chiedi orari, percorsi e informazioni su bus, tram e metro GTT in tempo reale.">
+        <meta name="keywords" content="GTT Torino, trasporti pubblici Torino, bus Torino, tram Torino, metro Torino, orari GTT, chatbot GTT, assistente virtuale trasporti Torino">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="https://www.chatgtt.it/">
+
+        <!-- Open Graph per social -->
+        <meta property="og:title" content="ChatGTT - Assistente virtuale trasporti Torino">
+        <meta property="og:description" content="Chiedi orari, percorsi e informazioni su bus, tram e metro GTT di Torino. Disponibile in 5 lingue.">
+        <meta property="og:url" content="https://www.chatgtt.it/">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://www.chatgtt.it/img/favicon.png">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="ChatGTT - Assistente virtuale trasporti Torino">
+        <meta name="twitter:description" content="Chiedi orari, percorsi e informazioni su bus, tram e metro GTT di Torino.">
         
         <title>ChatGTT</title>
 
         <!-- Favicon standard per i computer -->
-        <link rel="icon" href="img/favicon.png" type="image/png">
-        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.png?v=2" type="image/png">
+		<link rel="shortcut icon" href="img/favicon.png?v=2" type="image/png">
 
         <!-- Meta tag per webapp mobile -->
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="application-name" content="ChatGTT">
 
         <!-- Per dispositivi iOS (Apple) -->
-        <link rel="apple-touch-icon" href="img/favicon.png">
+        <link rel="apple-touch-icon" href="img/favicon.png?v=2">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <meta name="apple-mobile-web-app-title" content="ChatGTT">
@@ -32,6 +44,9 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-tap-highlight" content="no">
 
+        <!-- Google AdSense -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1535151798966254" crossorigin="anonymous"></script>
+
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="language-selector.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -43,9 +58,8 @@
         </div>
 
         <div class="chat-container">
-
             <div class="chat-header">
-                <button class="btn-cerchio">?</button>
+            <button class="btn-cerchio">?</button>
                 <div class="header-content"> 
                     <img src="./img/gtt_new.png" alt="immagine della ChatGTT">
                 </div>
@@ -82,7 +96,9 @@
             </div>
             
             <div class="chat-body" id="chatBody">
-                <!-- I messaggi di chat verranno inseriti qui -->
+                <div id="welcome-message">
+                    <p>Benvenuto su <strong>ChatGTT</strong> — orari bus, tram e metro GTT di Torino in tempo reale.</p>
+                </div>
             </div>
 
             <div class="chat-input">
@@ -101,8 +117,8 @@
                 <button id="decline" aria-label="Annulla cancellazione"><span class="material-symbols-outlined" id="annulla">close</span></button>
             </div>
         </div>
-
-        <!-- Overlay per chiudere la sidebar cliccando fuori -->
+        	
+         <!-- Overlay per chiudere la sidebar cliccando fuori -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <!-- Struttura della Sidebar (Off-canvas menu) -->
@@ -111,7 +127,7 @@
                 <h2 id="menuTitle">Menu Opzioni</h2>
                 <button class="close-btn" id="closeSidebar">&times;</button>
             </div>
-
+            
             <div class="sidebar-content">
                 <div class="theme-switch-wrapper">
                     <span id="theme-label">Tema Scuro</span>
@@ -142,12 +158,11 @@
                         </li>
                     </ul>
                 </div>
-
+                
             </div>
         </div>
-
+        
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="config.js"></script>
         <script src="translations.js"></script>
         <script src="script.js"></script>
         <script src="openai.js"></script>

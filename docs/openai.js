@@ -99,7 +99,7 @@ async function getAIResponse(prompt) {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-goog-api-key': CONFIG.API_KEY, 
+                    'X-goog-api-key': 'LA_TUA_API_KEY_QUI', 
                 },
                 timeout: 10000
             }
@@ -153,11 +153,11 @@ async function getAIResponse(prompt) {
         }
         
         const errorResponses = {
-            it: "Mi dispiace, si è verificato un errore temporaneo. Posso comunque aiutarti con informazioni sui trasporti. Prova a scrivere il numero di una fermata.",
-            en: "Sorry, a temporary error occurred. I can still help you with transport information. Try writing a stop number.",
-            es: "Lo siento, ocurrió un error temporal. Aún puedo ayudarte con información de transporte. Prueba escribiendo un número de parada.",
-            fr: "Désolé, une erreur temporaire s'est produite. Je peux encore vous aider avec les informations de transport. Essayez d'écrire un numéro d'arrêt.",
-            de: "Entschuldigung, ein temporärer Fehler ist aufgetreten. Ich kann Ihnen trotzdem mit Verkehrsinformationen helfen. Versuchen Sie eine Haltestellen-Nummer zu schreiben."
+            it: null,
+            en: null,
+            es: null,
+            fr: null,
+            de: null
         };
         
         const currentLang = window.translator ? window.translator.currentLanguage : 'it';

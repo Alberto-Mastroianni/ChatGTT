@@ -1,117 +1,116 @@
 /* Variabili CSS per consistenza */
 :root {
-    --primary-color: #00529f;
-    --accent-color: #ffe625;
-    --text-light: #fff;
-    --text-dark: #333;
-    --background-light: #F2F2F2;
-    --border-radius: 5px;
-    --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Reset completo */
-  * {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Assicuriamo che html e body occupino l'intero viewport */
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Previene lo scrolling della pagina */
-    position: fixed; /* Forza a coprire l'intero viewport */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: var(--background-light);
-  }
-  
-  /* Container principale a schermo intero */
-  .chat-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: #FFF;
-    overflow: hidden;
-  }
-  
-  .chat-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  .chat-header {
-    height: 3em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(16px, 4vw, 18px);
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    border-bottom: 1px solid black;
-    flex-shrink: 0; /* Impedisce al header di ridursi */
-    position: relative;
-  }
-  
-  .chat-body {
-    flex: 1; /* Prende tutto lo spazio disponibile */
-    padding: 3px;
-    overflow: auto;
-    position: relative;
-  }
-  
-  .message {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 10px;
-    margin-left: 20%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-    background-color: #D9E6FF;
-    border-radius: var(--border-radius);
-  }
-  
-  .user-message {
-    align-self: flex-end;
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    text-align: right;
-    margin-left: auto;
-    margin-right: 0;
-  }
-  
-  .bot-message {
-    background-color: var(--accent-color);
-    color: var(--text-dark);
-  }
-  
-  .chat-input {
-    height: 40px;
+  --primary-color: #00529f;
+  --accent-color: #ffe625;
+  --text-light: #fff;
+  --text-dark: #333;
+  --background-light: #F2F2F2;
+  --border-radius: 5px;
+  --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset completo */
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Assicuriamo che html e body occupino l'intero viewport */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-light);
+}
+
+/* Container principale a schermo intero */
+.chat-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFF;
+  overflow: hidden;
+}
+
+.chat-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-header {
+  height: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(16px, 4vw, 18px);
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  border-bottom: 1px solid black;
+  flex-shrink: 0; 
+}
+
+.chat-body {
+  flex: 1; 
+  padding: 3px;
+  overflow: auto;
+  position: relative;
+}
+
+.message {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-left: 20%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  background-color: #D9E6FF;
+  border-radius: var(--border-radius);
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  text-align: right;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.bot-message {
+  background-color: var(--accent-color);
+  color: var(--text-dark);
+}
+
+.chat-input {
+  height: 40px;
     display: flex;
     align-items: center;
     padding: 0 20px;
     margin: 10px;
     flex-shrink: 0; /* Impedisce all'input di ridursi */
     gap: 8px;
-  }
-  
-  .chat-input input[type="text"] {
+}
+
+.chat-input input[type="text"] {
     flex-grow: 1;
     height: 100%;
     padding: 10px;
@@ -121,273 +120,379 @@
     font-size: 16px; /* RISOLVE LO ZOOM SU IOS */
     touch-action: manipulation; /* Previene lo zoom col doppio tocco */
   }
-  
-  .chat-input button,
-  .chat-input input[type="button"] {
-    height: 100%;
-    padding: 8px 15px;
-    font-size: 14px;
-    border: none;
-    border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    white-space: nowrap;
+
+.chat-input button,
+.chat-input input[type="button"] {
+  height: 100%;
+  padding: 8px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+
+.chat-input button:hover,
+.chat-input input[type="button"]:hover {
+  opacity: 0.9;
+}
+
+img {
+  max-width: 10em;
+  height: auto;
+}
+
+p {
+  font-weight: bolder;
+  font-size: clamp(18px, 5vw, 32px);
+}
+
+/* Stile della confirmation box con le variabili */
+.confirmation-box {
+  display: none;
+  border-radius: 15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-color); 
+  border: 10px solid var(--accent-color); 
+  padding: 20px;
+  z-index: 999;
+  width: clamp(280px, 90%, 500px);
+  text-align: center;
+}
+
+.confirmation-content {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Contenitore per i pulsanti */
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.confirmation-box button {
+  margin: 0;
+  padding: 15px 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background-color: var(--accent-color); 
+  color: var(--text-dark); 
+  border: none;
+  border-radius: 5px;
+  width: 70px;
+  height: 50px;
+  margin-top: 1em;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Simboli nei pulsanti corretti */
+.confirmation-box button #conferma {
+  color: green;
+  font-size: 24px;
+}
+
+.confirmation-box button #annulla {
+  color: red;
+  font-size: 24px;
+}
+
+#elimina {
+  color: red;
+}
+
+/* Posizionamento dell'elemento clear */
+#clear {
+  position: absolute;
+  /* 90px (padding banner) + 10px (margin input) + 9px (centratura verticale) */
+  bottom: 9px; 
+  right: 92px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 10;
+}
+
+.rotate-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 100;
+  padding: 10px;
+  z-index: 10001;
+  display: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Media query per schermi piccoli (smartphone) */
+@media (max-width: 768px) {
+  .message {
+    width: 100%;
+    margin-left: 0;
   }
   
-  .chat-input button:hover,
-  .chat-input input[type="button"]:hover {
-    opacity: 0.9;
+  .chat-input {
+    padding: 0 10px;
   }
   
-  img {
-    max-width: 10em;
-    height: auto;
-  }
-  
-  p {
-    font-weight: bolder;
-    font-size: clamp(18px, 5vw, 32px);
-  }
-  
-  /* Stile della confirmation box come nell'immagine */
   .confirmation-box {
-    display: none;
-    border-radius: 15px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: var(--primary-color); /* Utilizza la variabile */
-    border: 10px solid var(--accent-color); /* Utilizza la variabile */
+    width: 90%;
+    max-width: 400px;
     padding: 20px;
-    z-index: 999;
-    width: clamp(280px, 90%, 500px);
-    text-align: center;
+    border-width: 10px;
   }
   
   .confirmation-content {
-    text-align: center;
-    color: var(--text-light);
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+  }
+
+  .confirmation-buttons {
+    justify-content: space-around;
   }
   
-  /* Contenitore per i pulsanti */
-  .confirmation-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+  .material-symbols-outlined {
+      vertical-align: auto;
+  }
+}
+
+/* Per dispositivi con schermo molto piccolo */
+@media (max-width: 320px) {
+  .chat-input {
+    flex-direction: column;
+    height: auto;
+    padding: 5px;
+  }
+  
+  .chat-input input[type="text"] {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .chat-input button {
+    width: 100%;
+  }
+  
+  #clear {
+    right: 5px;
+    bottom: 90px; 
+  }
+  
+  .confirmation-box {
+    padding: 15px;
+    width: 85%;
+  }
+  
+  .confirmation-content {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
   }
   
   .confirmation-box button {
-    margin: 0;
-    padding: 15px 25px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    background-color: var(--accent-color); /* Utilizza la variabile */
-    color: var(--text-dark); /* Utilizza la variabile */
-    border: none;
-    border-radius: 5px;
-    width: 70px;
-    height: 50px;
-    margin-top: 1em;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Simboli nei pulsanti */
-  .confirmation-box button #conferma {
-    color: green;
-    font-size: 24px;
-  }
-  
-  .confirmation-box button #annulla {
-    color: red;
-    font-size: 24px;
-  }
-  
-  #elimina {
-    color: red;
-  }
-  
-  /* Posizionamento dell'elemento clear */
-  #clear {
-    position: absolute;
-    bottom: 9px; /* Posizionato sopra l'area di input */
-    right: 92px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    z-index: 10;
-  }
-  
-  .rotate-message {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-weight: 100;
     padding: 10px;
-    z-index: 10001;
-    display: none;
+    font-size: 1.2rem;
+  }
+}
+
+/* Per orientamento orizzontale sui dispositivi mobili */
+@media screen and (max-height: 450px) and (orientation: landscape) {
+  .chat-header {
+    height: 2em;
   }
   
-  .hidden {
-    display: none !important;
+  .chat-input {
+    height: 30px;
+    margin: 5px;
   }
   
-  /* Media query per schermi piccoli (smartphone) */
-  @media (max-width: 768px) {
-    .message {
-      width: 100%;
-      margin-left: 0;
-    }
-    
-    .chat-input {
-      padding: 0 10px;
-    }
-    
-    /* Mantiene lo stile dell'immagine solo su mobile */
-    .confirmation-box {
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
-      border-width: 10px;
-    }
-    
-    .confirmation-content {
-      font-size: 1.3rem;
-      margin-bottom: 25px;
-    }
-  
-    .confirmation-buttons {
-      justify-content: space-around;
-    }
-    
-    .material-symbols-outlined {
-        vertical-align: auto;
-    }
+  #clear {
+    bottom: 40px;
   }
   
-  /* Per dispositivi con schermo molto piccolo */
-  @media (max-width: 320px) {
-    .chat-input {
-      flex-direction: column;
-      height: auto;
-      padding: 5px;
-    }
-    
-    .chat-input input[type="text"] {
-      width: 100%;
-      margin-bottom: 5px;
-    }
-    
-    .chat-input button {
-      width: 100%;
-    }
-    
-    #clear {
-      right: 5px;
-      bottom: 90px; /* Posizionato più in alto per layout verticale dell'input */
-    }
-    
-    .confirmation-box {
-      padding: 15px;
-      width: 85%;
-    }
-    
-    .confirmation-content {
-      font-size: 1.1rem;
-      margin-bottom: 15px;
-    }
-    
-    .confirmation-box button {
-      padding: 10px;
-      font-size: 1.2rem;
-    }
+  .confirmation-box {
+    max-height: 90%;
+    overflow-y: auto;
   }
-  
-  /* Per orientamento orizzontale sui dispositivi mobili */
-  @media screen and (max-height: 450px) and (orientation: landscape) {
-    .chat-header {
-      height: 2em;
-    }
-    
-    .chat-input {
-      height: 30px;
-      margin: 5px;
-    }
-    
-    #clear {
-      bottom: 40px;
-    }
-    
-    .confirmation-box {
-      max-height: 90%;
-      overflow-y: auto;
-    }
-  }
-  
-  /* Fix per Safari e iOS */
-  @supports (-webkit-touch-callout: none) {
-    html, body {
-      height: 100vh;
-      /* Soluzione per il "100vh bug" di iOS */
-      height: -webkit-fill-available;
-    }
-  }
-  
-  /* Fix per Firefox */
-  @-moz-document url-prefix() {
-    .chat-body {
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary-color) transparent;
-    }
-  }
-  
-  /* Fix per Microsoft Edge e Chrome */
-  .chat-body::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .chat-body::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    border-radius: 4px;
-  }
-  
-  .chat-body::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  
-  /* Assicura la compatibilità per la modalità a schermo intero su API specifiche */
-  .chat-container.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
+}
+
+/* Fix per Safari e iOS */
+@supports (-webkit-touch-callout: none) {
+  html, body {
     height: 100vh;
-    z-index: 9999;
+    height: -webkit-fill-available;
   }
-  
-  /* Per gestire browser che non supportano correttamente vh */
-  @supports not (height: 100vh) {
-    html, body, .chat-container {
-      height: 100%;
-    }
+}
+
+/* Fix per Firefox */
+@-moz-document url-prefix() {
+  .chat-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) transparent;
   }
+}
+
+/* Fix per Microsoft Edge e Chrome */
+.chat-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Assicura la compatibilità per la modalità a schermo intero su API specifiche */
+.chat-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+}
+
+/* Per gestire browser che non supportano correttamente vh */
+@supports not (height: 100vh) {
+  html, body, .chat-container {
+    height: 100%;
+  }
+}
+
+/* Pulsanti scelta modalità nella chat */
+.chat-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 4px 10px;
+  justify-content: flex-end;
+}
+
+.chat-btn {
+  padding: 8px 14px;
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.chat-btn.expand {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px dashed var(--primary-color);
+  font-size: 13px;
+  padding: 5px 12px;
+}
+
+body.dark-theme .chat-btn.expand {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.chat-btn:hover {
+  opacity: 0.85;
+}
+
+body.dark-theme .chat-btn {
+  background-color: var(--accent-color);
+  color: #1a1a1a;
+}
+
+/* Tabella orari metro */
+.metro-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 4px;
+  font-size: 13px;
+}
+
+.metro-table th, .metro-table td {
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 5px 7px;
+  text-align: center;
+}
+
+.metro-table th {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: bold;
+}
+
+.metro-table tr.today td {
+  background-color: rgba(0, 82, 159, 0.15);
+  font-weight: bold;
+}
+
+body.dark-theme .metro-table th {
+  background-color: var(--primary-color);
+}
+
+body.dark-theme .metro-table td {
+  border-color: rgba(255,255,255,0.2);
+}
+
+body.dark-theme .metro-table tr.today td {
+  background-color: rgba(255,255,255,0.1);
+}
+
+
+#adsense-banner {
+  flex-shrink: 0;
+  width: 100%;
+  background: #f9f9f9;
+  border-top: 1px solid #e0e0e0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Welcome message statico per SEO */
+#welcome-message {
+  padding: 8px 12px;
+  color: var(--text-dark);
+}
+
+#welcome-message p {
+  font-size: clamp(12px, 3vw, 13px);
+  font-weight: normal;
+  line-height: 1.4;
+}
+
+/* Spazio per non coprire l'input con il banner */
+.chat-container {
+  padding-bottom: 0px;
+}
 
 .btn-cerchio {
   /* Mantieni dimensioni e posizionamento a sinistra */
@@ -428,8 +533,6 @@
   background-color: var(--primary-color);
   color: var(--accent-color);
 }
-
-/* --- STILI PER LA SIDEBAR OFF-CANVAS --- */
 
 /* Overlay scuro dietro la sidebar */
 .sidebar-overlay {
@@ -633,7 +736,7 @@ body.dark-theme .theme-switch-wrapper {
 }
 
 body.dark-theme .sidebar-header-menu {
-    border-bottom: 2px solid var(--accent-color);
+    border-bottom: 2.5px solid var(--accent-color);
 }
 
 /* Selettore Lingue in modalità scura */
