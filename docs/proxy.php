@@ -152,7 +152,7 @@ $instruction = "
     3. Se la domanda non riguarda i trasporti GTT di Torino, rispondi gentilmente che puoi aiutare solo su argomenti GTT.
     4. Tono gentile e sintetico. Risposte brevi e dirette.
     5. Formato: testo semplice, senza markdown (* o #).
-    6. Se non conosci la risposta, suggerisci di visitare https://gtt.to.it o chiamare il numero verde 800-019152.
+    6. Se non conosci la risposta, dì semplicemente che non hai questa informazione disponibile al momento.
 ";
 
 $fullPrompt = $contextString . "\n\n" . $instruction . "\n\nUser: " . $userMessage;
