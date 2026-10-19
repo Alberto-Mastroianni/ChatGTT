@@ -282,7 +282,34 @@ function addStopsToggle(stops, line, dirs) {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// Gestisce il flusso di ricerca per linea
+const getName = s => s.name.replace(/Fermata \d+ - /, '');
+
+function buildValidDirs(dirs) {
+    const allDirs = Object.entries(dirs);
+    const d0 = allDirs.find(([id]) => id === '0')?.[1];
+    const d1 = allDirs.find(([id]) => id === '1')?.[1];
+    const de = allDirs.find(([id]) => id === '')?.[1];
+    // Usa dir[] se ha più fermate di dir0 E inizia o finisce con un capolinea sensato
+    const useEmpty = de && d0 && de.stops.length > d0.stops.length &&
+        (de.stops[0].name !== de.stops[de.stops.length-1].name) &&
+        (de.stops[0].name.includes('CAP') && de.stops[de.stops.length-1].name.includes('CAP'));
+    if (useEmpty) {
+        return [
+            ['0', { ...de, firstCap: getName(de.stops[0]), lastCap: getName(de.stops[de.stops.length-1]) }],
+            ['1', { ...de, stops: [...de.stops].reverse(), firstCap: getName(de.stops[de.stops.length-1]), lastCap: getName(de.stops[0]) }]
+        ];
+    }
+    if (d0 && d1) {
+        return [
+            ['0', { ...d0, firstCap: getName(d0.stops[0]), lastCap: getName(d0.stops[d0.stops.length-1]) }],
+            ['1', { ...d1, firstCap: getName(d1.stops[0]), lastCap: getName(d1.stops[d1.stops.length-1]) }]
+        ];
+    }
+    if (d0) {
+        return [['0', { ...d0, firstCap: getName(d0.stops[0]), lastCap: getName(d0.stops[d0.stops.length-1]) }]];
+    }
+    return [];
+}
 async function handleLineSearch(text) {
     if (!convState) return false;
 
@@ -295,45 +322,10 @@ async function handleLineSearch(text) {
         addMessage(`Linea "${text}" non trovata. Riprova (es. 4, 36, M1, STAR 1):`, false);
             return true;
         }
-        const dirs = data[lineKey];
-        const allDirs = Object.entries(dirs);
-        const has01 = allDirs.some(([id]) => id === '0') && allDirs.some(([id]) => id === '1');
-        const emptyDir = allDirs.find(([id, v]) => id === '' && v.firstCap !== v.lastCap);
-        let validDirs;
-        if (has01) {
-            validDirs = allDirs
-                .filter(([id]) => id === '0' || id === '1')
-                .map(([id, v]) => {
-                    if (!emptyDir) return [id, v];
-                    const capA = emptyDir[1].firstCap;
-                    const capB = emptyDir[1].lastCap;
-                    // Cerca capA e capB nelle fermate della direzione, vince quello più vicino alla fine
-                    const codes = v.stops.map(s => s.name.replace(/Fermata \d+ - /, ''));
-                    const idxA = codes.map((n,i) => n.includes(capA.replace(' CAP','')) ? i : -1).filter(i=>i>=0).pop() ?? -1;
-                    const idxB = codes.map((n,i) => n.includes(capB.replace(' CAP','')) ? i : -1).filter(i=>i>=0).pop() ?? -1;
-                    if (idxA === -1 && idxB === -1) return [id, v]; // fallback: usa i CAP originali della direzione
-                    const endsAtB = idxB >= idxA;
-                    const fc = endsAtB ? capA : capB;
-                    const lc = endsAtB ? capB : capA;
-                    return [id, { ...v, firstCap: fc, lastCap: lc }];
-                });
-        } else {
-            if (emptyDir) {
-                const [, v] = emptyDir;
-                validDirs = [
-                    ['0', { ...v, firstCap: v.firstCap, lastCap: v.lastCap }],
-                    ['1', { ...v, stops: [...v.stops].reverse(), firstCap: v.lastCap, lastCap: v.firstCap }]
-                ];
-            } else {
-                validDirs = allDirs.filter(([id]) => id === '0');
-            }
-        }
+        const validDirs = buildValidDirs(data[lineKey]);
         convState = { step: 'awaiting_stop', line: lineKey, dirs: validDirs };
         const t = window.translator;
         addMessage(`${t ? t.get('searchByLine') : 'Linea'} ${lineKey} ${t ? t.get('lineFound') : 'trovata. Scrivi il nome (o parte) della fermata:'}`, false);
-
-        // Fermate ordinate: prendi la prima direzione come riferimento d'ordine,
-        // poi aggiungi le fermate delle altre direzioni non ancora viste
         const seenCodes = new Set();
         const orderedStops = [];
         validDirs.forEach(([, dirData]) => {
@@ -344,7 +336,6 @@ async function handleLineSearch(text) {
                 }
             });
         });
-
         addStopsToggle(orderedStops, lineKey, validDirs);
         return true;
     }
