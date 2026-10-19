@@ -416,8 +416,12 @@ class TranslationManager {
         if (this.translations[lang]) {
             this.currentLanguage = lang;
             this.updateInterface();
-            // Ricarica i messaggi nella nuova lingua
-            this.reloadWelcomeMessages();
+            // Resetta la chat nella nuova lingua
+            const chatBody = document.querySelector('.chat-body');
+            if (chatBody) chatBody.innerHTML = '';
+            if (typeof convState !== 'undefined') convState = null;
+            if (typeof setInputEnabled === 'function') setInputEnabled(false);
+            if (typeof simulateBotResponse === 'function') simulateBotResponse('');
         }
     }
     
