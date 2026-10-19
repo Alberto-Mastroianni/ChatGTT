@@ -289,26 +289,41 @@ function buildValidDirs(dirs) {
     const d0 = allDirs.find(([id]) => id === '0')?.[1];
     const d1 = allDirs.find(([id]) => id === '1')?.[1];
     const de = allDirs.find(([id]) => id === '')?.[1];
-    // Usa dir[] se ha più fermate di dir0 E inizia o finisce con un capolinea sensato
-    const useEmpty = de && d0 && de.stops.length > d0.stops.length &&
-        (de.stops[0].name !== de.stops[de.stops.length-1].name) &&
-        (de.stops[0].name.includes('CAP') && de.stops[de.stops.length-1].name.includes('CAP'));
-    if (useEmpty) {
-        return [
-            ['0', { ...de, firstCap: getName(de.stops[0]), lastCap: getName(de.stops[de.stops.length-1]) }],
-            ['1', { ...de, stops: [...de.stops].reverse(), firstCap: getName(de.stops[de.stops.length-1]), lastCap: getName(de.stops[0]) }]
-        ];
-    }
+
+    // Scegli la direzione con più fermate tra quelle disponibili come base
+    const best = [d0, d1, de].filter(Boolean).sort((a,b) => b.stops.length - a.stops.length)[0];
+    if (!best) return [];
+
+    // Se abbiamo sia dir0 che dir1, ma dir[] ha più fermate, usa dir[]
     if (d0 && d1) {
+        const maxD01 = Math.max(d0.stops.length, d1.stops.length);
+        if (de && de.stops.length > maxD01 && getName(de.stops[0]) !== getName(de.stops[de.stops.length-1])) {
+            return [
+                ['0', { ...de, firstCap: getName(de.stops[0]), lastCap: getName(de.stops[de.stops.length-1]) }],
+                ['1', { ...de, stops: [...de.stops].reverse(), firstCap: getName(de.stops[de.stops.length-1]), lastCap: getName(de.stops[0]) }]
+            ];
+        }
         return [
             ['0', { ...d0, firstCap: getName(d0.stops[0]), lastCap: getName(d0.stops[d0.stops.length-1]) }],
             ['1', { ...d1, firstCap: getName(d1.stops[0]), lastCap: getName(d1.stops[d1.stops.length-1]) }]
         ];
     }
-    if (d0) {
-        return [['0', { ...d0, firstCap: getName(d0.stops[0]), lastCap: getName(d0.stops[d0.stops.length-1]) }]];
+
+    // Abbiamo solo una direzione: costruiamo il ritorno invertendo
+    const base = best;
+    const firstStop = getName(base.stops[0]);
+    const lastStop = getName(base.stops[base.stops.length-1]);
+
+    // Se prima e ultima sono diverse, costruiamo A->B e B->A
+    if (firstStop !== lastStop) {
+        return [
+            ['0', { ...base, firstCap: firstStop, lastCap: lastStop }],
+            ['1', { ...base, stops: [...base.stops].reverse(), firstCap: lastStop, lastCap: firstStop }]
+        ];
     }
-    return [];
+
+    // Capolinea uguale (circolare o dati errati): mostra solo una direzione
+    return [['0', { ...base, firstCap: firstStop, lastCap: lastStop }]];
 }
 async function handleLineSearch(text) {
     if (!convState) return false;
