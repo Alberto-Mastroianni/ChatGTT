@@ -31,8 +31,12 @@ async function getAIResponse(prompt) {
             return text.trim();
         }
 
+        console.warn('Risposta Gemini inattesa:', JSON.stringify(response.data));
         if (response.data?.error) {
-            throw new Error(response.data.error);
+            const errMsg = typeof response.data.error === 'object'
+                ? (response.data.error.message || JSON.stringify(response.data.error))
+                : response.data.error;
+            throw new Error(errMsg);
         }
 
         throw new Error('Risposta non valida dal proxy.');

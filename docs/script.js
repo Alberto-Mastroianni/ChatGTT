@@ -105,6 +105,18 @@ function sanitizeHTML(html) {
     return allowed.innerHTML;
 }
 
+// Event delegation per pulsanti dinamici dentro messaggi HTML
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.dev-toggle');
+    if (!btn) return;
+    const extra = btn.previousElementSibling;
+    if (!extra || !extra.classList.contains('dev-extra')) return;
+    const hidden = extra.style.display === 'none';
+    extra.style.display = hidden ? 'block' : 'none';
+    const count = btn.dataset.count;
+    btn.textContent = hidden ? `\u25b2 Nascondi` : `\u25bc Mostra altre ${count} variazioni`;
+});
+
 // Aggiunge un messaggio bot con HTML (per tabelle ecc.)
 function addMessageHTML(html) {
     const message = document.createElement('div');
@@ -550,20 +562,39 @@ function simulateBotResponse(_, inputText) {
                 addMessage('✅ Nessuna deviazione attiva al momento.', false);
                 return;
             }
-            let msg = `⚠️ Deviazioni attive (agg. ${data.aggiornato}):\n\n`;
+
+            let html = `<strong>⚠️ Deviazioni attive</strong> <small>(agg. ${data.aggiornato})</small><br><br>`;
+
             if (tram.length > 0) {
-                msg += '🚋 Tram di Torino:\n';
-                tram.forEach(t => { msg += `• Linea ${t.linea}: ${t.stato}\n`; });
-                msg += '\n';
+                html += '<strong>🚋 Tram di Torino:</strong><br>';
+                tram.forEach(t => { html += `• Linea ${t.linea}: ${t.stato}<br>`; });
+                html += '<br>';
             }
+
             if (gtt.length > 0) {
-                msg += '🟡 GTT Variazioni:\n';
-                gtt.slice(0, 8).forEach(a => {
-                    msg += `• Linea ${a.linea}: ${a.descrizione.substring(0, 100)}${a.descrizione.length > 100 ? '…' : ''}\n`;
+                html += '<strong>🟡 GTT Variazioni:</strong><br>';
+
+                // Versione corta: prima frase o max 60 char
+                function shortDesc(desc) { return desc; }
+
+                const shown = gtt.slice(0, 10);
+                const hidden = gtt.slice(10);
+
+                shown.forEach(a => {
+                    html += `• <strong>Linea ${a.linea}:</strong> ${shortDesc(a.descrizione)}<br>`;
                 });
-                if (gtt.length > 8) msg += `...e altre ${gtt.length - 8} variazioni.`;
+
+                if (hidden.length > 0) {
+                    html += `<span class="dev-extra" style="display:none">`;
+                    hidden.forEach(a => {
+                        html += `• <strong>Linea ${a.linea}:</strong> ${shortDesc(a.descrizione)}<br>`;
+                    });
+                    html += `</span>`;
+                    html += `<br><button class="chat-btn expand dev-toggle" data-count="${hidden.length}">▼ Mostra altre ${hidden.length} variazioni</button>`;
+                }
             }
-            addMessage(msg.trim(), false);
+
+            addMessageHTML(html);
         });
         return;
     }
