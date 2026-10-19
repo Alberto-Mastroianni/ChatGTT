@@ -51,7 +51,8 @@ class TranslationManager {
                 enterStopNumberPrompt: "Inserisci il numero della fermata:",
                 enterLineNumber: "Inserisci il numero della linea (es. 4, 36, M1):",
                 lineFound: "trovata. Scrivi il nome (o parte) della fermata:",
-                showStops: "Mostra fermate",
+                showStops: "▼ Mostra tutte le fermate",
+                hideStops: "▲ Nascondi fermate",
                 noStopFound: "Nessuna fermata trovata. Riprova con un altro nome:",
                 chooseDirection: "Scegli la direzione:",
                 searchingLine: "Cerco la linea",
@@ -62,6 +63,7 @@ class TranslationManager {
                 requestError: "Errore nella richiesta. Riprova.",
                 askBot: "Chiedi al bot",
                 askBotPrompt: "Puoi chiedermi qualsiasi cosa sui trasporti GTT di Torino!",
+                chooseStop: "Fermate trovate, scegli:",
                 
                 // Risposte ringraziamenti
                 thankYouResponses: [
@@ -90,6 +92,10 @@ class TranslationManager {
                 guideSchedulesDesc: "Clicca questo pulsante e inserisci il numero di una fermata (es. 253) per vedere i passaggi in tempo reale.",
                 guideLineTitle: "Pulsante \"Cerca per linea\":",
                 guideLineDesc: "Clicca questo pulsante, inserisci la linea (es. 4, 36, M1) e scegli la direzione e la fermata desiderata.",
+                guideBotTitle: "Pulsante \"Chiedi al bot\":",
+                guideBotDesc: "Clicca questo pulsante per fare domande libere sui trasporti GTT di Torino.",
+                guideAlertTitle: "Deviazioni:",
+                guideAlertDesc: "Scrivi \"deviazioni\" per vedere tutte le variazioni di percorso attive in tempo reale.",
                 guideTicketsTitle: "Biglietti:",
                 guideTicketsDesc: "Chiedi informazioni sui prezzi o scrivi \"biglietti\".",
                 guideThemeTitle: "Tema Scuro:",
@@ -123,7 +129,8 @@ class TranslationManager {
                 enterStopNumberPrompt: "Enter the stop number:",
                 enterLineNumber: "Enter the line number (e.g. 4, 36, M1):",
                 lineFound: "found. Write the stop name (or part of it):",
-                showStops: "Show stops",
+                showStops: "▼ Show all stops",
+                hideStops: "▲ Hide stops",
                 noStopFound: "No stop found. Try another name:",
                 chooseDirection: "Choose direction:",
                 searchingLine: "Searching line",
@@ -134,6 +141,7 @@ class TranslationManager {
                 requestError: "Request error. Please try again.",
                 askBot: "Ask the bot",
                 askBotPrompt: "You can ask me anything about GTT public transport in Turin!",
+                chooseStop: "Stops found, choose:",
                 
                 // Thank you responses
                 thankYouResponses: [
@@ -162,6 +170,10 @@ class TranslationManager {
                 guideSchedulesDesc: "Click this button and enter a stop number (e.g., 253) to see real-time arrivals.",
                 guideLineTitle: "\"Search by line\" button:",
                 guideLineDesc: "Click this button, enter the line (e.g., 4, 36, M1), and choose your desired direction and stop.",
+                guideBotTitle: "\"Ask the bot\" button:",
+                guideBotDesc: "Click this button to ask free questions about GTT public transport in Turin.",
+                guideAlertTitle: "Disruptions:",
+                guideAlertDesc: "Type \"disruptions\" to see all active route changes in real time.",
                 guideTicketsTitle: "Tickets:",
                 guideTicketsDesc: "Ask for pricing information or type \"tickets\".",
                 guideThemeTitle: "Dark Theme:",
@@ -195,7 +207,8 @@ class TranslationManager {
                 enterStopNumberPrompt: "Introduce el número de la parada:",
                 enterLineNumber: "Introduce el número de línea (ej. 4, 36, M1):",
                 lineFound: "encontrada. Escribe el nombre de la parada (o parte):",
-                showStops: "Mostrar paradas",
+                showStops: "▼ Mostrar todas las paradas",
+                hideStops: "▲ Ocultar paradas",
                 noStopFound: "No se encontró ninguna parada. Inténtalo con otro nombre:",
                 chooseDirection: "Elige la dirección:",
                 searchingLine: "Buscando la línea",
@@ -206,6 +219,7 @@ class TranslationManager {
                 requestError: "Error en la solicitud. Inténtalo de nuevo.",
                 askBot: "Pregunta al bot",
                 askBotPrompt: "¡Puedes preguntarme cualquier cosa sobre el transporte GTT de Turín!",
+                chooseStop: "Paradas encontradas, elige:",
                 
                 // Respuestas de agradecimiento
                 thankYouResponses: [
@@ -234,6 +248,10 @@ class TranslationManager {
                 guideSchedulesDesc: "Haz clic en este botón y escribe el número de una parada (ej. 253) para ver las llegadas en tiempo real.",
                 guideLineTitle: "Botón \"Buscar por línea\":",
                 guideLineDesc: "Haz clic en este botón, introduce la línea (ej. 4, 36, M1) y elige la dirección y la parada deseada.",
+                guideBotTitle: "Botón \"Preguntar al bot\":",
+                guideBotDesc: "Haz clic en este botón para hacer preguntas libres sobre el transporte GTT de Turín.",
+                guideAlertTitle: "Desvíos:",
+                guideAlertDesc: "Escribe \"desvios\" para ver todos los cambios de ruta activos en tiempo real.",
                 guideTicketsTitle: "Billetes:",
                 guideTicketsDesc: "Pide información de precios o escribe \"billetes\".",
                 guideThemeTitle: "Tema Oscuro:",
@@ -267,7 +285,8 @@ class TranslationManager {
                 enterStopNumberPrompt: "Entrez le numéro de l'arrêt:",
                 enterLineNumber: "Entrez le numéro de ligne (ex. 4, 36, M1):",
                 lineFound: "trouvée. Écrivez le nom de l'arrêt (ou une partie):",
-                showStops: "Afficher les arrêts",
+                showStops: "▼ Afficher tous les arrêts",
+                hideStops: "▲ Masquer les arrêts",
                 noStopFound: "Aucun arrêt trouvé. Réessayez avec un autre nom:",
                 chooseDirection: "Choisissez la direction:",
                 searchingLine: "Recherche de la ligne",
@@ -278,6 +297,7 @@ class TranslationManager {
                 requestError: "Erreur de requête. Veuillez réessayer.",
                 askBot: "Demander au bot",
                 askBotPrompt: "Vous pouvez me poser n'importe quelle question sur les transports GTT de Turin!",
+                chooseStop: "Arrêts trouvés, choisissez:",
                 
                 // Réponses de remerciement
                 thankYouResponses: [
@@ -306,6 +326,10 @@ class TranslationManager {
                 guideSchedulesDesc: "Cliquez sur ce bouton et écrivez le numéro d'un arrêt (ex. 253) pour voir les passages en temps réel.",
                 guideLineTitle: "Bouton \"Rechercher par ligne\":",
                 guideLineDesc: "Cliquez sur ce bouton, entrez la ligne (ex. 4, 36, M1) et choisissez la direction et l'arrêt souhaité.",
+                guideBotTitle: "Bouton \"Demander au bot\":",
+                guideBotDesc: "Cliquez sur ce bouton pour poser des questions libres sur les transports GTT de Turin.",
+                guideAlertTitle: "Déviations:",
+                guideAlertDesc: "Tapez \"alertes\" pour voir tous les changements d'itinéraire actifs en temps réel.",
                 guideTicketsTitle: "Billets:",
                 guideTicketsDesc: "Demandez des informations sur les prix ou écrivez \"billets\".",
                 guideThemeTitle: "Thème Sombre:",
@@ -339,7 +363,8 @@ class TranslationManager {
                 enterStopNumberPrompt: "Geben Sie die Haltestellennummer ein:",
                 enterLineNumber: "Geben Sie die Liniennummer ein (z.B. 4, 36, M1):",
                 lineFound: "gefunden. Schreiben Sie den Haltestellennamen (oder einen Teil):",
-                showStops: "Haltestellen anzeigen",
+                showStops: "▼ Alle Haltestellen anzeigen",
+                hideStops: "▲ Haltestellen ausblenden",
                 noStopFound: "Keine Haltestelle gefunden. Versuchen Sie einen anderen Namen:",
                 chooseDirection: "Wählen Sie die Richtung:",
                 searchingLine: "Suche Linie",
@@ -350,6 +375,7 @@ class TranslationManager {
                 requestError: "Anfragefehler. Bitte versuchen Sie es erneut.",
                 askBot: "Bot fragen",
                 askBotPrompt: "Sie können mir alles über den GTT-Nahverkehr in Turin fragen!",
+                chooseStop: "Haltestellen gefunden, wählen Sie:",
                 
                 // Dankesantworten
                 thankYouResponses: [
@@ -378,6 +404,10 @@ class TranslationManager {
                 guideSchedulesDesc: "Klicken Sie auf diese Schaltfläche und geben Sie eine Haltestellennummer (z.B. 253) ein, um Abfahrten in Echtzeit zu sehen.",
                 guideLineTitle: "Schaltfläche \"Nach Linie suchen\":",
                 guideLineDesc: "Klicken Sie auf diese Schaltfläche, geben Sie die Linie (z.B. 4, 36, M1) ein und wählen Sie Ihre gewünschte Richtung und Haltestelle.",
+                guideBotTitle: "Schaltfläche \"Bot fragen\":",
+                guideBotDesc: "Klicken Sie auf diese Schaltfläche, um freie Fragen zum GTT-Nahverkehr in Turin zu stellen.",
+                guideAlertTitle: "Umleitungen:",
+                guideAlertDesc: "Schreiben Sie \"ablenkungen\" um alle aktiven Streckenänderungen in Echtzeit zu sehen.",
                 guideTicketsTitle: "Tickets:",
                 guideTicketsDesc: "Fragen Sie nach Preisinformationen oder schreiben Sie \"Tickets\".",
                 guideThemeTitle: "Dunkles Design:",
@@ -513,6 +543,16 @@ class TranslationManager {
         if (guideLineTitle) guideLineTitle.textContent = this.get('guideLineTitle');
         const guideLineDesc = document.getElementById('guideLineDesc');
         if (guideLineDesc) guideLineDesc.textContent = this.get('guideLineDesc');
+
+        const guideBotTitle = document.getElementById('guideBotTitle');
+        if (guideBotTitle) guideBotTitle.textContent = this.get('guideBotTitle');
+        const guideBotDesc = document.getElementById('guideBotDesc');
+        if (guideBotDesc) guideBotDesc.textContent = this.get('guideBotDesc');
+
+        const guideAlertTitle = document.getElementById('guideAlertTitle');
+        if (guideAlertTitle) guideAlertTitle.textContent = this.get('guideAlertTitle');
+        const guideAlertDesc = document.getElementById('guideAlertDesc');
+        if (guideAlertDesc) guideAlertDesc.textContent = this.get('guideAlertDesc');
 
         const guideTicketsTitle = document.getElementById('guideTicketsTitle');
         if (guideTicketsTitle) guideTicketsTitle.textContent = this.get('guideTicketsTitle');

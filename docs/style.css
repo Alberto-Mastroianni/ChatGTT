@@ -425,6 +425,84 @@ body.dark-theme .chat-btn.expand {
   opacity: 0.85;
 }
 
+/* Fermate cliccabili nella lista toggle */
+.stops-collapsible {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.stops-filter {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.stop-filter-btn {
+  font-size: 12px !important;
+  padding: 5px 10px !important;
+  border-radius: 20px !important;
+  opacity: 0.55;
+  border: 1px solid var(--primary-color) !important;
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
+}
+
+.stop-filter-btn.active {
+  opacity: 1;
+  background-color: var(--primary-color) !important;
+  color: var(--accent-color) !important;
+}
+
+body.dark-theme .stop-filter-btn {
+  border-color: var(--accent-color) !important;
+  color: var(--accent-color) !important;
+}
+
+body.dark-theme .stop-filter-btn.active {
+  background-color: var(--accent-color) !important;
+  color: #1a1a1a !important;
+}
+
+.stops-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.chat-btn.stop-item {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  font-size: 13px;
+  padding: 6px 12px;
+  text-align: left;
+  white-space: normal;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.chat-btn.stop-item:hover {
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  opacity: 1;
+}
+
+body.dark-theme .chat-btn.stop-item {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  background-color: transparent;
+}
+
+body.dark-theme .chat-btn.stop-item:hover {
+  background-color: var(--accent-color);
+  color: #1a1a1a;
+}
+
 body.dark-theme .chat-btn {
   background-color: var(--accent-color);
   color: #1a1a1a;

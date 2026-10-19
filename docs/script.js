@@ -6,7 +6,8 @@ const declineButton = document.getElementById("decline");
 
 // --- STATO CONVERSAZIONE PER RICERCA PER LINEA ---
 let gtfsData = null;
-let convState = null; // null | {step:'awaiting_line'} | {step:'awaiting_stop', line, stops} | {step:'awaiting_dir', line, stopCode, stopName, dirs}
+let avvisiData = null;
+let convState = null;
 
 async function loadGtfsData() {
     if (gtfsData) return gtfsData;
@@ -15,6 +16,32 @@ async function loadGtfsData() {
         gtfsData = await r.json();
     } catch(e) { gtfsData = {}; }
     return gtfsData;
+}
+
+async function loadAvvisi() {
+    if (avvisiData) return avvisiData;
+    try {
+        const r = await fetch('scraper.php');
+        avvisiData = await r.json();
+    } catch(e) { avvisiData = { gtt: [], tram: [] }; }
+    return avvisiData;
+}
+
+// Cerca deviazioni GTT per una linea specifica
+function getAvvisiPerLinea(line) {
+    if (!avvisiData) return [];
+    const lineNorm = line.trim().toLowerCase();
+    return (avvisiData.gtt || []).filter(a => {
+        const linee = a.linea.toLowerCase().split(/[\s\-–&]+/);
+        return linee.some(l => l.trim() === lineNorm);
+    });
+}
+
+// Cerca stato tram per una linea
+function getStatoTram(line) {
+    if (!avvisiData) return null;
+    const lineNorm = line.trim().toLowerCase().replace(/^linea\s*/i, '');
+    return (avvisiData.tram || []).find(t => t.linea.toLowerCase().replace(/^linea\s*/i, '') === lineNorm) || null;
 }
 
 // Funzione per ottenere una risposta casuale di ringraziamento
@@ -139,6 +166,105 @@ function showModeButtons() {
     ]);
 }
 
+// Mostra/nascondi fermate con toggle, filtro direzione e fermate cliccabili
+function addStopsToggle(stops, line, dirs) {
+    const chatBody = document.querySelector('.chat-body');
+    const t = window.translator;
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-buttons stops-toggle-wrap';
+
+    // Pulsante toggle mostra/nascondi
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'chat-btn expand';
+    toggleBtn.textContent = t ? t.get('showStops') : '▼ Mostra tutte le fermate';
+    wrap.appendChild(toggleBtn);
+
+    // Contenitore collassabile
+    const collapsible = document.createElement('div');
+    collapsible.className = 'stops-collapsible';
+    collapsible.style.display = 'none';
+
+    // Calcola i 2 capolinea per direzione
+    const dirInfos = dirs.map(([dirId, dirData]) => {
+        const s = dirData.stops;
+        const cap1 = s[0].name.replace(/Fermata \d+ - /, '');
+        const cap2 = s[s.length - 1].name.replace(/Fermata \d+ - /, '');
+        return { dirId, dirData, cap1, cap2, label: `${cap1} → ${cap2}` };
+    });
+
+    // Filtri direzione
+    const filterWrap = document.createElement('div');
+    filterWrap.className = 'stops-filter';
+    let activeDirIdx = 0;
+
+    const stopsContainer = document.createElement('div');
+    stopsContainer.className = 'stops-list';
+
+    function renderStops(dirIdx) {
+        stopsContainer.innerHTML = '';
+        const { dirId, dirData } = dirInfos[dirIdx];
+        dirData.stops.forEach(s => {
+            const name = s.name.replace(/Fermata \d+ - /, '');
+            const btn = document.createElement('button');
+            btn.className = 'chat-btn stop-item';
+            btn.textContent = `${name} (${s.code})`;
+            btn.addEventListener('click', () => {
+                const dirMatches = dirs
+                    .map(([dId, dData]) => {
+                        const stop = dData.stops.find(st => st.code === s.code);
+                        return stop ? { dirId: dId, dirData: dData, stop } : null;
+                    })
+                    .filter(Boolean);
+                if (dirMatches.length === 0) return;
+                addMessage(`${name} (${s.code})`, true);
+                addMessage(t ? t.get('chooseDirection') : 'Scegli la direzione:', false);
+                const lineSaved = line;
+                convState = { step: 'awaiting_dir', line: lineSaved };
+                addButtons(dirMatches.map(({ dirId: dId, dirData: dData, stop }) => {
+                    const st = dData.stops;
+                    const c1 = st[0].name.replace(/Fermata \d+ - /, '');
+                    const c2 = st[st.length - 1].name.replace(/Fermata \d+ - /, '');
+                    const lbl = `${c1} → ${c2}`;
+                    return { label: lbl, onClick: () => fetchLineAtStop(lineSaved, stop.code, name, dId, lbl) };
+                }));
+            });
+            stopsContainer.appendChild(btn);
+        });
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    dirInfos.forEach(({ label }, idx) => {
+        const fb = document.createElement('button');
+        fb.className = 'chat-btn stop-filter-btn' + (idx === 0 ? ' active' : '');
+        fb.textContent = label;
+        fb.addEventListener('click', () => {
+            activeDirIdx = idx;
+            filterWrap.querySelectorAll('.stop-filter-btn').forEach((b, i) =>
+                b.classList.toggle('active', i === idx)
+            );
+            renderStops(idx);
+        });
+        filterWrap.appendChild(fb);
+    });
+
+    collapsible.appendChild(filterWrap);
+    collapsible.appendChild(stopsContainer);
+    renderStops(0);
+
+    toggleBtn.addEventListener('click', () => {
+        const hidden = collapsible.style.display === 'none';
+        collapsible.style.display = hidden ? 'block' : 'none';
+        toggleBtn.textContent = hidden
+            ? (t ? t.get('hideStops') : '▲ Nascondi fermate')
+            : (t ? t.get('showStops') : '▼ Mostra tutte le fermate');
+        if (hidden) chatBody.scrollTop = chatBody.scrollHeight;
+    });
+
+    wrap.appendChild(collapsible);
+    chatBody.appendChild(wrap);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
 // Gestisce il flusso di ricerca per linea
 async function handleLineSearch(text) {
     if (!convState) return false;
@@ -154,21 +280,24 @@ async function handleLineSearch(text) {
         }
         const dirs = data[lineKey];
         const validDirs = Object.entries(dirs);
-        // Raccoglie tutte le fermate di tutte le direzioni (deduplicate per code)
         convState = { step: 'awaiting_stop', line: lineKey, dirs: validDirs };
         const t = window.translator;
         addMessage(`${t ? t.get('searchByLine') : 'Linea'} ${lineKey} ${t ? t.get('lineFound') : 'trovata. Scrivi il nome (o parte) della fermata:'}`, false);
-        const allStopNames = [];
-        const seenNames = new Set();
+
+        // Fermate ordinate: prendi la prima direzione come riferimento d'ordine,
+        // poi aggiungi le fermate delle altre direzioni non ancora viste
+        const seenCodes = new Set();
+        const orderedStops = [];
         validDirs.forEach(([, dirData]) => {
             dirData.stops.forEach(s => {
-                const clean = s.name.replace(/Fermata \d+ - /, '');
-                if (!seenNames.has(clean)) { seenNames.add(clean); allStopNames.push(`${s.code} - ${clean}`); }
+                if (!seenCodes.has(s.code)) {
+                    seenCodes.add(s.code);
+                    orderedStops.push({ code: s.code, name: s.name.replace(/Fermata \d+ - /, '') });
+                }
             });
         });
-        addButtons([{ label: '▼ Mostra tutte le fermate', expand: true, onClick: () => {
-            addMessage(allStopNames.join('\n'), false);
-        }}]);
+
+        addStopsToggle(orderedStops, lineKey, validDirs);
         return true;
     }
 
@@ -192,11 +321,19 @@ async function handleLineSearch(text) {
 
         const t = window.translator;
         addMessage(t ? t.get('chooseDirection') : 'Scegli la direzione:', false);
-        convState = { step: 'awaiting_dir', line: convState.line };
-        addButtons(dirMatches.map(({ dirId, dirData, stop }) => ({
-            label: dirData.headsign || 'Direzione ' + dirId,
-            onClick: () => fetchLineAtStop(convState.line, stop.code, stop.name.replace(/Fermata \d+ - /, ''), dirId, dirData.headsign)
-        })));
+        const lineSaved = convState.line;
+        convState = { step: 'awaiting_dir', line: lineSaved };
+        addButtons(dirMatches.map(({ dirId, dirData, stop }) => {
+            // Capolinea = prima e ultima fermata della direzione
+            const stops = dirData.stops;
+            const cap1 = stops[0].name.replace(/Fermata \d+ - /, '');
+            const cap2 = stops[stops.length - 1].name.replace(/Fermata \d+ - /, '');
+            const label = `${cap1} → ${cap2}`;
+            return {
+                label,
+                onClick: () => fetchLineAtStop(lineSaved, stop.code, stop.name.replace(/Fermata \d+ - /, ''), dirId, label)
+            };
+        }));
         return true;
     }
 
@@ -210,6 +347,19 @@ async function handleLineSearch(text) {
 function fetchLineAtStop(line, stopCode, stopName, dirId, headsign) {
     convState = null;
     const t = window.translator;
+
+    // Avviso deviazione contestuale
+    loadAvvisi().then(() => {
+        const avvisi = getAvvisiPerLinea(line);
+        const statoTram = getStatoTram(line);
+        if (avvisi.length > 0 || (statoTram && statoTram.anomalia)) {
+            const msgs = [];
+            if (statoTram && statoTram.anomalia) msgs.push(`⚠️ Tram di Torino: ${statoTram.stato}`);
+            avvisi.slice(0, 2).forEach(a => msgs.push(`⚠️ GTT: ${a.descrizione.substring(0, 120)}${a.descrizione.length > 120 ? '…' : ''}`));
+            addMessage(msgs.join('\n'), false);
+        }
+    });
+
     addMessage(`${t ? t.get('searchingLine') : 'Cerco la linea'} ${line} ${t ? t.get('searchingAtStop') : 'alla fermata'} ${stopName}...`, false);
 
     fetch(`https://gpa.madbob.org/query.php?stop=${stopCode}`)
@@ -383,59 +533,124 @@ function simulateBotResponse(_, inputText) {
         }, 4000);
     }
 
+    // Comando deviazioni
+    const devRegex = /^(deviazioni|avvisi|variazioni|disruptions|alerts|desvios|alertes|ablenkungen)$/i;
+    if (devRegex.test(inputValue) && !convState) {
+        loadAvvisi().then(data => {
+            const t = window.translator;
+            const gtt = data.gtt || [];
+            const tram = (data.tram || []).filter(t => t.anomalia);
+            if (gtt.length === 0 && tram.length === 0) {
+                addMessage('✅ Nessuna deviazione attiva al momento.', false);
+                return;
+            }
+            let msg = `⚠️ Deviazioni attive (agg. ${data.aggiornato}):\n\n`;
+            if (tram.length > 0) {
+                msg += '🚋 Tram di Torino:\n';
+                tram.forEach(t => { msg += `• Linea ${t.linea}: ${t.stato}\n`; });
+                msg += '\n';
+            }
+            if (gtt.length > 0) {
+                msg += '🟡 GTT Variazioni:\n';
+                gtt.slice(0, 8).forEach(a => {
+                    msg += `• Linea ${a.linea}: ${a.descrizione.substring(0, 100)}${a.descrizione.length > 100 ? '…' : ''}\n`;
+                });
+                if (gtt.length > 8) msg += `...e altre ${gtt.length - 8} variazioni.`;
+            }
+            addMessage(msg.trim(), false);
+        });
+        return;
+    }
+
+    if (!match && !convState && inputValue.length >= 2) {
+        loadGtfsData().then(data => {
+            const query = inputValue.toLowerCase();
+            const found = new Map();
+            Object.values(data).forEach(dirs => {
+                Object.values(dirs).forEach(dirData => {
+                    dirData.stops.forEach(s => {
+                        const clean = s.name.replace(/Fermata \d+ - /, '');
+                        if (clean.toLowerCase().includes(query) && !found.has(s.code)) {
+                            found.set(s.code, clean);
+                        }
+                    });
+                });
+            });
+            if (found.size === 0) {
+                const t = window.translator;
+                addMessage(t ? t.get('noStopFound') : 'Nessuna fermata trovata. Riprova con un altro nome:', false);
+                return;
+            }
+            const t = window.translator;
+            addMessage(t ? t.get('chooseStop') : 'Fermate trovate, scegli:', false);
+            const buttons = [];
+            found.forEach((name, code) => {
+                buttons.push({ label: `${name} (${code})`, onClick: () => fetchStopSchedule(code, name) });
+            });
+            addButtons(buttons);
+        });
+        return;
+    }
+
     if (match && !convState) {
+        const stopNumber = match[1];
+        fetchStopSchedule(stopNumber, stopNumber);
+    }
+}
+
+function fetchStopSchedule(stopNumber, stopLabel) {
+    const chatBody = document.querySelector('.chat-body');
+    const t = window.translator;
+
+    // Cerca il nome della fermata nel GTFS se non già fornito come nome
+    loadGtfsData().then(data => {
+        let displayName = stopLabel;
+        // Se stopLabel è uguale al numero (ricerca per numero), cerca il nome nel GTFS
+        if (stopLabel === stopNumber) {
+            outer: for (const dirs of Object.values(data)) {
+                for (const dirData of Object.values(dirs)) {
+                    const found = dirData.stops.find(s => s.code === String(stopNumber));
+                    if (found) {
+                        displayName = found.name.replace(/Fermata \d+ - /, '');
+                        break outer;
+                    }
+                }
+            }
+        }
+
         const loadingMessage = document.createElement('div');
         loadingMessage.classList.add('message', 'bot-message');
-        loadingMessage.textContent = ".";
+        loadingMessage.textContent = '.';
         chatBody.appendChild(loadingMessage);
-
         const loadingDots = document.createElement('span');
         loadingDots.classList.add('loading-dots');
         loadingMessage.appendChild(loadingDots);
-
         const dotsInterval = setInterval(() => {
-            loadingDots.textContent += ".";
-            if (loadingDots.textContent.length > 3) {
-                loadingDots.textContent = "";
-            }
+            loadingDots.textContent += '.';
+            if (loadingDots.textContent.length > 3) loadingDots.textContent = '';
         }, 500);
 
-        const stopNumber = match[1];
-        const busInfoUrl = getBusInfoUrl(stopNumber);
-
-        fetch(busInfoUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (!Array.isArray(data)) throw new Error('Dati non validi');
-            const busInfoMessage = window.translator ? window.translator.formatSchedule(JSON.stringify(data)) : formattaOrari(JSON.stringify(data), inputField);
-            setTimeout(() => {
-                clearInterval(dotsInterval);
-                chatBody.removeChild(loadingMessage);
-
-                const busesAtStop = window.translator ? window.translator.get('busesAtStop') : "Ecco i bus che passano nella fermata";
-                addMessage(`${busesAtStop} ${stopNumber}:`, false);
-            }, 500); 
-
-            setTimeout(() => {
-                if(busInfoMessage == ""){
-                    setTimeout(() => {
-                        const wrongStop = window.translator ? window.translator.get('wrongStopNumber') : "Hai sbagliato inserire il numero della fermata!";
-                        addMessage(wrongStop, false);
-                    }, 250);
-
-                    setTimeout(() => {
-                        const retryStop = window.translator ? window.translator.get('retryStopNumber') : "Riprova a inserire correttamente il numero della fermata!";
-                        addMessage(retryStop, false);
-                    }, 900);
-                } else {
-                    addMessage(busInfoMessage, false);
-                }
-            }, 1500); 
-        })
-        .catch(error => {
-            console.error('Errore durante la richiesta API:', error);
-        });
-    }
+        fetch(getBusInfoUrl(stopNumber))
+            .then(r => r.json())
+            .then(data => {
+                if (!Array.isArray(data)) throw new Error('Dati non validi');
+                const busInfoMessage = window.translator ? window.translator.formatSchedule(JSON.stringify(data)) : formattaOrari(JSON.stringify(data));
+                setTimeout(() => {
+                    clearInterval(dotsInterval);
+                    chatBody.removeChild(loadingMessage);
+                    const busesAtStop = t ? t.get('busesAtStop') : 'Ecco i bus che passano nella fermata';
+                    addMessage(`${busesAtStop} ${displayName} (${stopNumber}):`, false);
+                }, 500);
+                setTimeout(() => {
+                    if (busInfoMessage === '') {
+                        addMessage(t ? t.get('wrongStopNumber') : 'Hai sbagliato inserire il numero della fermata!', false);
+                    } else {
+                        addMessage(busInfoMessage, false);
+                    }
+                }, 1500);
+            })
+            .catch(error => console.error('Errore durante la richiesta API:', error));
+    });
 }
 
 function formattaOrari(orariTestuali) {
@@ -459,6 +674,7 @@ window.onload = function() {
     if (window.translator) {
         window.translator.updateInterface();
     }
+    loadAvvisi(); // precarica avvisi in background
     simulateBotResponse(""); 
 };
 
