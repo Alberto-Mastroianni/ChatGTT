@@ -208,7 +208,8 @@ function addStopsToggle(stops, line, dirs) {
         const s = dirData.stops;
         const cap1 = s[0].name.replace(/Fermata \d+ - /, '');
         const cap2 = s[s.length - 1].name.replace(/Fermata \d+ - /, '');
-        return { dirId, dirData, cap1, cap2, label: `${cap1} → ${cap2}` };
+        const label = dirData.headsign ? `→ ${dirData.headsign}` : `${cap1} → ${cap2}`;
+        return { dirId, dirData, cap1, cap2, label };
     });
 
     // Filtri direzione
@@ -243,7 +244,7 @@ function addStopsToggle(stops, line, dirs) {
                     const st = dData.stops;
                     const c1 = st[0].name.replace(/Fermata \d+ - /, '');
                     const c2 = st[st.length - 1].name.replace(/Fermata \d+ - /, '');
-                    const lbl = `${c1} → ${c2}`;
+                    const lbl = dData.headsign ? `→ ${dData.headsign}` : `${c1} → ${c2}`;
                     return { label: lbl, onClick: () => fetchLineAtStop(lineSaved, stop.code, name, dId, lbl) };
                 }));
             });
@@ -343,11 +344,10 @@ async function handleLineSearch(text) {
         const lineSaved = convState.line;
         convState = { step: 'awaiting_dir', line: lineSaved };
         addButtons(dirMatches.map(({ dirId, dirData, stop }) => {
-            // Capolinea = prima e ultima fermata della direzione
             const stops = dirData.stops;
             const cap1 = stops[0].name.replace(/Fermata \d+ - /, '');
             const cap2 = stops[stops.length - 1].name.replace(/Fermata \d+ - /, '');
-            const label = `${cap1} → ${cap2}`;
+            const label = dirData.headsign ? `→ ${dirData.headsign}` : `${cap1} → ${cap2}`;
             return {
                 label,
                 onClick: () => fetchLineAtStop(lineSaved, stop.code, stop.name.replace(/Fermata \d+ - /, ''), dirId, label)
