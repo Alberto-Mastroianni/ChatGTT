@@ -416,13 +416,15 @@ p {
   padding: 5px 12px;
 }
 
-body.dark-theme .chat-btn.expand {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
+body.dark-theme .chat-btn {
+  background-color: var(--accent-color);
+  color: #1a1a1a;
 }
 
-.chat-btn:hover {
-  opacity: 0.85;
+body.dark-theme .chat-btn.expand {
+  background-color: transparent !important;
+  color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
 }
 
 /* Fermate cliccabili nella lista toggle */
@@ -499,11 +501,6 @@ body.dark-theme .chat-btn.stop-item {
 }
 
 body.dark-theme .chat-btn.stop-item:hover {
-  background-color: var(--accent-color);
-  color: #1a1a1a;
-}
-
-body.dark-theme .chat-btn {
   background-color: var(--accent-color);
   color: #1a1a1a;
 }

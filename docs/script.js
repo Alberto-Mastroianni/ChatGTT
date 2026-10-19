@@ -283,7 +283,7 @@ async function handleLineSearch(text) {
             return true;
         }
         const dirs = data[lineKey];
-        const validDirs = Object.entries(dirs);
+        const validDirs = Object.entries(dirs).filter(([id]) => id === '0' || id === '1');
         convState = { step: 'awaiting_stop', line: lineKey, dirs: validDirs };
         const t = window.translator;
         addMessage(`${t ? t.get('searchByLine') : 'Linea'} ${lineKey} ${t ? t.get('lineFound') : 'trovata. Scrivi il nome (o parte) della fermata:'}`, false);
