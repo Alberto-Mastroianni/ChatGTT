@@ -118,6 +118,12 @@ function showModeButtons() {
             setInputEnabled(true);
             addMessage(t ? t.get('searchByStop') : 'Cerca per fermata', true);
             addMessage(t ? t.get('enterStopNumberPrompt') : 'Inserisci il numero della fermata:', false);
+        }},
+        { label: t ? t.get('askBot') : 'Chiedi al bot', onClick: () => {
+            convState = null;
+            setInputEnabled(true);
+            addMessage(t ? t.get('askBot') : 'Chiedi al bot', true);
+            addMessage(t ? t.get('askBotPrompt') : 'Puoi chiedermi qualsiasi cosa sui trasporti GTT di Torino!', false);
         }}
     ]);
 }

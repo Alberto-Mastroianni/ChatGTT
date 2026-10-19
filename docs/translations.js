@@ -60,6 +60,8 @@ class TranslationManager {
                 atStop: "alla fermata",
                 atThisTime: "in questo momento.",
                 requestError: "Errore nella richiesta. Riprova.",
+                askBot: "Chiedi al bot",
+                askBotPrompt: "Puoi chiedermi qualsiasi cosa sui trasporti GTT di Torino!",
                 
                 // Risposte ringraziamenti
                 thankYouResponses: [
@@ -130,6 +132,8 @@ class TranslationManager {
                 atStop: "at stop",
                 atThisTime: "at this time.",
                 requestError: "Request error. Please try again.",
+                askBot: "Ask the bot",
+                askBotPrompt: "You can ask me anything about GTT public transport in Turin!",
                 
                 // Thank you responses
                 thankYouResponses: [
@@ -200,6 +204,8 @@ class TranslationManager {
                 atStop: "en la parada",
                 atThisTime: "en este momento.",
                 requestError: "Error en la solicitud. Inténtalo de nuevo.",
+                askBot: "Pregunta al bot",
+                askBotPrompt: "¡Puedes preguntarme cualquier cosa sobre el transporte GTT de Turín!",
                 
                 // Respuestas de agradecimiento
                 thankYouResponses: [
@@ -270,6 +276,8 @@ class TranslationManager {
                 atStop: "à l'arrêt",
                 atThisTime: "en ce moment.",
                 requestError: "Erreur de requête. Veuillez réessayer.",
+                askBot: "Demander au bot",
+                askBotPrompt: "Vous pouvez me poser n'importe quelle question sur les transports GTT de Turin!",
                 
                 // Réponses de remerciement
                 thankYouResponses: [
@@ -340,6 +348,8 @@ class TranslationManager {
                 atStop: "an der Haltestelle",
                 atThisTime: "zu diesem Zeitpunkt.",
                 requestError: "Anfragefehler. Bitte versuchen Sie es erneut.",
+                askBot: "Bot fragen",
+                askBotPrompt: "Sie können mir alles über den GTT-Nahverkehr in Turin fragen!",
                 
                 // Dankesantworten
                 thankYouResponses: [
