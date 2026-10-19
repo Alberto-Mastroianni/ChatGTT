@@ -711,6 +711,11 @@ body.dark-theme .message {
     color: #e0e0e0;
 }
 
+body.dark-theme .user-message {
+    background-color: #003f7a;
+    color: #fff;
+}
+
 /* Stile testo bot per mantenere contrasto sullo sfondo giallo */
 body.dark-theme .bot-message {
     background-color: var(--accent-color);
@@ -757,6 +762,27 @@ body.dark-theme .language-option:hover {
 body.dark-theme .confirmation-box {
     background-color: #1e1e1e;
     border-color: var(--accent-color);
+}
+
+/* Welcome message */
+body.dark-theme #welcome-message {
+    color: #e0e0e0;
+}
+
+/* Adsense banner */
+body.dark-theme #adsense-banner {
+    background: #1e1e1e;
+    border-top-color: #333;
+}
+
+/* Tabella metro testo */
+body.dark-theme .metro-table td {
+    color: #e0e0e0;
+}
+
+/* Chat body sfondo */
+body.dark-theme .chat-body {
+    background-color: #1e1e1e;
 }
 
 /* =========================================
