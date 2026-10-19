@@ -562,7 +562,7 @@ function simulateBotResponse(_, inputText) {
         return;
     }
 
-    if (!match && !convState && inputValue.length >= 2) {
+    if (!match && !match2 && !match3 && !devRegex.test(inputValue) && !convState && inputValue.length >= 2) {
         loadGtfsData().then(data => {
             const query = inputValue.toLowerCase();
             const found = new Map();
