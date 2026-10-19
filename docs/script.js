@@ -301,20 +301,21 @@ async function handleLineSearch(text) {
         const emptyDir = allDirs.find(([id, v]) => id === '' && v.firstCap !== v.lastCap);
         let validDirs;
         if (has01) {
-            // caso normale: usa dir 0 e 1, ma prendi i CAP da dir[] se disponibile
-            const capA = emptyDir ? emptyDir[1].firstCap : null;
-            const capB = emptyDir ? emptyDir[1].lastCap : null;
             validDirs = allDirs
                 .filter(([id]) => id === '0' || id === '1')
                 .map(([id, v]) => {
                     if (!emptyDir) return [id, v];
-                    // dir0 va verso capB, dir1 va verso capA
-                    const fc = id === '0' ? capA : capB;
-                    const lc = id === '0' ? capB : capA;
+                    const capA = emptyDir[1].firstCap;
+                    const capB = emptyDir[1].lastCap;
+                    // Trova quale CAP è più vicino alla fine del percorso
+                    const lastStop = v.stops[v.stops.length - 1].name.replace(/Fermata \d+ - /, '');
+                    const firstStop = v.stops[0].name.replace(/Fermata \d+ - /, '');
+                    const endsAtB = lastStop.includes(capB.replace(' CAP','')) || capB.includes(lastStop.replace(' CAP',''));
+                    const fc = endsAtB ? capA : capB;
+                    const lc = endsAtB ? capB : capA;
                     return [id, { ...v, firstCap: fc, lastCap: lc }];
                 });
         } else {
-            // manca dir 1: usa dir[] con 2 CAP distinti
             if (emptyDir) {
                 const [, v] = emptyDir;
                 validDirs = [
