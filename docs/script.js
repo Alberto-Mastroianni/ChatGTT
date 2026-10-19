@@ -66,11 +66,22 @@ function sendMessage() {
     }
 }
 
+// Sanitizza HTML rimuovendo tag e attributi pericolosi
+function sanitizeHTML(html) {
+    const allowed = document.createElement('div');
+    allowed.innerHTML = html;
+    allowed.querySelectorAll('script, iframe, object, embed, form').forEach(el => el.remove());
+    allowed.querySelectorAll('*').forEach(el => {
+        ['onclick','onerror','onload','onmouseover','onfocus','onblur'].forEach(attr => el.removeAttribute(attr));
+    });
+    return allowed.innerHTML;
+}
+
 // Aggiunge un messaggio bot con HTML (per tabelle ecc.)
 function addMessageHTML(html) {
     const message = document.createElement('div');
     message.classList.add('message', 'bot-message');
-    message.innerHTML = html;
+    message.innerHTML = sanitizeHTML(html);
     const chatBody = document.querySelector('.chat-body');
     chatBody.appendChild(message);
     chatBody.scrollTop = chatBody.scrollHeight;
@@ -395,6 +406,7 @@ function simulateBotResponse(_, inputText) {
         fetch(busInfoUrl)
         .then(response => response.json())
         .then(data => {
+            if (!Array.isArray(data)) throw new Error('Dati non validi');
             const busInfoMessage = window.translator ? window.translator.formatSchedule(JSON.stringify(data)) : formattaOrari(JSON.stringify(data), inputField);
             setTimeout(() => {
                 clearInterval(dotsInterval);
