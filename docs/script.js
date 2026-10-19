@@ -8,6 +8,7 @@ const declineButton = document.getElementById("decline");
 let gtfsData = null;
 let avvisiData = null;
 let convState = null;
+let botMode = false; // true = modalità "Chiedi al bot"
 
 async function loadGtfsData() {
     if (gtfsData) return gtfsData;
@@ -147,18 +148,21 @@ function showModeButtons() {
     addButtons([
         { label: t ? t.get('searchByLine') : 'Cerca per linea', onClick: () => {
             convState = { step: 'awaiting_line' };
+            botMode = false;
             setInputEnabled(true);
             addMessage(t ? t.get('searchByLine') : 'Cerca per linea', true);
             addMessage(t ? t.get('enterLineNumber') : 'Inserisci il numero della linea (es. 4, 36, M1):', false);
         }},
         { label: t ? t.get('searchByStop') : 'Cerca per fermata', onClick: () => {
             convState = null;
+            botMode = false;
             setInputEnabled(true);
             addMessage(t ? t.get('searchByStop') : 'Cerca per fermata', true);
             addMessage(t ? t.get('enterStopNumberPrompt') : 'Inserisci il numero della fermata:', false);
         }},
         { label: t ? t.get('askBot') : 'Chiedi al bot', onClick: () => {
             convState = null;
+            botMode = true;
             setInputEnabled(true);
             addMessage(t ? t.get('askBot') : 'Chiedi al bot', true);
             addMessage(t ? t.get('askBotPrompt') : 'Puoi chiedermi qualsiasi cosa sui trasporti GTT di Torino!', false);
@@ -495,7 +499,8 @@ function simulateBotResponse(_, inputText) {
             clearInterval(dotsInterval);
             chatBody.removeChild(loadingMessage);
             addMessage(rispostaCasuale, false);
-        }, 1500); 
+        }, 1500);
+        return;
     }
 
     if(match2){
@@ -531,6 +536,7 @@ function simulateBotResponse(_, inputText) {
             const enterStop = window.translator ? window.translator.get('enterStopNumber') : "Scrivi il numero della fermata, vediamo quando passa il tuo bus o tram";
             addMessage(enterStop, false);
         }, 4000);
+        return;
     }
 
     // Comando deviazioni
@@ -562,7 +568,7 @@ function simulateBotResponse(_, inputText) {
         return;
     }
 
-    if (!match && !match2 && !match3 && !devRegex.test(inputValue) && !convState && inputValue.length >= 2) {
+    if (!match && !match2 && !match3 && !devRegex.test(inputValue) && !convState && !botMode && inputValue.length >= 2) {
         loadGtfsData().then(data => {
             const query = inputValue.toLowerCase();
             const found = new Map();
@@ -695,6 +701,7 @@ agreeButton.addEventListener("click", () => {
     let chatBody = document.querySelector('.chat-body');
     chatBody.innerHTML = '';
     convState = null;
+    botMode = false;
     setInputEnabled(false);
     simulateBotResponse();
     let confirmationBox = document.getElementById('confirmationBox');
