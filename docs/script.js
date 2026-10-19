@@ -307,10 +307,12 @@ async function handleLineSearch(text) {
                     if (!emptyDir) return [id, v];
                     const capA = emptyDir[1].firstCap;
                     const capB = emptyDir[1].lastCap;
-                    // Trova quale CAP è più vicino alla fine del percorso
-                    const lastStop = v.stops[v.stops.length - 1].name.replace(/Fermata \d+ - /, '');
-                    const firstStop = v.stops[0].name.replace(/Fermata \d+ - /, '');
-                    const endsAtB = lastStop.includes(capB.replace(' CAP','')) || capB.includes(lastStop.replace(' CAP',''));
+                    // Cerca capA e capB nelle fermate della direzione, vince quello più vicino alla fine
+                    const codes = v.stops.map(s => s.name.replace(/Fermata \d+ - /, ''));
+                    const idxA = codes.map((n,i) => n.includes(capA.replace(' CAP','')) ? i : -1).filter(i=>i>=0).pop() ?? -1;
+                    const idxB = codes.map((n,i) => n.includes(capB.replace(' CAP','')) ? i : -1).filter(i=>i>=0).pop() ?? -1;
+                    if (idxA === -1 && idxB === -1) return [id, v]; // fallback: usa i CAP originali della direzione
+                    const endsAtB = idxB >= idxA;
                     const fc = endsAtB ? capA : capB;
                     const lc = endsAtB ? capB : capA;
                     return [id, { ...v, firstCap: fc, lastCap: lc }];
