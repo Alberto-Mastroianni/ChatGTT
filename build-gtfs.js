@@ -90,10 +90,13 @@ for (const [lineName, dirs] of Object.entries(lineTrips)) {
       .map(s => ({ code: s.code, name: s.name }));
     // Aggiungi anche headsign (capolinea)
     const headsign = Object.values(tripMap).find(t => t.line === lineName && t.dir === dir)?.headsign || '';
-    // Usa headsign come label se disponibile, altrimenti capolinea calcolati
+    // Capolinea reali = fermate con 'CAP' nel nome
+    const capStops = ordered.filter(s => s.name.includes('CAP'));
+    const firstCap = capStops[0]?.name || ordered[0]?.name || '';
+    const lastCap = capStops[capStops.length - 1]?.name || ordered[ordered.length - 1]?.name || '';
     const firstStop = ordered[0]?.name.replace(/Fermata \d+ - /, '') || '';
     const lastStop = ordered[ordered.length - 1]?.name.replace(/Fermata \d+ - /, '') || '';
-    result[lineName][dir] = { headsign: headsign || lastStop, firstStop, lastStop, stops: ordered };
+    result[lineName][dir] = { headsign, firstCap: firstCap.replace(/Fermata \d+ - /, ''), lastCap: lastCap.replace(/Fermata \d+ - /, ''), firstStop, lastStop, stops: ordered };
   }
 }
 

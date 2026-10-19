@@ -205,9 +205,8 @@ function addStopsToggle(stops, line, dirs) {
 
     // Calcola i 2 capolinea per direzione
     const dirInfos = dirs.map(([dirId, dirData]) => {
-        const s = dirData.stops;
-        const cap1 = s[0].name.replace(/Fermata \d+ - /, '');
-        const cap2 = s[s.length - 1].name.replace(/Fermata \d+ - /, '');
+        const cap1 = dirData.firstCap || dirData.stops[0].name.replace(/Fermata \d+ - /, '');
+        const cap2 = dirData.lastCap || dirData.stops[dirData.stops.length-1].name.replace(/Fermata \d+ - /, '');
         return { dirId, dirData, cap1, cap2, label: `${cap1} → ${cap2}` };
     });
 
@@ -240,9 +239,8 @@ function addStopsToggle(stops, line, dirs) {
                 const lineSaved = line;
                 convState = { step: 'awaiting_dir', line: lineSaved };
                 addButtons(dirMatches.map(({ dirId: dId, dirData: dData, stop }) => {
-                    const st = dData.stops;
-                    const c1 = st[0].name.replace(/Fermata \d+ - /, '');
-                    const c2 = st[st.length - 1].name.replace(/Fermata \d+ - /, '');
+                    const c1 = dData.firstCap || dData.stops[0].name.replace(/Fermata \d+ - /, '');
+                    const c2 = dData.lastCap || dData.stops[dData.stops.length-1].name.replace(/Fermata \d+ - /, '');
                     const lbl = `${c1} → ${c2}`;
                     return { label: lbl, onClick: () => fetchLineAtStop(lineSaved, stop.code, name, dId, lbl) };
                 }));
@@ -298,7 +296,25 @@ async function handleLineSearch(text) {
             return true;
         }
         const dirs = data[lineKey];
-        const validDirs = Object.entries(dirs).filter(([id]) => id === '0' || id === '1');
+        const allDirs = Object.entries(dirs);
+        const has01 = allDirs.some(([id]) => id === '0') && allDirs.some(([id]) => id === '1');
+        let validDirs;
+        if (has01) {
+            // caso normale: usa dir 0 e 1
+            validDirs = allDirs.filter(([id]) => id === '0' || id === '1');
+        } else {
+            // manca dir 1: cerca dir '' con 2 CAP distinti e costruisce A->B e B->A
+            const emptyDir = allDirs.find(([id, v]) => id === '' && v.firstCap !== v.lastCap);
+            if (emptyDir) {
+                const [, v] = emptyDir;
+                validDirs = [
+                    ['0', { ...v, firstCap: v.firstCap, lastCap: v.lastCap }],
+                    ['1', { ...v, stops: [...v.stops].reverse(), firstCap: v.lastCap, lastCap: v.firstCap }]
+                ];
+            } else {
+                validDirs = allDirs.filter(([id]) => id === '0');
+            }
+        }
         convState = { step: 'awaiting_stop', line: lineKey, dirs: validDirs };
         const t = window.translator;
         addMessage(`${t ? t.get('searchByLine') : 'Linea'} ${lineKey} ${t ? t.get('lineFound') : 'trovata. Scrivi il nome (o parte) della fermata:'}`, false);
@@ -344,8 +360,8 @@ async function handleLineSearch(text) {
         convState = { step: 'awaiting_dir', line: lineSaved };
         addButtons(dirMatches.map(({ dirId, dirData, stop }) => {
             const stops = dirData.stops;
-            const cap1 = stops[0].name.replace(/Fermata \d+ - /, '');
-            const cap2 = stops[stops.length - 1].name.replace(/Fermata \d+ - /, '');
+            const cap1 = dirData.firstCap || stops[0].name.replace(/Fermata \d+ - /, '');
+            const cap2 = dirData.lastCap || stops[stops.length - 1].name.replace(/Fermata \d+ - /, '');
             const label = `${cap1} → ${cap2}`;
             return {
                 label,
