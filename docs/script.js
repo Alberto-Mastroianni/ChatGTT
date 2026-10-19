@@ -290,40 +290,38 @@ function buildValidDirs(dirs) {
     const d1 = allDirs.find(([id]) => id === '1')?.[1];
     const de = allDirs.find(([id]) => id === '')?.[1];
 
-    // Scegli la direzione con più fermate tra quelle disponibili come base
+    const label = (dirData) => ({
+        first: getName(dirData.stops[0]),
+        last: dirData.headsign || getName(dirData.stops[dirData.stops.length-1])
+    });
+
     const best = [d0, d1, de].filter(Boolean).sort((a,b) => b.stops.length - a.stops.length)[0];
     if (!best) return [];
 
-    // Se abbiamo sia dir0 che dir1, ma dir[] ha più fermate, usa dir[]
     if (d0 && d1) {
         const maxD01 = Math.max(d0.stops.length, d1.stops.length);
         if (de && de.stops.length > maxD01 && getName(de.stops[0]) !== getName(de.stops[de.stops.length-1])) {
+            const lb = label(de);
             return [
-                ['0', { ...de, firstCap: getName(de.stops[0]), lastCap: getName(de.stops[de.stops.length-1]) }],
-                ['1', { ...de, stops: [...de.stops].reverse(), firstCap: getName(de.stops[de.stops.length-1]), lastCap: getName(de.stops[0]) }]
+                ['0', { ...de, firstCap: lb.first, lastCap: lb.last }],
+                ['1', { ...de, stops: [...de.stops].reverse(), firstCap: lb.last, lastCap: lb.first }]
             ];
         }
+        const lb0 = label(d0), lb1 = label(d1);
         return [
-            ['0', { ...d0, firstCap: getName(d0.stops[0]), lastCap: getName(d0.stops[d0.stops.length-1]) }],
-            ['1', { ...d1, firstCap: getName(d1.stops[0]), lastCap: getName(d1.stops[d1.stops.length-1]) }]
+            ['0', { ...d0, firstCap: lb0.first, lastCap: lb0.last }],
+            ['1', { ...d1, firstCap: lb1.first, lastCap: lb1.last }]
         ];
     }
 
-    // Abbiamo solo una direzione: costruiamo il ritorno invertendo
-    const base = best;
-    const firstStop = getName(base.stops[0]);
-    const lastStop = getName(base.stops[base.stops.length-1]);
-
-    // Se prima e ultima sono diverse, costruiamo A->B e B->A
-    if (firstStop !== lastStop) {
+    const lb = label(best);
+    if (lb.first !== lb.last) {
         return [
-            ['0', { ...base, firstCap: firstStop, lastCap: lastStop }],
-            ['1', { ...base, stops: [...base.stops].reverse(), firstCap: lastStop, lastCap: firstStop }]
+            ['0', { ...best, firstCap: lb.first, lastCap: lb.last }],
+            ['1', { ...best, stops: [...best.stops].reverse(), firstCap: lb.last, lastCap: lb.first }]
         ];
     }
-
-    // Capolinea uguale (circolare o dati errati): mostra solo una direzione
-    return [['0', { ...base, firstCap: firstStop, lastCap: lastStop }]];
+    return [['0', { ...best, firstCap: lb.first, lastCap: lb.last }]];
 }
 async function handleLineSearch(text) {
     if (!convState) return false;
