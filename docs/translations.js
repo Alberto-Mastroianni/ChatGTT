@@ -40,15 +40,15 @@ class TranslationManager {
                 tryStopNumber: "Scegli come vuoi cercare:",
                 botIntro: "Salve, sono un bot con IA e sono qui per darti una mano su tutta la rete di Torino",
                 creators: "Sono stato creato da due ragazzi di 5° superiore, Alberto Mastroianni e Matteo Licciardino",
-                enterStopNumber: "Scrivi il numero della fermata, vediamo quando passa il tuo bus o tram",
-                busesAtStop: "Ecco i bus che passano nella fermata",
+                enterStopNumber: "Scrivi il numero della fermata, vediamo quando passa il tuo mezzo",
+                busesAtStop: "Ecco i mezzi che passano nella fermata",
                 wrongStopNumber: "Hai sbagliato inserire il numero della fermata!",
                 retryStopNumber: "Riprova a inserire correttamente il numero della fermata!",
 
                 // Flusso ricerca per linea
                 searchByStop: "Cerca per fermata",
                 searchByLine: "Cerca per linea",
-                enterStopNumberPrompt: "Inserisci il numero della fermata:",
+                enterStopNumberPrompt: "Nome o numero fermata:",
                 enterLineNumber: "Inserisci il numero della linea (es. 4, 36, M1):",
                 lineFound: "trovata. Scrivi il nome (o parte) della fermata:",
                 showStops: "▼ Mostra tutte le fermate",
@@ -118,15 +118,15 @@ class TranslationManager {
                 tryStopNumber: "Choose how you want to search:",
                 botIntro: "Hello, I'm an AI bot and I'm here to help you with the entire Turin transport network",
                 creators: "I was created by two high school students, Alberto Mastroianni and Matteo Licciardino",
-                enterStopNumber: "Enter the stop number, let's see when your bus or tram arrives",
-                busesAtStop: "Here are the buses that stop at stop",
+                enterStopNumber: "Enter the stop number, let's see when your next vehicle arrives",
+                busesAtStop: "Here are the vehicles stopping at stop",
                 wrongStopNumber: "You entered the wrong stop number!",
                 retryStopNumber: "Please try entering the stop number correctly!",
 
                 // Line search flow
                 searchByStop: "Search by stop",
                 searchByLine: "Search by line",
-                enterStopNumberPrompt: "Enter the stop number:",
+                enterStopNumberPrompt: "Stop name or number:",
                 enterLineNumber: "Enter the line number (e.g. 4, 36, M1):",
                 lineFound: "found. Write the stop name (or part of it):",
                 showStops: "▼ Show all stops",
@@ -196,15 +196,15 @@ class TranslationManager {
                 tryStopNumber: "Elige cómo quieres buscar:",
                 botIntro: "Hola, soy un bot con IA y estoy aquí para ayudarte con toda la red de transporte de Turín",
                 creators: "Fui creado por dos estudiantes de secundaria, Alberto Mastroianni y Matteo Licciardino",
-                enterStopNumber: "Escribe el número de la parada, veamos cuándo pasa tu autobús o tranvía",
-                busesAtStop: "Aquí están los autobuses que pasan por la parada",
+                enterStopNumber: "Escribe el número de la parada, veamos cuándo pasa tu próximo vehículo",
+                busesAtStop: "Aquí están los vehículos que pasan por la parada",
                 wrongStopNumber: "¡Has introducido mal el número de la parada!",
                 retryStopNumber: "¡Intenta introducir correctamente el número de la parada!",
 
                 // Flujo búsqueda por línea
                 searchByStop: "Buscar por parada",
                 searchByLine: "Buscar por línea",
-                enterStopNumberPrompt: "Introduce el número de la parada:",
+                enterStopNumberPrompt: "Nombre o número de parada:",
                 enterLineNumber: "Introduce el número de línea (ej. 4, 36, M1):",
                 lineFound: "encontrada. Escribe el nombre de la parada (o parte):",
                 showStops: "▼ Mostrar todas las paradas",
@@ -274,15 +274,15 @@ class TranslationManager {
                 tryStopNumber: "Choisissez comment vous voulez chercher:",
                 botIntro: "Salut, je suis un bot IA et je suis là pour vous aider avec tout le réseau de transport de Turin",
                 creators: "J'ai été créé par deux lycéens, Alberto Mastroianni et Matteo Licciardino",
-                enterStopNumber: "Écrivez le numéro de l'arrêt, voyons quand votre bus ou tram arrive",
-                busesAtStop: "Voici les bus qui passent à l'arrêt",
+                enterStopNumber: "Écrivez le numéro de l'arrêt, voyons quand votre prochain véhicule arrive",
+                busesAtStop: "Voici les véhicules qui passent à l'arrêt",
                 wrongStopNumber: "Vous avez mal saisi le numéro de l'arrêt!",
                 retryStopNumber: "Veuillez réessayer de saisir correctement le numéro de l'arrêt!",
 
                 // Flux recherche par ligne
                 searchByStop: "Rechercher par arrêt",
                 searchByLine: "Rechercher par ligne",
-                enterStopNumberPrompt: "Entrez le numéro de l'arrêt:",
+                enterStopNumberPrompt: "Nom ou numéro d'arrêt:",
                 enterLineNumber: "Entrez le numéro de ligne (ex. 4, 36, M1):",
                 lineFound: "trouvée. Écrivez le nom de l'arrêt (ou une partie):",
                 showStops: "▼ Afficher tous les arrêts",
@@ -352,15 +352,15 @@ class TranslationManager {
                 tryStopNumber: "Wählen Sie, wie Sie suchen möchten:",
                 botIntro: "Hallo, ich bin ein KI-Bot und bin hier, um Ihnen mit dem gesamten Turiner Verkehrsnetz zu helfen",
                 creators: "Ich wurde von zwei Oberschülern erstellt, Alberto Mastroianni und Matteo Licciardino",
-                enterStopNumber: "Geben Sie die Haltestellen-Nummer ein, schauen wir, wann Ihr Bus oder Ihre Straßenbahn kommt",
-                busesAtStop: "Hier sind die Busse, die an der Haltestelle",
+                enterStopNumber: "Geben Sie die Haltestellen-Nummer ein, schauen wir, wann Ihr nächstes Fahrzeug kommt",
+                busesAtStop: "Hier sind die Fahrzeuge, die an der Haltestelle",
                 wrongStopNumber: "Sie haben die falsche Haltestellen-Nummer eingegeben!",
                 retryStopNumber: "Bitte versuchen Sie, die Haltestellen-Nummer korrekt einzugeben!",
 
                 // Liniensuche
                 searchByStop: "Nach Haltestelle suchen",
                 searchByLine: "Nach Linie suchen",
-                enterStopNumberPrompt: "Geben Sie die Haltestellennummer ein:",
+                enterStopNumberPrompt: "Haltestellenname oder -nummer:",
                 enterLineNumber: "Geben Sie die Liniennummer ein (z.B. 4, 36, M1):",
                 lineFound: "gefunden. Schreiben Sie den Haltestellennamen (oder einen Teil):",
                 showStops: "▼ Alle Haltestellen anzeigen",
@@ -692,11 +692,11 @@ class TranslationManager {
         
         // Gestisci messaggi con numero fermata - tutte le varianti
         const busStopPatterns = [
-            /Ecco i bus che passano nella fermata (\d+):/,
-            /Here are the buses that stop at stop (\d+):/,
-            /Hier sind die Busse, die an der Haltestelle (\d+):/,
-            /Aquí están los autobuses que pasan por la parada (\d+):/,
-            /Voici les bus qui passent à l'arrêt (\d+):/
+            /Ecco i mezzi che passano nella fermata (\d+):/,
+            /Here are the vehicles stopping at stop (\d+):/,
+            /Hier sind die Fahrzeuge, die an der Haltestelle (\d+):/,
+            /Aquí están los vehículos que pasan por la parada (\d+):/,
+            /Voici les véhicules qui passent à l'arrêt (\d+):/
         ];
         
         for (const pattern of busStopPatterns) {

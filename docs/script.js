@@ -173,7 +173,7 @@ function showModeButtons() {
             botMode = false;
             setInputEnabled(true);
             addMessage(t ? t.get('searchByStop') : 'Cerca per fermata', true);
-            addMessage(t ? t.get('enterStopNumberPrompt') : 'Inserisci il numero della fermata:', false);
+            addMessage(t ? t.get('enterStopNumberPrompt') : 'Nome o numero fermata:', false);
         }},
         { label: t ? t.get('askBot') : 'Chiedi al bot', onClick: () => {
             convState = null;
@@ -665,16 +665,20 @@ function fetchStopSchedule(stopNumber, stopLabel) {
             if (loadingDots.textContent.length > 3) loadingDots.textContent = '';
         }, 500);
 
+        const tramLines = new Set(['3','4','7','9','10','13','15','16','sassi-superga','9/stadio']);
         fetch(getBusInfoUrl(stopNumber))
             .then(r => r.json())
             .then(data => {
                 if (!Array.isArray(data)) throw new Error('Dati non validi');
                 const busInfoMessage = window.translator ? window.translator.formatSchedule(JSON.stringify(data)) : formattaOrari(JSON.stringify(data));
+                const lines = [...new Set(data.map(d => d.line.toLowerCase()))];
+                const allTram = lines.length > 0 && lines.every(l => tramLines.has(l));
+                const anyTram = lines.some(l => tramLines.has(l));
+                const vehicleLabel = allTram ? 'tram' : anyTram ? 'mezzi' : 'bus';
                 setTimeout(() => {
                     clearInterval(dotsInterval);
                     chatBody.removeChild(loadingMessage);
-                    const busesAtStop = t ? t.get('busesAtStop') : 'Ecco i bus che passano nella fermata';
-                    addMessage(`${busesAtStop} ${displayName} (${stopNumber}):`, false);
+                    addMessage(`Ecco i ${vehicleLabel} che passano nella fermata ${displayName} (${stopNumber}):`, false);
                 }, 500);
                 setTimeout(() => {
                     if (busInfoMessage === '') {
@@ -682,6 +686,7 @@ function fetchStopSchedule(stopNumber, stopLabel) {
                     } else {
                         addMessage(busInfoMessage, false);
                     }
+                    setTimeout(showModeButtons, 500);
                 }, 1500);
             })
             .catch(error => console.error('Errore durante la richiesta API:', error));
