@@ -855,6 +855,12 @@ body.dark-theme .metro-table td {
     color: #e0e0e0;
 }
 
+body.dark-theme .bot-message .chat-btn.expand {
+  color: #1a1a1a !important;
+  border-color: #1a1a1a !important;
+  background-color: transparent !important;
+}
+
 /* Chat body sfondo */
 body.dark-theme .chat-body {
     background-color: #1e1e1e;

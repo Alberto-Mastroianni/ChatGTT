@@ -450,6 +450,7 @@ class TranslationManager {
             const chatBody = document.querySelector('.chat-body');
             if (chatBody) chatBody.innerHTML = '';
             if (typeof convState !== 'undefined') convState = null;
+            if (typeof botMode !== 'undefined') botMode = false;
             if (typeof setInputEnabled === 'function') setInputEnabled(false);
             if (typeof simulateBotResponse === 'function') simulateBotResponse('');
         }

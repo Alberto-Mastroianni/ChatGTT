@@ -8,7 +8,8 @@ const declineButton = document.getElementById("decline");
 let gtfsData = null;
 let avvisiData = null;
 let convState = null;
-let botMode = false; // true = modalità "Chiedi al bot"
+let botMode = false;
+let botSessionId = 0; // incrementato ad ogni reset, invalida i setTimeout pendenti
 
 async function loadGtfsData() {
     if (gtfsData) return gtfsData;
@@ -109,8 +110,10 @@ function sanitizeHTML(html) {
 document.addEventListener('click', (e) => {
     const btn = e.target.closest('.dev-toggle');
     if (!btn) return;
-    const extra = btn.previousElementSibling;
-    if (!extra || !extra.classList.contains('dev-extra')) return;
+    const msg = btn.closest('.bot-message');
+    if (!msg) return;
+    const extra = msg.querySelector('.dev-extra');
+    if (!extra) return;
     const hidden = extra.style.display === 'none';
     extra.style.display = hidden ? 'block' : 'none';
     const count = btn.dataset.count;
@@ -432,44 +435,39 @@ function simulateBotResponse(_, inputText) {
 
     // Controlla se ci sono già messaggi nel chatBody
     if (chatBody.children.length === 0) {
-        // Aggiungi un messaggio di caricamento con puntini
+        const mySession = ++botSessionId;
         const loadingMessage = document.createElement('div');
         loadingMessage.classList.add('message', 'bot-message');
         loadingMessage.textContent = ".";
         chatBody.appendChild(loadingMessage);
 
-        // Aggiungi l'animazione dei puntini di caricamento
         const loadingDots = document.createElement('span');
         loadingDots.classList.add('loading-dots');
         loadingMessage.appendChild(loadingDots);
 
-        // Inizia l'animazione dei puntini di caricamento
         const dotsInterval = setInterval(() => {
             loadingDots.textContent += ".";
-            if (loadingDots.textContent.length > 3) {
-                loadingDots.textContent = "";
-            }
+            if (loadingDots.textContent.length > 3) loadingDots.textContent = "";
         }, 500);
 
-        // Aggiungi un ritardo prima di visualizzare il messaggio del bot
         setTimeout(() => {
-            // Interrompi l'animazione dei puntini di caricamento
+            if (botSessionId !== mySession) return;
             clearInterval(dotsInterval);
-
-            // Rimuovi il messaggio di caricamento
-            chatBody.removeChild(loadingMessage);
-
-            // Aggiungi il messaggio del bot reale
+            if (chatBody.contains(loadingMessage)) chatBody.removeChild(loadingMessage);
             const botResponse = window.translator ? window.translator.get('welcomeMessage') : "Ciao! Io sono ChatGTT, come posso aiutarti?";
             addMessage(botResponse, false);
-        }, 1300); 
-        
+        }, 1300);
+
         setTimeout(() => {
+            if (botSessionId !== mySession) return;
             const tryStopMsg = window.translator ? window.translator.get('tryStopNumber') : "Scegli come vuoi cercare:";
             addMessage(tryStopMsg, false);
         }, 2300);
 
-        setTimeout(() => showModeButtons(), 3100);
+        setTimeout(() => {
+            if (botSessionId !== mySession) return;
+            showModeButtons();
+        }, 3100);
     }
 
     // Analizza l'input dell'utente
