@@ -84,10 +84,14 @@ class TranslationManager {
                 menuTitle: "Menu Opzioni",
                 darkTheme: "Tema Scuro",
                 guideTitle: "Come funziona",
-                guideSchedulesTitle: "Orari:",
-                guideSchedulesDesc: "Scrivi il numero di una fermata (es. 253) per vedere i passaggi in tempo reale.",
+                guideSchedulesTitle: "Pulsante \"Cerca per fermata\":",
+                guideSchedulesDesc: "Clicca questo pulsante e inserisci il numero di una fermata (es. 253) per vedere i passaggi in tempo reale.",
+                guideLineTitle: "Pulsante \"Cerca per linea\":",
+                guideLineDesc: "Clicca questo pulsante, inserisci la linea (es. 4, 36, M1) e scegli la direzione e la fermata desiderata.",
                 guideTicketsTitle: "Biglietti:",
                 guideTicketsDesc: "Chiedi informazioni sui prezzi o scrivi \"biglietti\".",
+                guideThemeTitle: "Tema Scuro:",
+                guideThemeDesc: "Attiva o disattiva la modalità scura dall'interruttore in alto nel menu.",
                 guideClearTitle: "Pulizia:",
                 guideClearDesc: "Usa il tasto a forma di cestino per cancellare la cronologia della chat.",
                 guideLanguageTitle: "Lingua:",
@@ -150,10 +154,14 @@ class TranslationManager {
                 menuTitle: "Options Menu",
                 darkTheme: "Dark Theme",
                 guideTitle: "How it works",
-                guideSchedulesTitle: "Schedules:",
-                guideSchedulesDesc: "Enter a stop number (e.g., 253) to see real-time arrivals.",
+                guideSchedulesTitle: "\"Search by stop\" button:",
+                guideSchedulesDesc: "Click this button and enter a stop number (e.g., 253) to see real-time arrivals.",
+                guideLineTitle: "\"Search by line\" button:",
+                guideLineDesc: "Click this button, enter the line (e.g., 4, 36, M1), and choose your desired direction and stop.",
                 guideTicketsTitle: "Tickets:",
                 guideTicketsDesc: "Ask for pricing information or type \"tickets\".",
+                guideThemeTitle: "Dark Theme:",
+                guideThemeDesc: "Toggle dark mode from the switch at the top of the menu.",
                 guideClearTitle: "Clear:",
                 guideClearDesc: "Use the trash can button to clear the chat history.",
                 guideLanguageTitle: "Language:",
@@ -216,10 +224,14 @@ class TranslationManager {
                 menuTitle: "Menú de Opciones",
                 darkTheme: "Tema Oscuro",
                 guideTitle: "Cómo funciona",
-                guideSchedulesTitle: "Horarios:",
-                guideSchedulesDesc: "Escribe el número de una parada (ej. 253) para ver las llegadas en tiempo real.",
+                guideSchedulesTitle: "Botón \"Buscar por parada\":",
+                guideSchedulesDesc: "Haz clic en este botón y escribe el número de una parada (ej. 253) para ver las llegadas en tiempo real.",
+                guideLineTitle: "Botón \"Buscar por línea\":",
+                guideLineDesc: "Haz clic en este botón, introduce la línea (ej. 4, 36, M1) y elige la dirección y la parada deseada.",
                 guideTicketsTitle: "Billetes:",
                 guideTicketsDesc: "Pide información de precios o escribe \"billetes\".",
+                guideThemeTitle: "Tema Oscuro:",
+                guideThemeDesc: "Activa o desactiva el modo oscuro desde el interruptor en la parte superior del menú.",
                 guideClearTitle: "Limpiar:",
                 guideClearDesc: "Usa el botón de la papelera para borrar el historial del chat.",
                 guideLanguageTitle: "Idioma:",
@@ -282,11 +294,15 @@ class TranslationManager {
                 menuTitle: "Menu Options",
                 darkTheme: "Thème Sombre",
                 guideTitle: "Comment ça marche",
-                guideSchedulesTitle: "Horaires:",
-                guideSchedulesDesc: "Écrivez le numéro d'un arrêt (ex. 253) pour voir les passages en temps réel.",
+                guideSchedulesTitle: "Bouton \"Rechercher par arrêt\":",
+                guideSchedulesDesc: "Cliquez sur ce bouton et écrivez le numéro d'un arrêt (ex. 253) pour voir les passages en temps réel.",
+                guideLineTitle: "Bouton \"Rechercher par ligne\":",
+                guideLineDesc: "Cliquez sur ce bouton, entrez la ligne (ex. 4, 36, M1) et choisissez la direction et l'arrêt souhaité.",
                 guideTicketsTitle: "Billets:",
                 guideTicketsDesc: "Demandez des informations sur les prix ou écrivez \"billets\".",
-                guideClearTitle: "Nettoyer:",
+                guideThemeTitle: "Thème Sombre:",
+                guideThemeDesc: "Activez ou désactivez le mode sombre depuis l'interrupteur en haut du menu.",
+                guideClearTitle: "Nettoyer:",   
                 guideClearDesc: "Utilisez le bouton poubelle pour effacer l'historique du chat.",
                 guideLanguageTitle: "Langue:",
                 guideLanguageDesc: "Utilisez le menu déroulant en haut à droite pour changer de langue."
@@ -348,10 +364,14 @@ class TranslationManager {
                 menuTitle: "Optionsmenü",
                 darkTheme: "Dunkles Design",
                 guideTitle: "Wie es funktioniert",
-                guideSchedulesTitle: "Fahrpläne:",
-                guideSchedulesDesc: "Geben Sie eine Haltestellennummer (z.B. 253) ein, um Abfahrten in Echtzeit zu sehen.",
+                guideSchedulesTitle: "Schaltfläche \"Nach Haltestelle suchen\":",
+                guideSchedulesDesc: "Klicken Sie auf diese Schaltfläche und geben Sie eine Haltestellennummer (z.B. 253) ein, um Abfahrten in Echtzeit zu sehen.",
+                guideLineTitle: "Schaltfläche \"Nach Linie suchen\":",
+                guideLineDesc: "Klicken Sie auf diese Schaltfläche, geben Sie die Linie (z.B. 4, 36, M1) ein und wählen Sie Ihre gewünschte Richtung und Haltestelle.",
                 guideTicketsTitle: "Tickets:",
                 guideTicketsDesc: "Fragen Sie nach Preisinformationen oder schreiben Sie \"Tickets\".",
+                guideThemeTitle: "Dunkles Design:",
+                guideThemeDesc: "Aktivieren oder deaktivieren Sie den dunklen Modus über den Schalter oben im Menü.",
                 guideClearTitle: "Löschen:",
                 guideClearDesc: "Verwenden Sie die Papierkorb-Schaltfläche, um den Chatverlauf zu löschen.",
                 guideLanguageTitle: "Sprache:",
@@ -474,10 +494,21 @@ class TranslationManager {
         const guideSchedulesDesc = document.getElementById('guideSchedulesDesc');
         if (guideSchedulesDesc) guideSchedulesDesc.textContent = this.get('guideSchedulesDesc');
 
+        // Aggiunta per la traduzione di "Cerca per linea"
+        const guideLineTitle = document.getElementById('guideLineTitle');
+        if (guideLineTitle) guideLineTitle.textContent = this.get('guideLineTitle');
+        const guideLineDesc = document.getElementById('guideLineDesc');
+        if (guideLineDesc) guideLineDesc.textContent = this.get('guideLineDesc');
+
         const guideTicketsTitle = document.getElementById('guideTicketsTitle');
         if (guideTicketsTitle) guideTicketsTitle.textContent = this.get('guideTicketsTitle');
         const guideTicketsDesc = document.getElementById('guideTicketsDesc');
         if (guideTicketsDesc) guideTicketsDesc.textContent = this.get('guideTicketsDesc');
+
+        const guideThemeTitle = document.getElementById('guideThemeTitle');
+        if (guideThemeTitle) guideThemeTitle.textContent = this.get('guideThemeTitle');
+        const guideThemeDesc = document.getElementById('guideThemeDesc');
+        if (guideThemeDesc) guideThemeDesc.textContent = this.get('guideThemeDesc');
 
         const guideClearTitle = document.getElementById('guideClearTitle');
         if (guideClearTitle) guideClearTitle.textContent = this.get('guideClearTitle');
