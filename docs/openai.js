@@ -2,6 +2,7 @@ async function getAIResponse(prompt) {
     try {
         const detectedLang = window.translator ? window.translator.detectLanguage(prompt) : 'it';
         const langChanged = window.translator && detectedLang !== window.translator.currentLanguage;
+        
         if (langChanged) {
             window.translator.currentLanguage = detectedLang;
             window.translator.updateInterface();
@@ -32,11 +33,16 @@ async function getAIResponse(prompt) {
         }
 
         console.warn('Risposta Gemini inattesa:', JSON.stringify(response.data));
+        
         if (response.data?.error) {
             const errMsg = typeof response.data.error === 'object'
                 ? (response.data.error.message || JSON.stringify(response.data.error))
                 : response.data.error;
-            throw new Error(errMsg);
+            
+            // MODIFICA QUI: Creiamo un errore personalizzato e gli assegniamo il codice
+            const customError = new Error(errMsg);
+            customError.statusCode = response.data.error.code; // Salva il 429 di Gemini
+            throw customError;
         }
 
         throw new Error('Risposta non valida dal proxy.');
@@ -46,13 +52,14 @@ async function getAIResponse(prompt) {
 
         const currentLang = window.translator ? window.translator.currentLanguage : 'it';
 
-        if (error.response?.status === 429) {
+        // MODIFICA QUI: Controlliamo sia l'errore HTTP di Axios, sia il nostro errore personalizzato
+        if (error.response?.status === 429 || error.statusCode === 429) {
             const msgs = {
-                it: 'Stai inviando messaggi troppo velocemente. Attendi un momento.',
-                en: 'You are sending messages too fast. Please wait a moment.',
-                es: 'Estás enviando mensajes demasiado rápido. Espera un momento.',
-                fr: 'Vous envoyez des messages trop vite. Attendez un moment.',
-                de: 'Sie senden Nachrichten zu schnell. Bitte warten Sie einen Moment.'
+                it: 'Hai superato il limite di messaggi (o messaggi troppo veloci). Riprova più tardi.',
+                en: 'You have exceeded the message limit (or sending too fast). Please try again later.',
+                es: 'Has superado el límite de mensajes. Vuelve a intentarlo más tarde.',
+                fr: 'Vous avez dépassé la limite de messages. Veuillez réessayer plus tard.',
+                de: 'Sie haben das Nachrichtenlimit überschritten. Bitte versuchen Sie es später noch einmal.'
             };
             return msgs[currentLang] || msgs['it'];
         }
