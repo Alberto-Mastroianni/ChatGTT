@@ -79,7 +79,7 @@ function sendMessage() {
         simulateBotResponse(text, text);
 
         // Chiamata AI solo se NON siamo in un flusso strutturato
-        if (!convState) {
+        if (botMode) {
             getAIResponse(text)
             .then(response => {
                 if (response && response.trim() !== "") {
