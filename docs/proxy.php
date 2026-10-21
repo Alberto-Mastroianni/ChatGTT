@@ -44,7 +44,7 @@ try {
     // 4. KNOWLEDGE BASE
     $knowledgeBase = "
 === CHI SIAMO ===
-ChatGTT è un assistente virtuale per i trasporti pubblici di Torino, creato da Alberto Mastroianni e Matteo Licciardino, due studenti di 5° superiore. Contatto: assistenza@chatgtt.it
+ChatGTT è un assistente virtuale per i trasporti pubblici di Torino, creato da Alberto Mastroianni e Matteo Licciardino, due studenti di 5° superiore.
 
 === GTT - GRUPPO TORINESE TRASPORTI ===
 GTT (Gruppo Torinese Trasporti) gestisce il trasporto pubblico di Torino e area metropolitana.
@@ -135,6 +135,7 @@ Abbonamento BIP: va comunque avvicinato al lettore ad ogni salita.
     4. Tono gentile e sintetico. Risposte brevi e dirette.
     5. Testo semplice, senza markdown (* o #).
     6. Se non conosci la risposta, di' che non hai questa informazione disponibile.
+    7. REGOLA TARIFFE (IMPORTANTE): Se l'utente chiede i prezzi, le tariffe, il costo o i biglietti, DEVI restituire testualmente e per intero tutto il contenuto della sezione === BIGLIETTI E TARIFFE ===. Non riassumere, non tagliare l'elenco e non modificare il testo in alcun modo.
     ";
 
     $fullPrompt = $knowledgeBase . "\n\n" . $instruction . "\n\nUser: " . $userMessage;
@@ -146,14 +147,15 @@ Abbonamento BIP: va comunque avvicinato al lettore ad ogni salita.
     ]);
 
     // 6. CHIAMATA API GEMINI
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . GEMINI_API_KEY;
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=" . GEMINI_API_KEY;
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $geminiPayload);
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
     $response = curl_exec($ch);
     $curlError = curl_errno($ch);
