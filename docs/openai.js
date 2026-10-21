@@ -11,8 +11,9 @@ async function getAIResponse(prompt) {
         const stopRegex = /^(\d+)$/i;
         const stopRegex2 = /^(ciao|buongiorno|hey|salve|hello|hi|hola|salut|bonjour|hallo)$/i;
         const stopRegex3 = /^(grazie|grazie mille|ti ringrazio|grato|grata|thank|thanks|gracias|merci|danke)$/i;
+        const stopRegex4 = /^(deviazion[ei]|disruptions?|desvios?|alertes?|ablenkungen?)$/i;
 
-        if (stopRegex.test(prompt) || stopRegex2.test(prompt) || stopRegex3.test(prompt)) {
+        if (stopRegex.test(prompt) || stopRegex2.test(prompt) || stopRegex3.test(prompt) || stopRegex4.test(prompt)) {
             return null;
         }
 
