@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const GTFS_DIR = path.join(__dirname, 'gtt_gtfs');
+const GTFS_DIR = process.env.GTFS_DIR ? path.join(process.cwd(), process.env.GTFS_DIR) : path.join(__dirname, 'gtt_gtfs');
 
 function parseCSV(filePath) {
   const lines = fs.readFileSync(filePath, 'utf8').split('\n');
@@ -90,10 +90,16 @@ for (const [lineName, dirs] of Object.entries(lineTrips)) {
       .map(s => ({ code: s.code, name: s.name }));
     // Aggiungi anche headsign (capolinea)
     const headsign = Object.values(tripMap).find(t => t.line === lineName && t.dir === dir)?.headsign || '';
-    result[lineName][dir] = { headsign, stops: ordered };
+    // Capolinea reali = fermate con 'CAP' nel nome
+    const capStops = ordered.filter(s => s.name.includes('CAP'));
+    const firstCap = capStops[0]?.name || ordered[0]?.name || '';
+    const lastCap = capStops[capStops.length - 1]?.name || ordered[ordered.length - 1]?.name || '';
+    const firstStop = ordered[0]?.name.replace(/Fermata \d+ - /, '') || '';
+    const lastStop = ordered[ordered.length - 1]?.name.replace(/Fermata \d+ - /, '') || '';
+    result[lineName][dir] = { headsign, firstCap: firstCap.replace(/Fermata \d+ - /, ''), lastCap: lastCap.replace(/Fermata \d+ - /, ''), firstStop, lastStop, stops: ordered };
   }
 }
 
-const outPath = path.join(__dirname, 'gtfs-data.json');
+const outPath = process.env.GTFS_DIR ? path.join(process.cwd(), 'gtfs-data.json') : path.join(__dirname, 'gtfs-data.json');
 fs.writeFileSync(outPath, JSON.stringify(result));
 console.log(`✅ gtfs-data.json generato con ${Object.keys(result).length} linee → ${outPath}`);
