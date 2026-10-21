@@ -23,7 +23,7 @@ async function getAIResponse(prompt) {
             lingua: currentLang
         }, {
             headers: { 'Content-Type': 'application/json' },
-            timeout: 15000
+            timeout: 65000
         });
 
         if (response.data && response.data.candidates && response.data.candidates[0]?.content) {
