@@ -1,2 +1,7 @@
 ./config.js
 docs/config.php
+
+docs/gtt-gtfs/
+docs/gtt_gtfs/
+docs/mdb-*/
+docs/*.zip

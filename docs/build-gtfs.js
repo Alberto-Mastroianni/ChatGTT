@@ -5,21 +5,45 @@ const { execFileSync } = require('child_process');
 
 const OUTPUT_FILE = path.join(__dirname, 'gtfs-data.json');
 const ZIP_FILE = path.join(__dirname, 'gtt_gtfs.zip');
+const EXTRACT_DIR = path.join(__dirname, 'gtt_gtfs');
 
 /**
- * Individua automaticamente la cartella con i file GTFS (.txt).
- * Se non esiste ancora ma è presente gtt_gtfs.zip, lo estrae.
+ * Usa gtt_gtfs.zip come sorgente principale (estraendolo in ./gtt_gtfs se manca
+ * o se lo ZIP è più recente della cartella estratta). Usa eventuali cartelle mdb-*
+ * solo come fallback se gtt_gtfs.zip non è presente.
  */
 function resolveGtfsDir() {
   const requiredFile = 'routes.txt';
 
+  if (fs.existsSync(ZIP_FILE)) {
+    const zipMtime = fs.statSync(ZIP_FILE).mtimeMs;
+    const extractedRoute = path.join(EXTRACT_DIR, requiredFile);
+    const needsExtract =
+      !fs.existsSync(extractedRoute) ||
+      zipMtime > fs.statSync(extractedRoute).mtimeMs;
+
+    if (needsExtract) {
+      fs.rmSync(EXTRACT_DIR, { recursive: true, force: true });
+      fs.mkdirSync(EXTRACT_DIR, { recursive: true });
+
+      if (process.platform === 'win32') {
+        execFileSync('tar', ['-xf', ZIP_FILE, '-C', EXTRACT_DIR]);
+      } else {
+        execFileSync('unzip', ['-oq', ZIP_FILE, '-d', EXTRACT_DIR]);
+      }
+    }
+
+    if (fs.existsSync(extractedRoute)) {
+      return EXTRACT_DIR;
+    }
+  }
+
+  // Fallback: cerca cartelle già estratte (es. gtt_gtfs o mdb-*)
   const entries = fs.readdirSync(__dirname, { withFileTypes: true });
   const candidateDirs = entries
     .filter((e) => e.isDirectory() && !e.name.startsWith('.') && e.name !== 'node_modules')
-    .map((e) => path.join(__dirname, e.name));
-
-  // Dà priorità a 'gtt_gtfs' o alle cartelle 'mdb-*' più recenti
-  candidateDirs.sort((a, b) => b.localeCompare(a));
+    .map((e) => path.join(__dirname, e.name))
+    .sort((a, b) => b.localeCompare(a));
 
   for (const dir of candidateDirs) {
     if (fs.existsSync(path.join(dir, requiredFile))) {
@@ -27,28 +51,9 @@ function resolveGtfsDir() {
     }
   }
 
-  if (fs.existsSync(ZIP_FILE)) {
-    const extractDir = path.join(__dirname, 'gtt_gtfs');
-    fs.mkdirSync(extractDir, { recursive: true });
-
-    if (process.platform === 'win32') {
-      execFileSync('tar', ['-xf', ZIP_FILE, '-C', extractDir]);
-    } else {
-      execFileSync('unzip', ['-oq', ZIP_FILE, '-d', extractDir]);
-    }
-
-    if (fs.existsSync(path.join(extractDir, requiredFile))) {
-      return extractDir;
-    }
-  }
-
-  throw new Error('Nessuna cartella GTFS valida o file gtt_gtfs.zip trovato.');
+  throw new Error('Nessun file gtt_gtfs.zip o cartella GTFS valida trovata.');
 }
 
-/**
- * Parser di riga nativo che gestisce virgolette e virgole interne
- * senza dipendenze esterne.
- */
 function parseLine(rawLine) {
   const line = rawLine.replace(/\r$/, '');
   const fields = [];
@@ -75,18 +80,14 @@ function parseLine(rawLine) {
   return fields;
 }
 
-/**
- * Rimuove il prefisso "Fermata 123 - " dal nome del capolinea.
- */
 function cleanCapName(name) {
   return (name || '').replace(/^Fermata\s+\d+\s*-\s*/i, '').trim();
 }
 
-/**
- * Legge un file GTFS in streaming riga per riga.
- */
-async function streamGtfsFile(gtfsDir, filename, onRow) {
+async function streamGtfsFile(gtfsDir, filename, onRow, optional = false) {
   const filePath = path.join(gtfsDir, filename);
+  if (optional && !fs.existsSync(filePath)) return;
+
   const rl = readline.createInterface({
     input: fs.createReadStream(filePath, { encoding: 'utf8' }),
     crlfDelay: Infinity,
@@ -110,11 +111,88 @@ async function streamGtfsFile(gtfsDir, filename, onRow) {
   }
 }
 
+function formatYMD(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}${m}${d}`;
+}
+
+function computeActiveServices(calendars, exceptions, targetDate) {
+  const ymd = formatYMD(targetDate);
+  const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const dayCol = dayNames[targetDate.getDay()];
+
+  const active = new Set();
+
+  for (const [serviceId, cal] of calendars.entries()) {
+    if (ymd >= cal.start_date && ymd <= cal.end_date && cal[dayCol] === '1') {
+      active.add(serviceId);
+    }
+  }
+
+  for (const ex of exceptions) {
+    if (ex.date !== ymd) continue;
+    if (ex.exception_type === '1') {
+      active.add(ex.service_id);
+    } else if (ex.exception_type === '2') {
+      active.delete(ex.service_id);
+    }
+  }
+
+  return active;
+}
+
 async function buildGtfs() {
   const gtfsDir = resolveGtfsDir();
   console.log(`Lettura dati GTFS da: ${path.basename(gtfsDir)}`);
 
-  // 1. Carica routes.txt -> route_id => route_short_name
+  // 0. Carica calendar.txt e calendar_dates.txt per filtrare i servizi attivi oggi
+  const calendars = new Map();
+  await streamGtfsFile(gtfsDir, 'calendar.txt', (cols, idx) => {
+    const serviceId = cols[idx.service_id];
+    if (!serviceId) return;
+    calendars.set(serviceId, {
+      start_date: cols[idx.start_date],
+      end_date: cols[idx.end_date],
+      monday: cols[idx.monday],
+      tuesday: cols[idx.tuesday],
+      wednesday: cols[idx.wednesday],
+      thursday: cols[idx.thursday],
+      friday: cols[idx.friday],
+      saturday: cols[idx.saturday],
+      sunday: cols[idx.sunday],
+    });
+  }, true);
+
+  const exceptions = [];
+  await streamGtfsFile(gtfsDir, 'calendar_dates.txt', (cols, idx) => {
+    const serviceId = cols[idx.service_id];
+    const date = cols[idx.date];
+    const exceptionType = cols[idx.exception_type];
+    if (serviceId && date && exceptionType) {
+      exceptions.push({ service_id: serviceId, date, exception_type: exceptionType });
+    }
+  }, true);
+
+  const today = new Date();
+  const activeServices = computeActiveServices(calendars, exceptions, today);
+
+  for (let offset = 0; offset < 7; offset++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + offset);
+    for (const sid of computeActiveServices(calendars, exceptions, d)) {
+      activeServices.add(sid);
+    }
+  }
+
+  if (activeServices.size > 0) {
+    console.log(`Servizi attivi nella settimana corrente (${formatYMD(today)}): ${activeServices.size}`);
+  } else {
+    console.warn('Nessun servizio attivo trovato per la data odierna: uso tutti i servizi disponibili.');
+  }
+
+  // 1. Carica routes.txt
   const routesMap = new Map();
   await streamGtfsFile(gtfsDir, 'routes.txt', (cols, idx) => {
     const routeId = cols[idx.route_id];
@@ -124,7 +202,7 @@ async function buildGtfs() {
     }
   });
 
-  // 2. Carica stops.txt -> stop_id => dati fermata
+  // 2. Carica stops.txt
   const stopsMap = new Map();
   await streamGtfsFile(gtfsDir, 'stops.txt', (cols, idx) => {
     const stopId = cols[idx.stop_id];
@@ -138,18 +216,23 @@ async function buildGtfs() {
     });
   });
 
-  // 3. Carica trips.txt -> trip_id => nome linea
+  // 3. Carica trips.txt (solo service_id attivi)
   const tripsMap = new Map();
   await streamGtfsFile(gtfsDir, 'trips.txt', (cols, idx) => {
     const tripId = cols[idx.trip_id];
     const routeId = cols[idx.route_id];
+    const serviceId = cols[idx.service_id];
     const line = routesMap.get(routeId);
-    if (tripId && line) {
-      tripsMap.set(tripId, line);
+    if (!tripId || !line) return;
+
+    if (activeServices.size > 0 && serviceId && !activeServices.has(serviceId)) {
+      return;
     }
+
+    tripsMap.set(tripId, line);
   });
 
-  // 4. Carica stop_times.txt e raggruppa le fermate per trip_id
+  // 4. Carica stop_times.txt
   const tripStops = new Map();
   await streamGtfsFile(gtfsDir, 'stop_times.txt', (cols, idx) => {
     const tripId = cols[idx.trip_id];
@@ -166,7 +249,7 @@ async function buildGtfs() {
     list.push({ seq, stopId });
   });
 
-  // 5. Raggruppa i trip per linea e coppia (prima_fermata -> ultima_fermata)
+  // 5. Raggruppa per sequenza esatta delle fermate (così le varianti con stessi capolinea restano distinte)
   const lineBuckets = new Map();
 
   for (const [tripId, rawStops] of tripStops.entries()) {
@@ -181,74 +264,65 @@ async function buildGtfs() {
     if (!firstStopObj || !lastStopObj) continue;
 
     const line = tripsMap.get(tripId);
-    const pairKey = `${firstId}__${lastId}`;
+    const patternKey = rawStops.map((s) => s.stopId).join('>');
 
     if (!lineBuckets.has(line)) {
       lineBuckets.set(line, new Map());
     }
-    const pairsMap = lineBuckets.get(line);
+    const patternsMap = lineBuckets.get(line);
 
-    let bucket = pairsMap.get(pairKey);
+    let bucket = patternsMap.get(patternKey);
     if (!bucket) {
+      const resolvedStops = rawStops
+        .map((s) => stopsMap.get(s.stopId))
+        .filter(Boolean);
+
       bucket = {
         firstId,
         lastId,
         firstName: firstStopObj.name,
         lastName: lastStopObj.name,
         count: 0,
-        bestTrip: null,
+        bestTrip: {
+          tripId,
+          stops: resolvedStops,
+        },
       };
-      pairsMap.set(pairKey, bucket);
+      patternsMap.set(patternKey, bucket);
     }
 
     bucket.count += 1;
-
-    if (!bucket.bestTrip || rawStops.length > bucket.bestTrip.stops.length) {
-      const resolvedStops = rawStops
-        .map((s) => stopsMap.get(s.stopId))
-        .filter(Boolean);
-
-      bucket.bestTrip = {
-        tripId,
-        stops: resolvedStops,
-      };
-    }
   }
 
-  // 6. Seleziona le 2 direzioni principali opposte ("0" = Andata, "1" = Ritorno)
+  // 6. Seleziona le 2 direzioni principali opposte privilegiando la frequenza (b.count)
   const output = {};
 
-  for (const [line, pairsMap] of lineBuckets.entries()) {
-    const candidates = Array.from(pairsMap.values());
+  for (const [line, patternsMap] of lineBuckets.entries()) {
+    const candidates = Array.from(patternsMap.values());
     if (candidates.length === 0) continue;
 
-    const maxCount = Math.max(...candidates.map((c) => c.count));
-    const regularCandidates = candidates.filter((c) => c.count >= maxCount * 0.15);
-    const pool = regularCandidates.length > 0 ? regularCandidates : candidates;
-
-    pool.sort(
+    candidates.sort(
       (a, b) =>
-        b.bestTrip.stops.length - a.bestTrip.stops.length || b.count - a.count
+        b.count - a.count || b.bestTrip.stops.length - a.bestTrip.stops.length
     );
 
-    const dir0 = pool[0];
+    const dir0 = candidates[0];
 
     const dir1 =
-      pool.find(
+      candidates.find(
         (c) => c !== dir0 && c.firstId === dir0.lastId && c.lastId === dir0.firstId
       ) ||
-      pool.find(
+      candidates.find(
         (c) =>
           c !== dir0 &&
           c.firstName === dir0.lastName &&
           c.lastName === dir0.firstName
       ) ||
-      pool.find(
+      candidates.find(
         (c) =>
           c !== dir0 && c.firstId !== dir0.firstId && c.lastId !== dir0.lastId
       );
 
-    // Capolinea brevi e simmetrici senza "Fermata XXX - "
     const formatDirection = (bucket) => {
       const stops = bucket.bestTrip.stops;
       const first = stops[0];
