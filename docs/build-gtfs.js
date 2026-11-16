@@ -1,105 +1,287 @@
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
+const { execFileSync } = require('child_process');
 
-const GTFS_DIR = process.env.GTFS_DIR ? path.join(process.cwd(), process.env.GTFS_DIR) : path.join(__dirname, 'gtt_gtfs');
+const OUTPUT_FILE = path.join(__dirname, 'gtfs-data.json');
+const ZIP_FILE = path.join(__dirname, 'gtt_gtfs.zip');
 
-function parseCSV(filePath) {
-  const lines = fs.readFileSync(filePath, 'utf8').split('\n');
-  const headers = lines[0].replace(/"/g, '').split(',');
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-    const values = line.replace(/"/g, '').split(',');
-    const obj = {};
-    headers.forEach((h, idx) => obj[h.trim()] = (values[idx] || '').trim());
-    rows.push(obj);
-  }
-  return rows;
-}
+/**
+ * Individua automaticamente la cartella con i file GTFS (.txt).
+ * Se non esiste ancora ma è presente gtt_gtfs.zip, lo estrae.
+ */
+function resolveGtfsDir() {
+  const requiredFile = 'routes.txt';
 
-console.log('Lettura routes...');
-const routes = parseCSV(path.join(GTFS_DIR, 'routes.txt'));
-// route_id -> route_short_name
-const routeMap = {};
-routes.forEach(r => routeMap[r.route_id] = r.route_short_name);
+  const entries = fs.readdirSync(__dirname, { withFileTypes: true });
+  const candidateDirs = entries
+    .filter((e) => e.isDirectory() && !e.name.startsWith('.') && e.name !== 'node_modules')
+    .map((e) => path.join(__dirname, e.name));
 
-console.log('Lettura stops...');
-const stops = parseCSV(path.join(GTFS_DIR, 'stops.txt'));
-// stop_id -> { stop_code, stop_name }
-const stopMap = {};
-stops.forEach(s => stopMap[s.stop_id] = { code: s.stop_code, name: s.stop_name });
+  // Dà priorità a 'gtt_gtfs' o alle cartelle 'mdb-*' più recenti
+  candidateDirs.sort((a, b) => b.localeCompare(a));
 
-console.log('Lettura trips...');
-const trips = parseCSV(path.join(GTFS_DIR, 'trips.txt'));
-// trip_id -> { route_short_name, direction_id, headsign }
-const tripMap = {};
-trips.forEach(t => {
-  const lineName = routeMap[t.route_id];
-  if (lineName) tripMap[t.trip_id] = { line: lineName, dir: t.direction_id, headsign: t.trip_headsign };
-});
-
-console.log('Lettura stop_times (file grande, attendere...)');
-const stopTimesRaw = fs.readFileSync(path.join(GTFS_DIR, 'stop_times.txt'), 'utf8');
-const stLines = stopTimesRaw.split('\n');
-const stHeaders = stLines[0].replace(/"/g, '').split(',');
-const tripIdx = stHeaders.indexOf('trip_id');
-const stopIdx = stHeaders.indexOf('stop_id');
-const seqIdx = stHeaders.indexOf('stop_sequence');
-
-// Per ogni linea+direzione, raccoglie le fermate ordinate per sequence
-// Struttura: lineStops[line][dir][trip_id] = [{seq, stop_code, stop_name}]
-// Poi per ogni linea+dir prendiamo il trip con più fermate come rappresentativo
-const lineTrips = {}; // line -> dir -> trip_id -> Map<seq, {code,name}>
-
-for (let i = 1; i < stLines.length; i++) {
-  const line = stLines[i].trim();
-  if (!line) continue;
-  const vals = line.replace(/"/g, '').split(',');
-  const trip_id = vals[tripIdx];
-  const stop_id = vals[stopIdx];
-  const seq = parseInt(vals[seqIdx]) || 0;
-  const tripInfo = tripMap[trip_id];
-  if (!tripInfo) continue;
-  const stopInfo = stopMap[stop_id];
-  if (!stopInfo) continue;
-
-  const { line: lineName, dir } = tripInfo;
-  if (!lineTrips[lineName]) lineTrips[lineName] = {};
-  if (!lineTrips[lineName][dir]) lineTrips[lineName][dir] = {};
-  if (!lineTrips[lineName][dir][trip_id]) lineTrips[lineName][dir][trip_id] = [];
-  lineTrips[lineName][dir][trip_id].push({ seq, code: stopInfo.code, name: stopInfo.name });
-}
-
-console.log('Costruzione database linee...');
-// Per ogni linea+dir, prendi il trip con più fermate
-const result = {};
-for (const [lineName, dirs] of Object.entries(lineTrips)) {
-  result[lineName] = {};
-  for (const [dir, tripsObj] of Object.entries(dirs)) {
-    // Trova il trip con più fermate
-    let bestTrip = null, bestLen = 0;
-    for (const [tid, stops] of Object.entries(tripsObj)) {
-      if (stops.length > bestLen) { bestLen = stops.length; bestTrip = stops; }
+  for (const dir of candidateDirs) {
+    if (fs.existsSync(path.join(dir, requiredFile))) {
+      return dir;
     }
-    // Ordina per sequence e deduplica per stop_code
-    const seen = new Set();
-    const ordered = bestTrip
-      .sort((a, b) => a.seq - b.seq)
-      .filter(s => { if (seen.has(s.code)) return false; seen.add(s.code); return true; })
-      .map(s => ({ code: s.code, name: s.name }));
-    // Aggiungi anche headsign (capolinea)
-    const headsign = Object.values(tripMap).find(t => t.line === lineName && t.dir === dir)?.headsign || '';
-    // Capolinea reali = fermate con 'CAP' nel nome
-    const capStops = ordered.filter(s => s.name.includes('CAP'));
-    const firstCap = capStops[0]?.name || ordered[0]?.name || '';
-    const lastCap = capStops[capStops.length - 1]?.name || ordered[ordered.length - 1]?.name || '';
-    const firstStop = ordered[0]?.name.replace(/Fermata \d+ - /, '') || '';
-    const lastStop = ordered[ordered.length - 1]?.name.replace(/Fermata \d+ - /, '') || '';
-    result[lineName][dir] = { headsign, firstCap: firstCap.replace(/Fermata \d+ - /, ''), lastCap: lastCap.replace(/Fermata \d+ - /, ''), firstStop, lastStop, stops: ordered };
+  }
+
+  if (fs.existsSync(ZIP_FILE)) {
+    const extractDir = path.join(__dirname, 'gtt_gtfs');
+    fs.mkdirSync(extractDir, { recursive: true });
+
+    if (process.platform === 'win32') {
+      execFileSync('tar', ['-xf', ZIP_FILE, '-C', extractDir]);
+    } else {
+      execFileSync('unzip', ['-oq', ZIP_FILE, '-d', extractDir]);
+    }
+
+    if (fs.existsSync(path.join(extractDir, requiredFile))) {
+      return extractDir;
+    }
+  }
+
+  throw new Error('Nessuna cartella GTFS valida o file gtt_gtfs.zip trovato.');
+}
+
+/**
+ * Parser di riga nativo che gestisce virgolette e virgole interne
+ * senza dipendenze esterne.
+ */
+function parseLine(rawLine) {
+  const line = rawLine.replace(/\r$/, '');
+  const fields = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === ',' && !inQuotes) {
+      fields.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+  fields.push(current.trim());
+  return fields;
+}
+
+/**
+ * Rimuove il prefisso "Fermata 123 - " dal nome del capolinea.
+ */
+function cleanCapName(name) {
+  return (name || '').replace(/^Fermata\s+\d+\s*-\s*/i, '').trim();
+}
+
+/**
+ * Legge un file GTFS in streaming riga per riga.
+ */
+async function streamGtfsFile(gtfsDir, filename, onRow) {
+  const filePath = path.join(gtfsDir, filename);
+  const rl = readline.createInterface({
+    input: fs.createReadStream(filePath, { encoding: 'utf8' }),
+    crlfDelay: Infinity,
+  });
+
+  let colIndex = null;
+
+  for await (const line of rl) {
+    if (!line.trim()) continue;
+    const cols = parseLine(line);
+
+    if (!colIndex) {
+      colIndex = {};
+      cols.forEach((name, idx) => {
+        colIndex[name.replace(/^\uFEFF/, '')] = idx;
+      });
+      continue;
+    }
+
+    onRow(cols, colIndex);
   }
 }
 
+async function buildGtfs() {
+  const gtfsDir = resolveGtfsDir();
+  console.log(`Lettura dati GTFS da: ${path.basename(gtfsDir)}`);
+
+  // 1. Carica routes.txt -> route_id => route_short_name
+  const routesMap = new Map();
+  await streamGtfsFile(gtfsDir, 'routes.txt', (cols, idx) => {
+    const routeId = cols[idx.route_id];
+    const shortName = cols[idx.route_short_name] || cols[idx.route_long_name];
+    if (routeId && shortName) {
+      routesMap.set(routeId, shortName.trim());
+    }
+  });
+
+  // 2. Carica stops.txt -> stop_id => dati fermata
+  const stopsMap = new Map();
+  await streamGtfsFile(gtfsDir, 'stops.txt', (cols, idx) => {
+    const stopId = cols[idx.stop_id];
+    if (!stopId) return;
+    stopsMap.set(stopId, {
+      id: stopId,
+      code: idx.stop_code !== undefined ? cols[idx.stop_code] : stopId,
+      name: cols[idx.stop_name] || '',
+      lat: parseFloat(cols[idx.stop_lat]),
+      lon: parseFloat(cols[idx.stop_lon]),
+    });
+  });
+
+  // 3. Carica trips.txt -> trip_id => nome linea
+  const tripsMap = new Map();
+  await streamGtfsFile(gtfsDir, 'trips.txt', (cols, idx) => {
+    const tripId = cols[idx.trip_id];
+    const routeId = cols[idx.route_id];
+    const line = routesMap.get(routeId);
+    if (tripId && line) {
+      tripsMap.set(tripId, line);
+    }
+  });
+
+  // 4. Carica stop_times.txt e raggruppa le fermate per trip_id
+  const tripStops = new Map();
+  await streamGtfsFile(gtfsDir, 'stop_times.txt', (cols, idx) => {
+    const tripId = cols[idx.trip_id];
+    if (!tripsMap.has(tripId)) return;
+
+    const stopId = cols[idx.stop_id];
+    const seq = Number(cols[idx.stop_sequence]);
+
+    let list = tripStops.get(tripId);
+    if (!list) {
+      list = [];
+      tripStops.set(tripId, list);
+    }
+    list.push({ seq, stopId });
+  });
+
+  // 5. Raggruppa i trip per linea e coppia (prima_fermata -> ultima_fermata)
+  const lineBuckets = new Map();
+
+  for (const [tripId, rawStops] of tripStops.entries()) {
+    if (rawStops.length < 2) continue;
+
+    rawStops.sort((a, b) => a.seq - b.seq);
+
+    const firstId = rawStops[0].stopId;
+    const lastId = rawStops[rawStops.length - 1].stopId;
+    const firstStopObj = stopsMap.get(firstId);
+    const lastStopObj = stopsMap.get(lastId);
+    if (!firstStopObj || !lastStopObj) continue;
+
+    const line = tripsMap.get(tripId);
+    const pairKey = `${firstId}__${lastId}`;
+
+    if (!lineBuckets.has(line)) {
+      lineBuckets.set(line, new Map());
+    }
+    const pairsMap = lineBuckets.get(line);
+
+    let bucket = pairsMap.get(pairKey);
+    if (!bucket) {
+      bucket = {
+        firstId,
+        lastId,
+        firstName: firstStopObj.name,
+        lastName: lastStopObj.name,
+        count: 0,
+        bestTrip: null,
+      };
+      pairsMap.set(pairKey, bucket);
+    }
+
+    bucket.count += 1;
+
+    if (!bucket.bestTrip || rawStops.length > bucket.bestTrip.stops.length) {
+      const resolvedStops = rawStops
+        .map((s) => stopsMap.get(s.stopId))
+        .filter(Boolean);
+
+      bucket.bestTrip = {
+        tripId,
+        stops: resolvedStops,
+      };
+    }
+  }
+
+  // 6. Seleziona le 2 direzioni principali opposte ("0" = Andata, "1" = Ritorno)
+  const output = {};
+
+  for (const [line, pairsMap] of lineBuckets.entries()) {
+    const candidates = Array.from(pairsMap.values());
+    if (candidates.length === 0) continue;
+
+    const maxCount = Math.max(...candidates.map((c) => c.count));
+    const regularCandidates = candidates.filter((c) => c.count >= maxCount * 0.15);
+    const pool = regularCandidates.length > 0 ? regularCandidates : candidates;
+
+    pool.sort(
+      (a, b) =>
+        b.bestTrip.stops.length - a.bestTrip.stops.length || b.count - a.count
+    );
+
+    const dir0 = pool[0];
+
+    const dir1 =
+      pool.find(
+        (c) => c !== dir0 && c.firstId === dir0.lastId && c.lastId === dir0.firstId
+      ) ||
+      pool.find(
+        (c) =>
+          c !== dir0 &&
+          c.firstName === dir0.lastName &&
+          c.lastName === dir0.firstName
+      ) ||
+      pool.find(
+        (c) =>
+          c !== dir0 && c.firstId !== dir0.firstId && c.lastId !== dir0.lastId
+      );
+
+    // Capolinea brevi e simmetrici senza "Fermata XXX - "
+    const formatDirection = (bucket) => {
+      const stops = bucket.bestTrip.stops;
+      const first = stops[0];
+      const last = stops[stops.length - 1];
+      const cleanFirst = cleanCapName(first.name);
+      const cleanLast = cleanCapName(last.name);
+      return {
+        headsign: cleanLast,
+        firstCap: cleanFirst,
+        lastCap: cleanLast,
+        firstStop: first.id,
+        lastStop: last.id,
+        stops,
+      };
+    };
+
+    output[line] = {
+      0: formatDirection(dir0),
+    };
+
+    if (dir1) {
+      output[line]['1'] = formatDirection(dir1);
+    }
+  }
+
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf8');
+  console.log(`Generato ${OUTPUT_FILE} con ${Object.keys(output).length} linee.`);
+}
+
+buildGtfs().catch((err) => {
+  console.error('Errore durante la generazione GTFS:', err);
+  process.exit(1);
+});
 const outPath = process.env.GTFS_DIR ? path.join(process.cwd(), 'gtfs-data.json') : path.join(__dirname, 'gtfs-data.json');
 fs.writeFileSync(outPath, JSON.stringify(result));
 console.log(`✅ gtfs-data.json generato con ${Object.keys(result).length} linee → ${outPath}`);
