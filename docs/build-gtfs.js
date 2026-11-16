@@ -274,7 +274,7 @@ async function buildGtfs() {
     }
   }
 
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf8');
+  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output), 'utf8');
   console.log(`Generato ${OUTPUT_FILE} con ${Object.keys(output).length} linee.`);
 }
 
@@ -282,6 +282,3 @@ buildGtfs().catch((err) => {
   console.error('Errore durante la generazione GTFS:', err);
   process.exit(1);
 });
-const outPath = process.env.GTFS_DIR ? path.join(process.cwd(), 'gtfs-data.json') : path.join(__dirname, 'gtfs-data.json');
-fs.writeFileSync(outPath, JSON.stringify(result));
-console.log(`✅ gtfs-data.json generato con ${Object.keys(result).length} linee → ${outPath}`);
